@@ -13,11 +13,6 @@ module.exports = {
         //메인 이미지
         type: DataTypes.TEXT("long"),
       },
-      category: {
-        //카테고리
-        type: DataTypes.STRING(20),
-        allowNull: false,
-      },
       title: {
         // 제목
         type: DataTypes.STRING(255),
@@ -30,12 +25,11 @@ module.exports = {
       },
       userId: {
         // 작성한 사람의 아이디
-        type: DataTypes.STRING(40),
+        type: DataTypes.INTEGER(11),
         allowNull: false,
-        unique: true,
         references: {
           model: "Users", // 🔥 `Users` 테이블의 `id`를 참조
-          key: "email",
+          key: "id",
         },
         onUpdate: "CASCADE", // `Users`의 `id` 변경 시 자동 반영
         onDelete: "CASCADE", // `Users` 삭제 시 `Free` 데이터도 삭제

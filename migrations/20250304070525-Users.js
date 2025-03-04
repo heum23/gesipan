@@ -38,10 +38,6 @@ module.exports = {
         type: DataTypes.STRING(11),
         allowNull: false,
       },
-      salt: {
-        type: DataTypes.STRING(255), // ✅ 60 → 255 (길게 설정해도 무방)
-        allowNull: false,
-      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,

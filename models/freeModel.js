@@ -14,10 +14,6 @@ const free = (sequelize) => {
         type: DataTypes.TEXT("long"),
         allowNull: true, // 이미지가 없을 수 있기 때문에 allowNull을 true로 설정
       },
-      category: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
-      },
       title: {
         type: DataTypes.STRING(255),
         allowNull: false,
