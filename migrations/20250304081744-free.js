@@ -25,8 +25,9 @@ module.exports = {
         allowNull: false,
       },
       userId: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.STRING(40),
         allowNull: false,
+        unique: true,
         references: {
           model: "Users", // 🔥 `Users` 테이블의 `id`를 참조
           key: "email",
