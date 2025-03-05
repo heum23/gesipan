@@ -3,12 +3,12 @@ const cors = require("cors");
 const app = express();
 const port = 3000;
 const cookieParser = require("cookie-parser");
-const router = express.Router;
+const userRouter = require("./routers/userRouter");
 
 var corOptions = {
   origin: "http://localhost:3000",
 };
-app.use("/user", router);
+
 app.use(cookieParser());
 app.use(cors(corOptions));
 app.use(express.json()); // JSON 요청 본문 처리
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
-
+app.use("/user", userRouter);
 require("./models/index");
 
 app.get("/", (req, res) => {

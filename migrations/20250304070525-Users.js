@@ -27,7 +27,7 @@ module.exports = {
         allowNull: false,
       },
       age: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.STRING(40),
         allowNull: false,
       },
       number: {
@@ -41,14 +41,12 @@ module.exports = {
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+        defaultValue: DataTypes.NOW, // 변경: DataTypes.NOW 사용
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal(
-          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-        ),
+        defaultValue: DataTypes.NOW, // 변경: DataTypes.NOW 사용
       },
     });
   },

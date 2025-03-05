@@ -14,7 +14,9 @@ const sequelize = new Sequelize(
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-
+db.User = require("./userModel")(sequelize, Sequelize);
+db.like = require("./likeModel")(sequelize, Sequelize);
+db.free = require("./freeModel")(sequelize, Sequelize);
 sequelize
   .sync({ force: false })
   .then(() => {
