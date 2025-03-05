@@ -34,9 +34,19 @@ module.exports = {
         onUpdate: "CASCADE", // `Users`의 `id` 변경 시 자동 반영
         onDelete: "CASCADE", // `Users` 삭제 시 `Free` 데이터도 삭제
       },
-      like: {
+      likecnt: {
         // 좋아요 갯수
         type: DataTypes.INTEGER(10),
+      },
+      categoryId: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        references: {
+          model: "category", // 🔥 `Users` 테이블의 `id`를 참조
+          key: "id",
+        },
+        onUpdate: "CASCADE", // `Users`의 `id` 변경 시 자동 반영
+        onDelete: "CASCADE", // `Users` 삭제 시 `Free` 데이터도 삭제
       },
       createdAt: {
         type: DataTypes.DATE,

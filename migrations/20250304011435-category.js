@@ -9,20 +9,10 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      postId: {
-        //게시글 아이디
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
-        references: {
-          model: "free",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
       category: {
         type: DataTypes.STRING(30),
         allowNull: false,
+        unique: true,
       },
       createdAt: {
         type: DataTypes.DATE,
