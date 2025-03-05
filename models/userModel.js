@@ -28,7 +28,7 @@ const users = (sequelize) => {
         allowNull: false,
       },
       age: {
-        type: DataTypes.INTEGER(11),
+        type: DataTypes.STRING(40),
         allowNull: false,
       },
       number: {
@@ -39,26 +39,20 @@ const users = (sequelize) => {
         type: DataTypes.STRING(11),
         allowNull: false,
       },
-      salt: {
-        type: DataTypes.STRING(255),
-        allowNull: false,
-      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+        defaultValue: DataTypes.NOW, // CURRENT_TIMESTAMP를 사용하지 않고 DataTypes.NOW로 변경
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: sequelize.literal(
-          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-        ),
+        defaultValue: DataTypes.NOW, // CURRENT_TIMESTAMP를 사용하지 않고 DataTypes.NOW로 변경
       },
     },
     {
-      tableName: "users", // 실제 테이블 이름을 지정합니다.
-      timestamps: true, // 'createdAt', 'updatedAt' 필드를 자동으로 처리하도록 설정
+      tableName: "users",
+      timestamps: true, // createdAt과 updatedAt을 자동으로 처리하도록 설정
     }
   );
 };

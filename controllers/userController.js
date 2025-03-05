@@ -1,13 +1,14 @@
-const { users } = require("../models");
+const { User } = require("../models");
+const bcrypt = require("bcrypt");
 
 // 회원가입 유저 등록
 const postUser = async (req, res) => {
-  let { email, pw, name, address, age, number, gender } = req.body; // 회원가입 폼 데이터
-  const salt = 10; // 솔트 생성
-  const hashPw = await bcrypt.hash(pw, salt); // 비밀번호 암호화
+  let { email, password, name, address, age, number, gender } = req.body; // 회원가입 폼 데이터
+  const salt = await bcrypt.genSalt(10); // 솔트 생성
+  const hashPw = await bcrypt.hash(password, salt); // 비밀번호 암호화
   try {
     // 데이터 저장
-    const newUser = await users.create({
+    const newUser = await User.create({
       email,
       password: hashPw,
       name,
@@ -16,9 +17,9 @@ const postUser = async (req, res) => {
       number,
       gender,
     });
+    console.log("성공");
     res.status(200).json({
       message: "회원가입 성공!", //성공 시 메시지
-      user: { id: newUser.id, email: newUser.email }, // 성공 시 데이터 넘김
     });
   } catch (e) {
     console.error("회원가입 오류:", e); // 실패 시 서버 콘솔
@@ -30,7 +31,7 @@ const postUser = async (req, res) => {
 let idFind = async (req, res) => {
   let { number } = req.body; //휴대폰 전화번호
   try {
-    const findId = await users.findOne({
+    const findId = await User.findOne({
       where: { number }, // number 필드로 검색
       attributes: ["email"], // 검색 조건 중 email만 가져오기
     });
@@ -49,7 +50,7 @@ let idFind = async (req, res) => {
 const pwFind = async (req, res) => {
   try {
     const { email, pw } = req.body;
-    const user = await users.findOne({
+    const user = await User.findOne({
       where: { email }, // 이메일로 찾기
     });
 

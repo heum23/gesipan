@@ -1,1 +1,1 @@
-const { likes } = require("../models");
+const { like } = require("../models");

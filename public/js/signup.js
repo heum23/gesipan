@@ -19,7 +19,7 @@ emailInput.addEventListener("input", function () {
     emailMessage.textContent = "";
     emailD = true;
   }
-  disabledCheck(); // 비활성화 체크
+  //   checkFormValidity(); // 폼 유효성 체크
 });
 
 // 비밀번호 실시간 검증
@@ -42,7 +42,7 @@ passInput.addEventListener("input", function () {
     passMessage.textContent = "";
     passD = true;
   }
-  disabledCheck(); // 비활성화 체크
+  //   checkFormValidity(); // 폼 유효성 체크
 });
 
 // 비밀번호 확인 실시간 검증
@@ -68,7 +68,7 @@ passCheck.addEventListener("input", function () {
     passCheckMessage.textContent = "";
     passCheckD = true;
   }
-  disabledCheck(); // 비활성화 체크
+  //   checkFormValidity(); // 폼 유효성 체크
 });
 
 // 이름 실시간 검증
@@ -84,7 +84,7 @@ nameInput.addEventListener("input", function () {
     nameMessage.textContent = "";
     nameD = true;
   }
-  disabledCheck(); // 비활성화 체크
+  //   checkFormValidity(); // 폼 유효성 체크
 });
 
 // 휴대폰 실시간 검증
@@ -167,6 +167,7 @@ function disabledCheck() {
 const signup = () => {
   const email = document.querySelector("#email").value;
   const password = document.querySelector("#password").value;
+  // const passwordCheck = document.querySelector("#passwordCheck").value;
   const name = document.querySelector("#name").value;
   const gender = document.querySelector('input[name="gender"]:checked')?.value; // 성별 라디오 버튼에서 선택된 값
   const year = document.querySelector("#year").value;
@@ -175,8 +176,8 @@ const signup = () => {
   const phone1 = document.querySelector("#phone1").value;
   const phone2 = document.querySelector("#phone2").value;
   const phone3 = document.querySelector("#phone3").value;
-  const address = document.querySelector("#address").value;
-  const detailAddress = document.querySelector("#detailAddress").value;
+  const address = document.querySelector("#address").value; // 주소
+  const detailAddress = document.querySelector("#detailAddress").value; // 상세주소
 
   const data = {
     email: email,
@@ -198,10 +199,9 @@ const signup = () => {
   })
     .then((res) => {
       console.log("회원가입 성공");
-      window.location.href = "/login";
     })
     .catch((e) => {
-      console.error("회원가입 실패");
+      console.error("회원가입 실패", e);
     });
 };
 
