@@ -5,6 +5,154 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <h2>회원가입</h2>
+    <form id="signupForm">
+      <div class="join">
+        <div>아이디</div>
+        <input
+          type="email"
+          placeholder="이메일을 입력해주세요"
+          name="email"
+          id="email"
+          required
+        />
+        <div class="emailCheck" onclick="emailCheck()">중복확인</div>
+        <div id="emailMessage"></div>
+      </div>
+
+      <div class="join">
+        <label for="password">비밀번호</label>
+        <input
+          type="password"
+          placeholder="비밀번호를 입력해주세요"
+          name="password"
+          id="password"
+          required
+        />
+        <div id="passwordMessage"></div>
+      </div>
+
+      <div class="join">
+        <div>비밀번호 확인</div>
+        <input
+          type="password"
+          placeholder="비밀번호를 확인해주세요"
+          name="passwordCheck"
+          id="passwordCheck"
+          required
+        />
+        <div id="passCheckMessage"></div>
+      </div>
+      <!-- <span id="eye-icon" class="eye-icon">👁️</span> -->
+      <!-- 눈 아이콘 추가 -->
+
+      <div class="join">
+        <div>이름</div>
+        <input
+          type="text"
+          placeholder="이름을 입력해주세요"
+          name="name"
+          id="name"
+          maxlength="20"
+          required
+        />
+        <div id="nameMessage"></div>
+      </div>
+
+      <!-- <script>
+        // 눈 모양 이모티콘 클릭 시 비밀번호 보이기/숨기기 기능
+        const eyeIcon = document.getElementById("eye-icon");
+        const passwordInput = document.getElementById("password");
+
+        eyeIcon.addEventListener("click", function () {
+          // 비밀번호 입력란의 타입을 토글
+          if (passwordInput.type === "password") {
+            passwordInput.type = "text"; // 비밀번호 보이기
+          } else {
+            passwordInput.type = "password"; // 비밀번호 숨기기
+          }
+        });
+      </script> -->
+
+      <div class="join">
+        <div>성별</div>
+        <label
+          ><input
+            type="radio"
+            name="gender"
+            value="female"
+            required
+          />여성</label
+        >
+        <label
+          ><input type="radio" name="gender" value="male" required />남성</label
+        >
+      </div>
+      <div class="join birth_input">
+        <div>생년월일</div>
+        <select name="yy" id="year">
+          <option value="" disabled selected>선택</option>
+        </select>
+        <div>년</div>
+        <select name="mm" id="month">
+          <option value="" disabled selected>선택</option>
+        </select>
+        <div>월</div>
+        <select name="dd" id="day">
+          <option value="" disabled selected>선택</option>
+        </select>
+        <div>일</div>
+      </div>
+      <div class="join phone_input">
+        <div>휴대폰 번호</div>
+        <input
+          type="tel"
+          id="phone1"
+          name="phone1"
+          placeholder="010"
+          class="input0"
+          maxLength="3"
+          pattern="[0-9]{3}"
+          required
+        />
+        <input
+          type="tel"
+          id="phone2"
+          name="phone2"
+          placeholder="0000"
+          class="input0"
+          maxLength="4"
+          pattern="[0-9]{4}"
+          required
+        />
+        <input
+          type="tel"
+          id="phone3"
+          name="phone3"
+          placeholder="0000"
+          class="input0"
+          maxLength="4"
+          pattern="[0-9]{4}"
+          required
+        />
+        <div id="phoneMessage" style="color: red"></div>
+      </div>
+
+      <input type="text" id="postcode" placeholder="우편번호" />
+      <input
+        type="button"
+        onclick="execDaumPostcode()"
+        value="우편번호 찾기"
+      /><br />
+      <input type="text" id="address" placeholder="주소" /><br />
+      <input type="text" id="detailAddress" placeholder="상세주소" />
+      <input type="text" id="extraAddress" placeholder="참고항목" />
+
+      <button type="button" id="signupBtn" onclick="signup()">회원가입</button>
+    </form>
+  </body>
+  <script src="/public/js/signup.js"></script>
+  <!-- 주소 api 라이브러리 -->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </html>
-<script></script>

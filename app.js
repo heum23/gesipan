@@ -36,7 +36,7 @@ require("./models/index");
 //   });
 
 app.get("/", (req, res) => {
-  res.json({ message: "hello world" });
+  res.render("signup");
 });
 
 app.listen(port, () => {
