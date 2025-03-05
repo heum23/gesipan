@@ -19,7 +19,7 @@ emailInput.addEventListener("input", function () {
     emailMessage.textContent = "";
     emailD = true;
   }
-  //   checkFormValidity(); // 폼 유효성 체크
+  disabledCheck(); // 비활성화 체크
 });
 
 // 비밀번호 실시간 검증
@@ -42,7 +42,7 @@ passInput.addEventListener("input", function () {
     passMessage.textContent = "";
     passD = true;
   }
-  //   checkFormValidity(); // 폼 유효성 체크
+  disabledCheck(); // 비활성화 체크
 });
 
 // 비밀번호 확인 실시간 검증
@@ -68,7 +68,7 @@ passCheck.addEventListener("input", function () {
     passCheckMessage.textContent = "";
     passCheckD = true;
   }
-  //   checkFormValidity(); // 폼 유효성 체크
+  disabledCheck(); // 비활성화 체크
 });
 
 // 이름 실시간 검증
@@ -84,14 +84,16 @@ nameInput.addEventListener("input", function () {
     nameMessage.textContent = "";
     nameD = true;
   }
-  //   checkFormValidity(); // 폼 유효성 체크
+  disabledCheck(); // 비활성화 체크
 });
 
 // 휴대폰 실시간 검증
+let phoneD = false;
 const phone1 = document.getElementById("phone1");
 const phone2 = document.getElementById("phone2");
 const phone3 = document.getElementById("phone3");
 const phoneMessage = document.getElementById("phoneMessage");
+
 // 전화번호 실시간 검증 함수
 function validatePhone() {
   // 각 입력 필드 값 가져오기
@@ -102,26 +104,32 @@ function validatePhone() {
   // phone1은 반드시 0으로 시작해야 한다는 조건 추가
   if (phone1Value === "") {
     phoneMessage.textContent = "첫번째 번호를 입력해 주세요.";
-    return; // phone2 값이 비어있으면 여기서 함수 종료
+    phoneD = false;
+    disabledCheck(); // 비활성화 체크
   } else if (!phone1Value.startsWith("0")) {
     phoneMessage.textContent = "휴대폰 번호는 0으로 시작해야 합니다.";
-    return; // phone1 조건에 맞지 않으면 여기서 함수 종료
+    phoneD = false;
+    disabledCheck(); // 비활성화 체크
   }
 
   // phone1이 올바르면 phone2 검증
   if (phone2Value === "") {
     phoneMessage.textContent = "두 번째 번호를 입력해 주세요.";
-    return; // phone2 값이 비어있으면 여기서 함수 종료
+    phoneD = false;
+    disabledCheck(); // 비활성화 체크
   }
 
   // phone2가 올바르면 phone3 검증
   if (phone3Value === "") {
     phoneMessage.textContent = "세 번째 번호를 입력해 주세요.";
-    return; // phone3 값이 비어있으면 여기서 함수 종료
+    phoneD = false;
+    disabledCheck(); // 비활성화 체크
   }
 
   // 모든 필드가 올바르면 메시지 지우기
   phoneMessage.textContent = "";
+  phoneD = true;
+  disabledCheck(); // 비활성화 체크
 }
 
 // 숫자만 입력하도록 설정
@@ -144,6 +152,16 @@ phone3.addEventListener("input", function () {
   onlyNumbers(event);
   validatePhone(); // phone3 입력 후 검증
 });
+
+// 폼 유효성 체크 함수
+function disabledCheck() {
+  // 이메일, 비밀번호, 비밀번호 확인, 이름, 전화번호, 생일이 모두 유효할 때만 버튼 활성화
+  if (emailD && passD && passCheckD && nameD && phoneD) {
+    signupBtn.disabled = false; // 모든 조건이 충족되면 버튼 활성화
+  } else {
+    signupBtn.disabled = true; // 하나라도 충족되지 않으면 버튼 비활성화
+  }
+}
 
 // 회원가입 버튼 클릭 시
 const signup = () => {

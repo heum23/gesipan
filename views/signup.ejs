@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- axios cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
@@ -149,9 +151,12 @@
       <input type="text" id="detailAddress" placeholder="상세주소" />
       <input type="text" id="extraAddress" placeholder="참고항목" />
 
-      <button type="button" id="signupBtn" onclick="signup()">회원가입</button>
+      <button type="button" id="signupBtn" onclick="signup()" disabled>
+        회원가입
+      </button>
     </form>
   </body>
+  <!-- js -->
   <script src="/public/js/signup.js"></script>
   <!-- 주소 api 라이브러리 -->
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
