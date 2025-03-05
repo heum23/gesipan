@@ -1,3 +1,27 @@
+let emailDC = false;
+const emailCheck = () => {
+  const email = document.querySelector("#email").value;
+  const emailMessage = document.querySelector("#emailMessage");
+
+  axios({
+    method: "post",
+    url: "/user/emailCheck",
+    data: { email },
+  })
+    .then((res) => {
+      if (res.data.message) {
+        emailMessage.innerHTML = `${res.data.message}`;
+        // emailDC = true;
+        // disabledCheck(); // 비활성화 체크
+      } else {
+        emailMessage.innerHTML = `${res.data.data}`;
+        // emailDC = false;
+        // disabledCheck(); // 비활성화 체크
+      }
+    })
+    .catch((e) => e);
+};
+
 const signupBtn = document.querySelector("#signupBtn");
 
 // 이메일 실시간 검증
@@ -154,69 +178,19 @@ function onlyNumbers(event) {
   }
 }
 
-// // 전화번호 실시간 검증 함수
-// function validatePhone() {
-//   // 각 입력 필드 값 가져오기
-//   const phone1Value = phone1.value.trim();
-//   const phone2Value = phone2.value.trim();
-//   const phone3Value = phone3.value.trim();
-
-//   // phone1은 반드시 0으로 시작해야 한다는 조건 추가
-//   if (phone1Value === "") {
-//     phoneMessage.textContent = "첫번째 번호를 입력해 주세요.";
-//     phoneD = false;
-//     disabledCheck(); // 비활성화 체크
-//   } else if (!phone1Value.startsWith("0")) {
-//     phoneMessage.textContent = "휴대폰 번호는 0으로 시작해야 합니다.";
-//     phoneD = false;
-//     disabledCheck(); // 비활성화 체크
-//   }
-
-//   // phone1이 올바르면 phone2 검증
-//   if (phone2Value === "") {
-//     phoneMessage.textContent = "두 번째 번호를 입력해 주세요.";
-//     phoneD = false;
-//     disabledCheck(); // 비활성화 체크
-//   }
-
-//   // phone2가 올바르면 phone3 검증
-//   if (phone3Value === "") {
-//     phoneMessage.textContent = "세 번째 번호를 입력해 주세요.";
-//     phoneD = false;
-//     disabledCheck(); // 비활성화 체크
-//   }
-
-//   // 모든 필드가 올바르면 메시지 지우기
-//   phoneMessage.textContent = "";
-//   phoneD = true;
-//   disabledCheck(); // 비활성화 체크
-// }
-
-// // 숫자만 입력하도록 설정
-// function onlyNumbers(event) {
-//   // 입력된 값이 숫자가 아니면 삭제
-//   if (/\D/.test(event.target.value)) {
-//     event.target.value = event.target.value.replace(/\D/g, "");
-//   }
-// }
-// // 각 입력 필드에 이벤트 리스너 추가
-// phone1.addEventListener("input", function () {
-//   onlyNumbers(event);
-//   validatePhone(); // phone1 입력 후 바로 검증
-// });
-// phone2.addEventListener("input", function () {
-//   onlyNumbers(event);
-//   validatePhone(); // phone2 입력 후 검증
-// });
-// phone3.addEventListener("input", function () {
-//   onlyNumbers(event);
-//   validatePhone(); // phone3 입력 후 검증
-// });
-
 // 폼 유효성 체크 함수
 function disabledCheck() {
   // 이메일, 비밀번호, 비밀번호 확인, 이름, 전화번호, 생일이 모두 유효할 때만 버튼 활성화
-  if (emailD && passD && passCheckD && nameD && phoneD1 && phoneD2 && phoneD3) {
+  if (
+    emailD &&
+    passD &&
+    passCheckD &&
+    nameD &&
+    phoneD1 &&
+    phoneD2 &&
+    phoneD3 &&
+    emailDC
+  ) {
     signupBtn.disabled = false; // 모든 조건이 충족되면 버튼 활성화
   } else {
     signupBtn.disabled = true; // 하나라도 충족되지 않으면 버튼 비활성화
