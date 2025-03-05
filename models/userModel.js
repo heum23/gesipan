@@ -25,11 +25,9 @@ const users = (sequelize) => {
       },
       address: {
         type: DataTypes.STRING(255),
-        allowNull: false,
       },
       age: {
         type: DataTypes.STRING(40),
-        allowNull: false,
       },
       number: {
         type: DataTypes.STRING(25),

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
@@ -91,15 +92,15 @@
       </div>
       <div class="join birth_input">
         <div>생년월일</div>
-        <select name="yy" id="year">
+        <select name="yy" id="year" required>
           <option value="" disabled selected>선택</option>
         </select>
         <div>년</div>
-        <select name="mm" id="month">
+        <select name="mm" id="month" required>
           <option value="" disabled selected>선택</option>
         </select>
         <div>월</div>
-        <select name="dd" id="day">
+        <select name="dd" id="day" required>
           <option value="" disabled selected>선택</option>
         </select>
         <div>일</div>
@@ -139,7 +140,7 @@
         <div id="phoneMessage" style="color: red"></div>
       </div>
 
-      <input type="text" id="postcode" placeholder="우편번호" />
+      <input type="text" id="postcode" placeholder="우편번호" required />
       <input
         type="button"
         onclick="execDaumPostcode()"
