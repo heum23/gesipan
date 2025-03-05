@@ -1,8 +1,8 @@
 let emailDC = false;
 const emailCheck = () => {
-  const email = document.querySelector("#email").value;
+  const emailInput = document.querySelector("#email");
+  const email = emailInput.value;
   const emailMessage = document.querySelector("#emailMessage");
-
   axios({
     method: "post",
     url: "/user/emailCheck",
@@ -11,12 +11,13 @@ const emailCheck = () => {
     .then((res) => {
       if (res.data.message) {
         emailMessage.innerHTML = `${res.data.message}`;
-        // emailDC = true;
-        // disabledCheck(); // 비활성화 체크
+        emailDC = true;
+        disabledCheck(); // 비활성화 체크
+        emailInput.readOnly = true; // 중복되지 않으면 읽기 전용으로 설정
       } else {
         emailMessage.innerHTML = `${res.data.data}`;
-        // emailDC = false;
-        // disabledCheck(); // 비활성화 체크
+        emailDC = false;
+        disabledCheck(); // 비활성화 체크
       }
     })
     .catch((e) => e);

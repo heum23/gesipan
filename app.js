@@ -20,7 +20,7 @@ app.use("/user", userRouter);
 require("./models/index");
 
 app.get("/", (req, res) => {
-  res.render("signup");
+  res.render("login");
 });
 
 app.listen(port, () => {
