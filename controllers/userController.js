@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
 
@@ -18,12 +19,47 @@ const postUser = async (req, res) => {
       gender,
     });
     console.log("성공");
-    res.status(200).json({
+    res.json({
       message: "회원가입 성공!", //성공 시 메시지
     });
   } catch (e) {
     console.error("회원가입 오류:", e); // 실패 시 서버 콘솔
-    res.status(500).json({ message: "서버 오류 발생" }); // 실패 메시지
+    res.json({ message: "서버 오류 발생" }); // 실패 메시지
+  }
+};
+// id 중복확인
+let findEmail = async (req, res) => {
+  let { email } = req.body;
+  try {
+    const emailFind = await User.findOne({
+      where: { email },
+    });
+    if (emailFind) {
+      res.json({ data: "중복된 아이디입니다." });
+    } else {
+      res.json({ message: "사용가능한 아이디입니다." });
+    }
+  } catch (e) {
+    console.log("error", e);
+  }
+};
+
+//로그인
+const login = async (req, res) => {
+  const { id, pw } = req.body;
+  try {
+    const loginId = await User.findOne({
+      where: { id },
+    });
+    if (!loginId) {
+      return res.json({ message: "아이디가 존재하지 않습니다." });
+    }
+    if (loginId.password !== pw) {
+      return res.json({ message: "비밀번호가 올바르지 않습니다." });
+    }
+    return res.json({ message: "login 성공" });
+  } catch (e) {
+    console.log(e, "error");
   }
 };
 
@@ -36,13 +72,13 @@ let idFind = async (req, res) => {
       attributes: ["email"], // 검색 조건 중 email만 가져오기
     });
     if (!findId) {
-      res.status(200).json({ message: "가입된 아이디가 없습니다" });
+      res.json({ message: "가입된 아이디가 없습니다" });
     } else {
-      res.status(200).json({ email: findId });
+      res.json({ email: findId });
     }
   } catch (e) {
     console.log("서버 오류", e);
-    res.status(500).json({ message: "서버 오류 발생" });
+    res.json({ message: "서버 오류 발생" });
   }
 };
 
@@ -55,21 +91,17 @@ const pwFind = async (req, res) => {
     });
 
     if (!user) {
-      return res
-        .status(404)
-        .json({ message: "해당 이메일을 찾을 수 없습니다." });
+      return res.json({ message: "해당 이메일을 찾을 수 없습니다." });
     }
     const hashPw = await bcrypt.hash(pw, 10);
 
-    await users.update({ password: hashPw }, { where: { email } });
+    await User.update({ password: hashPw }, { where: { email } });
 
-    res
-      .status(200)
-      .json({ message: "비밀번호가 성공적으로 업데이트되었습니다." });
+    res.json({ message: "비밀번호가 성공적으로 업데이트되었습니다." });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "서버 오류" });
+    res.json({ message: "서버 오류" });
   }
 };
 
-module.exports = { postUser, idFind, pwFind };
+module.exports = { postUser, idFind, pwFind, findEmail, login };
