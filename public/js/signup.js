@@ -1,6 +1,7 @@
 let emailDC = false;
 const emailCheck = () => {
-  const email = document.querySelector("#email").value;
+  const emailInput = document.querySelector("#email");
+  const email = emailInput.value;
   const emailMessage = document.querySelector("#emailMessage");
 
   axios({
@@ -11,12 +12,13 @@ const emailCheck = () => {
     .then((res) => {
       if (res.data.message) {
         emailMessage.innerHTML = `${res.data.message}`;
-        // emailDC = true;
-        // disabledCheck(); // 비활성화 체크
+        emailDC = true;
+        disabledCheck(); // 비활성화 체크
+        emailInput.readOnly = true; // 중복되지 않으면 읽기 전용으로 설정
       } else {
         emailMessage.innerHTML = `${res.data.data}`;
-        // emailDC = false;
-        // disabledCheck(); // 비활성화 체크
+        emailDC = false;
+        disabledCheck(); // 비활성화 체크
       }
     })
     .catch((e) => e);
@@ -40,7 +42,7 @@ emailInput.addEventListener("input", function () {
     emailMessage.textContent = "유효한 이메일 주소를 입력해 주세요.";
     emailD = false;
   } else {
-    emailMessage.textContent = "";
+    emailMessage.textContent === "사용가능한 아이디입니다.";
     emailD = true;
   }
   disabledCheck(); // 비활성화 체크

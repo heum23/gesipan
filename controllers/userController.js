@@ -1,6 +1,7 @@
 const { where } = require("sequelize");
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // 회원가입 유저 등록
 const postUser = async (req, res) => {
@@ -46,17 +47,18 @@ let findEmail = async (req, res) => {
 
 //로그인
 const login = async (req, res) => {
-  const { id, pw } = req.body;
+  const { email, password } = req.body;
   try {
     const loginId = await User.findOne({
-      where: { id },
+      where: { email },
     });
     if (!loginId) {
       return res.json({ message: "아이디가 존재하지 않습니다." });
     }
-    if (loginId.password !== pw) {
+    if (loginId.password !== password) {
       return res.json({ message: "비밀번호가 올바르지 않습니다." });
     }
+    const token = jwt.sign({ id: user.userId }, SECRET);
     return res.json({ message: "login 성공" });
   } catch (e) {
     console.log(e, "error");
