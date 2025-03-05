@@ -22,7 +22,7 @@ module.exports = {
         type: DataTypes.STRING(10),
         allowNull: false,
       },
-      adress: {
+      address: {
         type: DataTypes.STRING(255),
         allowNull: false,
       },
@@ -31,7 +31,7 @@ module.exports = {
         allowNull: false,
       },
       number: {
-        type: DataTypes.INTEGER(12),
+        type: DataTypes.STRING(25),
         allowNull: false,
       },
       gender: {

@@ -32,7 +32,7 @@ const users = (sequelize) => {
         allowNull: false,
       },
       number: {
-        type: DataTypes.INTEGER(12),
+        type: DataTypes.STRING(25),
         allowNull: false,
       },
       gender: {
