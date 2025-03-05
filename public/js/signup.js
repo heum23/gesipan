@@ -3,7 +3,6 @@ const emailCheck = () => {
   const emailInput = document.querySelector("#email");
   const email = emailInput.value;
   const emailMessage = document.querySelector("#emailMessage");
-
   axios({
     method: "post",
     url: "/user/emailCheck",

@@ -8,5 +8,53 @@
   </head>
   <body>
     <h2>로그인</h2>
+    <form>
+      <div class="login">
+        <div>ID</div>
+        <input
+          type="email"
+          placeholder="이메일을 입력해주세요"
+          name="email"
+          id="email"
+          required
+        />
+      </div>
+      <div class="login">
+        <div>비밀번호</div>
+        <input
+          type="password"
+          placeholder="비밀번호를 입력해주세요"
+          name="password"
+          id="Password"
+          required
+        />
+      </div>
+      <div id="message"></div>
+
+      <div type="button" id="login_btn" onclick="login()">로그인</div>
+      <div>
+        <div type="button" id="find_id_btn" onclick="idFind()">아이디 찾기</div>
+
+        <div type="button" id="find_password_btn" onclick="passFind()">
+          비밀번호 찾기
+        </div>
+
+        <div type="button" id="join_btn" onclick="passFind()">회원가입</div>
+      </div>
+    </form>
   </body>
+
+  <script>
+    const login = () => {
+      const email = document.querySelector("#email").value;
+      const password = document.querySelector("#password").value;
+      const message = document.querySelector("#message");
+
+      axios({
+        method: "post",
+        url: "/user/login",
+        data: { email, password },
+      }).then((res) => {});
+    };
+  </script>
 </html>
