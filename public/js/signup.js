@@ -1,3 +1,27 @@
+let emailDC = false;
+const emailCheck = () => {
+  const email = document.querySelector("#email").value;
+  const emailMessage = document.querySelector("#emailMessage");
+
+  axios({
+    method: "post",
+    url: "/user/emailCheck",
+    data: { email },
+  })
+    .then((res) => {
+      if (res.data.message) {
+        emailMessage.innerHTML = `${res.data.message}`;
+        // emailDC = true;
+        // disabledCheck(); // 비활성화 체크
+      } else {
+        emailMessage.innerHTML = `${res.data.data}`;
+        // emailDC = false;
+        // disabledCheck(); // 비활성화 체크
+      }
+    })
+    .catch((e) => e);
+};
+
 const signupBtn = document.querySelector("#signupBtn");
 
 // 이메일 실시간 검증
@@ -157,7 +181,16 @@ function onlyNumbers(event) {
 // 폼 유효성 체크 함수
 function disabledCheck() {
   // 이메일, 비밀번호, 비밀번호 확인, 이름, 전화번호, 생일이 모두 유효할 때만 버튼 활성화
-  if (emailD && passD && passCheckD && nameD && phoneD1 && phoneD2 && phoneD3) {
+  if (
+    emailD &&
+    passD &&
+    passCheckD &&
+    nameD &&
+    phoneD1 &&
+    phoneD2 &&
+    phoneD3 &&
+    emailDC
+  ) {
     signupBtn.disabled = false; // 모든 조건이 충족되면 버튼 활성화
   } else {
     signupBtn.disabled = true; // 하나라도 충족되지 않으면 버튼 비활성화
