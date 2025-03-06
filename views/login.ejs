@@ -25,7 +25,7 @@
           type="password"
           placeholder="비밀번호를 입력해주세요"
           name="password"
-          id="Password"
+          id="password"
           required
         />
       </div>
@@ -54,7 +54,9 @@
         method: "post",
         url: "/user/login",
         data: { email, password },
-      }).then((res) => {});
+      }).then((res) => {
+        console.log("로그인 성공");
+      });
     };
   </script>
 </html>

@@ -5,11 +5,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="/public/css/main.css" />
   </head>
-  <style></style>
   <body>
-    회원가입 로그인 id 찾기 pw 찾기 비밀번호 수정 게시판 카테코리 게시판 좋아요
-    이름
+    <header>
+      <div class="headerWrap">
+        <div class="headerLeft">
+          <div class="logo leftLogo">TALKTALK</div>
+        </div>
+        <div class="headerCenter">
+          <div class="logo centerLogo">TALKTALK</div>
+        </div>
+        <div class="headerRight">
+          <div class="heart">
+            <img src="/public/img/heartEmpty.png" alt="heart" />
+          </div>
+          <div class="login">login</div>
+          <div class="signup">signup</div>
+        </div>
+      </div>
+    </header>
+    <!-- 배경이미지가 들어갈 배너 영역 -->
+    <div class="banner">
+      <img src="" alt="" class="bannerImg" />
+    </div>
+
+    <div class="main"></div>
   </body>
-  <script></script>
+  <script>
+    window.addEventListener("scroll", function () {
+      const headerWrap = document.querySelector(".headerWrap");
+      if (window.scrollY > 50) {
+        headerWrap.classList.add("scroll");
+      } else {
+        headerWrap.classList.remove("scroll");
+      }
+    });
+  </script>
 </html>

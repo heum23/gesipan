@@ -1,0 +1,60 @@
+/* 기본 스타일 */
+.headerWrap {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: none;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  box-sizing: border-box;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.leftLogo {
+  display: block;
+}
+
+.centerLogo {
+  display: none; /* 기본적으로 숨김 */
+}
+
+/* 스크롤 후 로고 스타일 */
+.scroll .leftLogo {
+  display: none; /* 스크롤 시 왼쪽 로고 숨김 */
+}
+
+.scroll .centerLogo {
+  display: block; /* 스크롤 시 중앙 로고 표시 */
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerRight img {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+}
+
+/* Banner Styling */
+.banner {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.bannerImg {
+  width: 100%;
+  height: auto;
+}

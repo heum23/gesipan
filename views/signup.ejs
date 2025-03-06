@@ -5,63 +5,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="/public/css/signup.css" />
   </head>
   <body>
-    <h2>회원가입</h2>
-    <form id="signupForm">
-      <div class="join">
-        <div>아이디</div>
-        <input
-          type="email"
-          placeholder="이메일을 입력해주세요"
-          name="email"
-          id="email"
-          required
-        />
-        <div id="emailCheck" onclick="emailCheck()">중복확인</div>
-        <div id="emailMessage" style="color: red"></div>
-      </div>
+    <div class="mainContainer">
+      <h2>회원가입</h2>
+      <form id="signupForm">
+        <div class="join">
+          <div class="inputTitle">아이디</div>
+          <input
+            type="email"
+            placeholder="이메일을 입력해주세요"
+            name="email"
+            id="email"
+            required
+          />
+          <div id="emailCheck" onclick="emailCheck()">중복확인</div>
+          <div id="emailMessage" style="color: red"></div>
+        </div>
 
-      <div class="join">
-        <label for="password">비밀번호</label>
-        <input
-          type="password"
-          placeholder="비밀번호를 입력해주세요"
-          name="password"
-          id="password"
-          required
-        />
-        <div id="passwordMessage" style="color: red"></div>
-      </div>
+        <div class="join">
+          <label class="inputTitle">비밀번호</label>
+          <input
+            type="password"
+            placeholder="비밀번호를 입력해주세요"
+            name="password"
+            id="password"
+            required
+          />
+          <div id="passwordMessage" style="color: red"></div>
+        </div>
 
-      <div class="join">
-        <div>비밀번호 확인</div>
-        <input
-          type="password"
-          placeholder="비밀번호를 확인해주세요"
-          name="passwordCheck"
-          id="passwordCheck"
-          required
-        />
-        <div id="passCheckMessage" style="color: red"></div>
-      </div>
-      <!-- <span id="eye-icon" class="eye-icon">👁️</span> -->
-      <!-- 눈 아이콘 추가 -->
+        <div class="join">
+          <div class="inputTitle">비밀번호 확인</div>
+          <input
+            type="password"
+            placeholder="비밀번호를 확인해주세요"
+            name="passwordCheck"
+            id="passwordCheck"
+            required
+          />
+          <div id="passCheckMessage" style="color: red"></div>
+        </div>
+        <!-- <span id="eye-icon" class="eye-icon">👁️</span> -->
+        <!-- 눈 아이콘 추가 -->
 
-      <div class="join">
-        <div>이름</div>
-        <input
-          type="text"
-          placeholder="이름을 입력해주세요"
-          name="name"
-          id="name"
-          maxlength="20"
-          required
-        />
-        <div id="nameMessage" style="color: red"></div>
-      </div>
+        <div class="join">
+          <div class="inputTitle">이름</div>
+          <input
+            type="text"
+            placeholder="이름을 입력해주세요"
+            name="name"
+            id="name"
+            maxlength="20"
+            required
+          />
+          <div id="nameMessage" style="color: red"></div>
+        </div>
 
-      <!-- <script>
+        <!-- <script>
         // 눈 모양 이모티콘 클릭 시 비밀번호 보이기/숨기기 기능
         const eyeIcon = document.getElementById("eye-icon");
         const passwordInput = document.getElementById("password");
@@ -76,84 +78,91 @@
         });
       </script> -->
 
-      <div class="join">
-        <div>성별</div>
-        <label
-          ><input
-            type="radio"
-            name="gender"
-            value="female"
+        <div class="join">
+          <div class="inputTitle">성별</div>
+          <label
+            ><input
+              type="radio"
+              name="gender"
+              value="female"
+              required
+            />여성</label
+          >
+          <label
+            ><input
+              type="radio"
+              name="gender"
+              value="male"
+              required
+            />남성</label
+          >
+        </div>
+        <div class="join birth_input">
+          <div class="inputTitle">생년월일</div>
+          <select name="yy" id="year" required>
+            <option value="" disabled selected>선택</option>
+          </select>
+          <div>년</div>
+          <select name="mm" id="month" required>
+            <option value="" disabled selected>선택</option>
+          </select>
+          <div>월</div>
+          <select name="dd" id="day" required>
+            <option value="" disabled selected>선택</option>
+          </select>
+          <div>일</div>
+        </div>
+        <div class="join phone_input">
+          <div class="inputTitle">휴대폰 번호</div>
+          <input
+            type="tel"
+            id="phone1"
+            name="phone1"
+            placeholder="010"
+            class="input0"
+            maxLength="3"
+            pattern="[0-9]{3}"
             required
-          />여성</label
-        >
-        <label
-          ><input type="radio" name="gender" value="male" required />남성</label
-        >
-      </div>
-      <div class="join birth_input">
-        <div>생년월일</div>
-        <select name="yy" id="year" required>
-          <option value="" disabled selected>선택</option>
-        </select>
-        <div>년</div>
-        <select name="mm" id="month" required>
-          <option value="" disabled selected>선택</option>
-        </select>
-        <div>월</div>
-        <select name="dd" id="day" required>
-          <option value="" disabled selected>선택</option>
-        </select>
-        <div>일</div>
-      </div>
-      <div class="join phone_input">
-        <div>휴대폰 번호</div>
-        <input
-          type="tel"
-          id="phone1"
-          name="phone1"
-          placeholder="010"
-          class="input0"
-          maxLength="3"
-          pattern="[0-9]{3}"
-          required
-        />
-        <input
-          type="tel"
-          id="phone2"
-          name="phone2"
-          placeholder="0000"
-          class="input0"
-          maxLength="4"
-          pattern="[0-9]{4}"
-          required
-        />
-        <input
-          type="tel"
-          id="phone3"
-          name="phone3"
-          placeholder="0000"
-          class="input0"
-          maxLength="4"
-          pattern="[0-9]{4}"
-          required
-        />
-        <div id="phoneMessage" style="color: red"></div>
-      </div>
+          />
+          <input
+            type="tel"
+            id="phone2"
+            name="phone2"
+            placeholder="0000"
+            class="input0"
+            maxLength="4"
+            pattern="[0-9]{4}"
+            required
+          />
+          <input
+            type="tel"
+            id="phone3"
+            name="phone3"
+            placeholder="0000"
+            class="input0"
+            maxLength="4"
+            pattern="[0-9]{4}"
+            required
+          />
+          <div id="phoneMessage" style="color: red"></div>
+        </div>
 
-      <input type="text" id="postcode" placeholder="우편번호" required />
-      <input
-        type="button"
-        onclick="execDaumPostcode()"
-        value="우편번호 찾기"
-      /><br />
-      <input type="text" id="address" placeholder="주소" /><br />
-      <input type="text" id="detailAddress" placeholder="상세주소" />
-      <input type="text" id="extraAddress" placeholder="참고항목" />
+        <input type="text" id="postcode" placeholder="우편번호" required />
+        <input
+          type="button"
+          onclick="execDaumPostcode()"
+          value="우편번호 찾기"
+        /><br />
+        <input type="text" id="address" placeholder="주소" /><br />
+        <input type="text" id="detailAddress" placeholder="상세주소" />
+        <input type="text" id="extraAddress" placeholder="참고항목" />
 
-      <button type="button" id="signupBtn" onclick="signup()" disabled>
-        회원가입
-      </button>
-    </form>
+        <button type="button" id="signupBtn" onclick="signup()" disabled>
+          회원가입
+        </button>
+      </form>
+    </div>
+    <footer></footer>
   </body>
   <!-- js -->
   <script src="/public/js/signup.js"></script>
