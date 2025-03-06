@@ -33,13 +33,9 @@
 
       <div type="button" id="login_btn" onclick="login()">로그인</div>
       <div>
-        <div type="button" id="find_id_btn" onclick="idFind()">아이디 찾기</div>
+        <div type="button" id="find_id_btn" onclick="idFind()">id/pw 찾기</div>
 
-        <div type="button" id="find_password_btn" onclick="passFind()">
-          비밀번호 찾기
-        </div>
-
-        <div type="button" id="join_btn" onclick="passFind()">회원가입</div>
+        <div type="button" id="join_btn" onclick="signup()">회원가입</div>
       </div>
     </form>
   </body>
@@ -55,8 +51,16 @@
         url: "/user/login",
         data: { email, password },
       }).then((res) => {
-        console.log("로그인 성공");
+        if (res.data.token) {
+          window.location.href = "/";
+        }
       });
+    };
+    const idFind = () => {
+      window.location.href = "/find";
+    };
+    const signup = () => {
+      window.location.href = "/signup";
     };
   </script>
 </html>

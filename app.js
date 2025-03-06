@@ -49,19 +49,27 @@ app.use("/user", userRouter);
 require("./models/index");
 
 app.get("/", (req, res) => {
-  res.render("signup");
+  res.render("main");
+
 });
 app.get("/login", (req, res) => {
   res.render("login");
 });
-app.get("/main", (req, res) => {
-  res.render("main");
-});
 
-app.get("/writing", (req, res) => {
+app.get("/wriintg", (req, res) => {
   res.render("writing");
 });
 
+app.get("/signup", (req, res) => {
+  res.render("signup");
+});
+app.get("/find", (req, res) => {
+  res.render("find");
+});
+app.get("/mine", (req, res) => {
+  res.render("mine");
+});
+>>>>>>> 00f51c87b503fe0065695303aa0c593bdd857d22
 app.listen(port, () => {
   console.log(port, "번 포트에서 대기 중");
 });

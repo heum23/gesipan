@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .none {
+        display: none !important;
+      }
+      /* ✅ 모달창 스타일 */
+      .changePw {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        text-align: center;
+        width: 300px; /* 모달 너비 지정 */
+        aspect-ratio: 1/0.7;
+      }
+
+      .pw-container {
+        gap: 20px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        color: black;
+      }
+      /* ✅ 배경 오버레이 */
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+      }
+      /* 버튼 스타일 */
+      .btn {
+        background-color: blue;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      /* 비활성화 상태 (disabled)일 때 */
+      .btn:disabled {
+        background-color: gray;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>내정보</h2>
+    <div class="main"></div>
+
+    <!-- ✅ 배경 오버레이 추가 -->
+    <div class="overlay none" onclick="closeModal()"></div>
+
+    <!-- ✅ 비밀번호 변경 모달 -->
+    <div class="changePw none">
+      <button class="close-btn" onclick="closeModal()">✖</button>
+      <div class="pw-container">
+        <div>새 비밀번호</div>
+        <input type="text" id="password" placeholder="pw를 입력해주세요" />
+        <div class="text1"></div>
+        <div>새 비밀번호 확인</div>
+        <input type="text" id="checkPw" placeholder="pw를 입력해주세요" />
+        <div class="text"></div>
+        <button class="btn">비밀번호 변경</button>
+      </div>
+    </div>
+
+    <script>
+      let main = document.querySelector(".main");
+      let modal = document.querySelector(".changePw");
+      let overlay = document.querySelector(".overlay");
+      const password = document.getElementById("password");
+      const checkPw = document.getElementById("checkPw");
+
+      const myData = () => {
+        let cookies = document.cookie.split(";");
+        const tokenCookie = cookies.find((item) =>
+          item.trim().startsWith("token=")
+        );
+        if (!tokenCookie) {
+          main.innerHTML = `로그인 후 이용가능합니다`;
+          return;
+        }
+        const token = tokenCookie.split("token=")[1];
+
+        axios({
+          method: "post",
+          url: "/user/token",
+          headers: {
+            Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 담아서 전송
+          },
+        }).then((res) => {
+          console.log(res.data.user);
+          if (res.data.user) {
+            let user = res.data.user;
+            main.innerHTML = `
+              <div>내 email : ${user.email}</div>
+              <div onclick="changePw()" style="cursor:pointer;">비밀번호 변경하기</div>
+              <div>닉네임 : ${user.name}</div>
+              <div>내 전화번호 : ${user.number}</div>
+              <div>내가 쓴 게시물 확인하기</div>
+              <div>내가 좋아요 한 게시물</div>
+            `;
+            btn.addEventListener("click", () => changeNewPw(user.id));
+          } else {
+            main.innerHTML = `로그인 후 이용가능합니다`;
+          }
+        });
+      };
+      myData();
+
+      // ✅ 모달 열기
+      const changePw = () => {
+        modal.classList.remove("none");
+        overlay.classList.remove("none");
+      };
+
+      // ✅ 모달 닫기
+      const closeModal = () => {
+        modal.classList.add("none");
+        overlay.classList.add("none");
+      };
+      let open1 = false;
+      let open2 = false;
+      const btn = document.querySelector(".btn");
+      const updatePw = () => {
+        const pwValue = password.value;
+        const checkValue = checkPw.value;
+
+        const passRegex =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;"'.,<>?/-]).{8,}$/;
+
+        if (pwValue === "") {
+          document.querySelector(".text1").innerHTML =
+            "비밀번호를 입력해 주세요.";
+          open1 = false;
+        } else if (!passRegex.test(pwValue)) {
+          document.querySelector(".text1").innerHTML =
+            "비밀번호는 최소 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다.";
+          open1 = false;
+        } else {
+          document.querySelector(".text1").innerHTML = "";
+          open1 = true;
+        }
+        if (pwValue !== checkValue) {
+          document.querySelector(".text").innerHTML =
+            "비밀번호와 똑같이 입력하세요";
+          open2 = false;
+        } else {
+          document.querySelector(".text").innerHTML = "";
+          open2 = true;
+        }
+        if (open1 && open2) {
+          btn.disabled = false;
+        } else {
+          btn.disabled = true;
+        }
+      };
+
+      password.addEventListener("input", updatePw);
+      checkPw.addEventListener("input", updatePw);
+
+      const changeNewPw = (id) => {
+        const pwValue = password.value;
+        axios({
+          method: "post",
+          url: "/user/updatePw",
+          data: { id: id, pw: pwValue },
+        }).then((res) => {
+          console.log("성공");
+          alert("비밀번호 변경 완료");
+          window.location.reload();
+        });
+      };
+    </script>
+  </body>
+</html>
