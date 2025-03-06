@@ -33,7 +33,7 @@ const free = (sequelize) => {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      like: {
+      likecnt: {
         type: DataTypes.INTEGER(10),
         allowNull: true, // 좋아요 수는 없을 수 있으므로 allowNull을 true로 설정
         defaultValue: 0, // 기본값을 0으로 설정
@@ -41,14 +41,12 @@ const free = (sequelize) => {
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+        defaultValue: DataTypes.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: sequelize.literal(
-          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-        ),
+        defaultValue: DataTypes.NOW,
       },
     },
     {

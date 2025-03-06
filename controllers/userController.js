@@ -1,8 +1,6 @@
-const { where } = require("sequelize");
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { escape } = require("mysql2");
 require("dotenv").config(); // 환경 변수 로드
 
 const SECRET = process.env.SECRET; // 환경 변수 가져오기

@@ -4,20 +4,54 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>내 정보</title>
     <style>
       * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
       }
+
       body {
-        font-family: Arial, sans-serif;
+        font-family: "Arial", sans-serif;
+        background-color: #f4f7fc;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
       }
-      .none {
-        display: none !important;
+
+      .main {
+        width: 100%;
+        max-width: 500px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
       }
-      /* ✅ 모달창 스타일 */
+
+      .main h2 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .container {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .text {
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+
       .changePw {
         display: flex;
         flex-direction: column;
@@ -29,18 +63,23 @@
         background: white;
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        border-radius: 10px;
+        border-radius: 8px;
         text-align: center;
-        width: 300px; /* 모달 너비 지정 */
+        width: 300px;
         aspect-ratio: 1/0.7;
+        transition: all 0.3s ease;
       }
 
-      .pw-container {
-        gap: 20px;
-        display: flex;
-        flex-direction: column;
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
       }
+
       .close-btn {
         position: absolute;
         top: 10px;
@@ -49,37 +88,79 @@
         border: none;
         font-size: 18px;
         cursor: pointer;
-        color: black;
+        color: #333;
       }
-      /* ✅ 배경 오버레이 */
-      .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
+
+      .pw-container {
+        gap: 20px;
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
       }
-      /* 버튼 스타일 */
+
+      input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-top: 5px;
+        width: 100%;
+        font-size: 14px;
+      }
+
       .btn {
-        background-color: blue;
+        background-color: #4caf50;
         color: white;
         padding: 10px;
         border: none;
         cursor: pointer;
+        font-weight: bold;
         transition: background 0.3s ease;
+        border-radius: 5px;
+        margin-top: 20px;
       }
 
-      /* 비활성화 상태 (disabled)일 때 */
+      .btn:hover {
+        background-color: #45a049;
+      }
+
       .btn:disabled {
-        background-color: gray;
+        background-color: #ccc;
         cursor: not-allowed;
+      }
+
+      .none {
+        display: none !important;
+      }
+
+      .text1 {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+      }
+
+      .changePwBtn {
+        background-color: lightgray;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: background 0.3s ease;
+        text-align: center;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+
+      .changePwBtn:hover {
+        background-color: gray;
       }
     </style>
   </head>
   <body>
-    <h2>내정보</h2>
-    <div class="main"></div>
+    <div class="main">
+      <h2>내 정보</h2>
+    </div>
 
     <!-- ✅ 배경 오버레이 추가 -->
     <div class="overlay none" onclick="closeModal()"></div>
@@ -89,12 +170,12 @@
       <button class="close-btn" onclick="closeModal()">✖</button>
       <div class="pw-container">
         <div>새 비밀번호</div>
-        <input type="text" id="password" placeholder="pw를 입력해주세요" />
+        <input type="password" id="password" placeholder="새 비밀번호" />
         <div class="text1"></div>
         <div>새 비밀번호 확인</div>
-        <input type="text" id="checkPw" placeholder="pw를 입력해주세요" />
+        <input type="password" id="checkPw" placeholder="새 비밀번호 확인" />
         <div class="text"></div>
-        <button class="btn">비밀번호 변경</button>
+        <button class="btn" id="changePwBtn" disabled>비밀번호 변경</button>
       </div>
     </div>
 
@@ -104,6 +185,7 @@
       let overlay = document.querySelector(".overlay");
       const password = document.getElementById("password");
       const checkPw = document.getElementById("checkPw");
+      const btn = document.getElementById("changePwBtn");
 
       const myData = () => {
         let cookies = document.cookie.split(";");
@@ -120,21 +202,21 @@
           method: "post",
           url: "/user/token",
           headers: {
-            Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 담아서 전송
+            Authorization: `Bearer ${token}`,
           },
         }).then((res) => {
           console.log(res.data.user);
           if (res.data.user) {
             let user = res.data.user;
-            main.innerHTML = `
-              <div>내 email : ${user.email}</div>
-              <div onclick="changePw()" style="cursor:pointer;">비밀번호 변경하기</div>
-              <div>닉네임 : ${user.name}</div>
-              <div>내 전화번호 : ${user.number}</div>
-              <div>내가 쓴 게시물 확인하기</div>
-              <div>내가 좋아요 한 게시물</div>
+            main.innerHTML += `<div class='container'>
+              <div class='text'>이름 : ${user.name}</div>
+              <div class='text'>email : ${user.email}</div>
+              <div class='text'  style="cursor:pointer;">비밀번호 : <button class="changePwBtn" onclick="changePw()">변경하기</button></div>
+              <div class='text'> 전화번호 : ${user.number}</div>
+              <div class='text'> 작성한 게시물</div>
+              <div class='text'>좋아요 한 게시물</div>
+              </div>
             `;
-            btn.addEventListener("click", () => changeNewPw(user.id));
           } else {
             main.innerHTML = `로그인 후 이용가능합니다`;
           }
@@ -153,9 +235,7 @@
         modal.classList.add("none");
         overlay.classList.add("none");
       };
-      let open1 = false;
-      let open2 = false;
-      const btn = document.querySelector(".btn");
+
       const updatePw = () => {
         const pwValue = password.value;
         const checkValue = checkPw.value;
@@ -166,24 +246,26 @@
         if (pwValue === "") {
           document.querySelector(".text1").innerHTML =
             "비밀번호를 입력해 주세요.";
-          open1 = false;
         } else if (!passRegex.test(pwValue)) {
           document.querySelector(".text1").innerHTML =
             "비밀번호는 최소 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다.";
-          open1 = false;
         } else {
           document.querySelector(".text1").innerHTML = "";
-          open1 = true;
         }
+
         if (pwValue !== checkValue) {
           document.querySelector(".text").innerHTML =
             "비밀번호와 똑같이 입력하세요";
-          open2 = false;
         } else {
           document.querySelector(".text").innerHTML = "";
-          open2 = true;
         }
-        if (open1 && open2) {
+
+        if (
+          pwValue &&
+          checkValue &&
+          passRegex.test(pwValue) &&
+          pwValue === checkValue
+        ) {
           btn.disabled = false;
         } else {
           btn.disabled = true;
@@ -193,18 +275,19 @@
       password.addEventListener("input", updatePw);
       checkPw.addEventListener("input", updatePw);
 
-      const changeNewPw = (id) => {
+      const changeNewPw = () => {
         const pwValue = password.value;
         axios({
           method: "post",
           url: "/user/updatePw",
-          data: { id: id, pw: pwValue },
+          data: { pw: pwValue },
         }).then((res) => {
-          console.log("성공");
           alert("비밀번호 변경 완료");
           window.location.reload();
         });
       };
+
+      btn.addEventListener("click", changeNewPw);
     </script>
   </body>
 </html>

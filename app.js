@@ -4,6 +4,7 @@ const app = express();
 const port = 3000;
 const cookieParser = require("cookie-parser");
 const userRouter = require("./routers/userRouter");
+const freeRouter = require("./routers/freeRouter");
 const multer = require("multer");
 // 세부설정
 const storage = multer.diskStorage({
@@ -46,30 +47,32 @@ app.use("/uploads", express.static("uploads"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
 app.use("/user", userRouter);
+app.use("/free", freeRouter);
 require("./models/index");
 
 app.get("/", (req, res) => {
   res.render("main");
-
 });
+//로그인 페이지
 app.get("/login", (req, res) => {
   res.render("login");
 });
-
-app.get("/wriintg", (req, res) => {
+// 게시글 등록 페이지
+app.get("/writing", (req, res) => {
   res.render("writing");
 });
-
+//회원가입
 app.get("/signup", (req, res) => {
   res.render("signup");
 });
+//id/pw 찾기
 app.get("/find", (req, res) => {
   res.render("find");
 });
+//내정보란
 app.get("/mine", (req, res) => {
   res.render("mine");
 });
->>>>>>> 00f51c87b503fe0065695303aa0c593bdd857d22
 app.listen(port, () => {
   console.log(port, "번 포트에서 대기 중");
 });
