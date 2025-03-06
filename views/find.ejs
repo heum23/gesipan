@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    .changePage {
+      display: flex;
+    }
+    .none {
+      display: none;
+    }
+  </style>
+  <body>
+    <div class="findId">
+      <div>가입 시 입력한 휴대폰 번호를 입력해주세요.</div>
+      <input
+        type="tel"
+        id="phone1"
+        name="phone1"
+        placeholder="010"
+        class="input0"
+        maxLength="3"
+        pattern="[0-9]{3}"
+        required
+      />
+      <input
+        type="tel"
+        id="phone2"
+        name="phone2"
+        placeholder="0000"
+        class="input0"
+        maxLength="4"
+        pattern="[0-9]{4}"
+        required
+      />
+      <input
+        type="tel"
+        id="phone3"
+        name="phone3"
+        placeholder="0000"
+        class="input0"
+        maxLength="4"
+        pattern="[0-9]{4}"
+        required
+      />
+      <div id="phoneMessage" style="color: red"></div>
+      <button onclick="idFind()">id 찾기</button>
+    </div>
+    <div class="showId"></div>
+    <div class="findPw none">
+      <div>가입 시 입력한 email을 입력해주세요</div>
+      <input type="text" id="email" placeholder="abc123@XXX.com" />
+      <button onclick="pwFind()">pw 찾기</button>
+      <div class="showPw"></div>
+    </div>
+    <div class="newPw none">
+      <div>새 비밀번호</div>
+      <input type="text" id="newPw" />
+      <div class="text1"></div>
+      <div>새 비밀번호 확인</div>
+      <input type="text" id="checkPw" />
+      <div class="text"></div>
+      <div class="changePw"></div>
+    </div>
+    <div class="changePage">
+      <div onclick="changePage('id')">id 찾기</div>
+      <div onclick="changePage('pw')">/pw 찾기</div>
+    </div>
+  </body>
+  <script>
+    const findId = document.querySelector(".findId"); // id찾기 인풋
+    const showId = document.querySelector(".showId");
+    const num1 = document.getElementById("phone1");
+    const num2 = document.getElementById("phone2");
+    const num3 = document.getElementById("phone3");
+    const showPw = document.querySelector(".showPw");
+    const findPw = document.querySelector(".findPw"); //pw찾기 인풋
+    const pw = document.getElementById("email");
+    const newPw = document.querySelector(".newPw"); // 새비밀번호 인풋
+    const changePw = document.querySelector(".changePw");
+    //교환하는 비밀번호
+    const updateNewPw = document.getElementById("newPw");
+    const checkPw = document.getElementById("checkPw");
+
+    const changePage = (type) => {
+      showId.innerHTML = "";
+      newPw.classList.add("none");
+      if (type === "id") {
+        findId.classList.remove("none");
+        findPw.classList.add("none");
+      } else {
+        findPw.classList.remove("none");
+        findId.classList.add("none");
+      }
+    };
+
+    const idFind = () => {
+      const number = `${num1.value}-${num2.value}-${num3.value}`;
+      console.log(number);
+      axios({
+        method: "post",
+        url: "/user/findId",
+        data: { number: number },
+      }).then((res) => {
+        console.log(res.data.findId);
+        if (!res.data.email) {
+          showId.innerHTML = `${res.data.message}`;
+        } else {
+          showId.innerHTML = `${res.data.name}님의 아이디는 ${res.data.email}입니다`;
+        }
+      });
+    };
+
+    const pwFind = () => {
+      const email = pw.value;
+      axios({
+        method: "post",
+        url: "/user/findPw",
+        data: { email: email },
+      }).then((res) => {
+        console.log(res.data);
+        if (!res.data.data) {
+          showPw.innerHTML = `${res.data.message}`;
+          newPw.classList.add("none");
+        } else {
+          newPw.classList.remove("none");
+          showPw.innerHTML = ``;
+          changePw.innerHTML = `<button class="btn" onclick="changeNewPw(${res.data.id})">비밀번호 변경</button>`;
+        }
+      });
+    };
+    let open1 = false;
+    let open2 = false;
+    const updatePw = () => {
+      const pwValue = updateNewPw.value;
+      const checkValue = checkPw.value;
+      const btn = document.querySelector(".btn");
+
+      const passRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;"'.,<>?/-]).{8,}$/;
+
+      if (pwValue === "") {
+        document.querySelector(".text1").innerHTML =
+          "비밀번호를 입력해 주세요.";
+        open1 = false;
+      } else if (!passRegex.test(pwValue)) {
+        document.querySelector(".text1").innerHTML =
+          "비밀번호는 최소 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다.";
+        open1 = false;
+      } else {
+        document.querySelector(".text1").innerHTML = "";
+        open1 = true;
+      }
+      if (pwValue !== checkValue) {
+        document.querySelector(".text").innerHTML =
+          "비밀번호와 똑같이 입력하세요";
+        open2 = false;
+      } else {
+        document.querySelector(".text").innerHTML = "";
+        open2 = true;
+      }
+      if (open1 && open2) {
+        btn.disabled = false;
+      } else {
+        btn.disabled = true;
+      }
+    };
+    updateNewPw.addEventListener("input", updatePw);
+    checkPw.addEventListener("input", updatePw);
+
+    const changeNewPw = (id) => {
+      pwValue = updateNewPw.value;
+      axios({
+        method: "post",
+        url: "/user/updatePw",
+        data: { id: id, pw: pwValue },
+      }).then((res) => {
+        console.log(res.data);
+      });
+    };
+  </script>
+</html>

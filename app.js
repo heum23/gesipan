@@ -20,9 +20,20 @@ app.use("/user", userRouter);
 require("./models/index");
 
 app.get("/", (req, res) => {
+  res.render("main");
+});
+app.get("/login", (req, res) => {
   res.render("login");
 });
-
+app.get("/signup", (req, res) => {
+  res.render("signup");
+});
+app.get("/find", (req, res) => {
+  res.render("find");
+});
+app.get("/mine", (req, res) => {
+  res.render("mine");
+});
 app.listen(port, () => {
   console.log(port, "번 포트에서 대기 중");
 });
