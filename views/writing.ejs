@@ -40,14 +40,14 @@
         </div>
       </div>
       <div class="textBox">
-        <select>
-          <option value="음악">음악</option>
-          <option value="미술">미술</option>
-          <option value="책">책</option>
-          <option value="여행">여행</option>
-          <option value="반려동물">반려동물</option></select
+        <select id="category">
+          <option value="1">음악</option>
+          <option value="2">미술</option>
+          <option value="3">책</option>
+          <option value="4">여행</option>
+          <option value="5">반려동물</option></select
         ><br />
-        <input id="name" type="text" placeholder="이름" /><br />
+
         <input id="title" type="text" placeholder="제목" /><br />
 
         <div id="detail"></div>
@@ -57,6 +57,28 @@
   </body>
   <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
   <script>
+    let myId = "";
+    let cookies = document.cookie.split(";");
+    const tokenCookie = cookies.find((item) =>
+      item.trim().startsWith("token=")
+    );
+    if (!tokenCookie) {
+      main.innerHTML = `로그인 후 이용가능합니다`;
+    }
+    const token = tokenCookie.split("token=")[1];
+
+    axios({
+      method: "post",
+      url: "/user/token",
+      headers: {
+        Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 담아서 전송
+      },
+    }).then((res) => {
+      console.log("토큰아이디");
+      console.log(res.data.user.id, "-----------");
+      myId = res.data.user.id;
+    });
+
     // 토스에디터 설정
     const editor = new toastui.Editor({
       el: document.querySelector("#detail"), // 에디터를 적용할 요소 (컨테이너)
@@ -94,14 +116,19 @@
     const createData = () => {
       const fileInput = document.getElementById("imgFile");
       const img = fileInput.files[0];
-      const name = document.getElementById("name").value;
+
       const title = document.getElementById("title").value;
       const detail = editor.getMarkdown();
+      const userId = myId;
+      const category = document.getElementById("category").value;
+      const categoryId = Number(category);
 
       const formData = new FormData();
-      formData.append("name", name);
+
       formData.append("title", title);
       formData.append("detail", detail);
+      formData.append("userId", userId);
+      formData.append("categoryId", categoryId);
 
       if (img) {
         formData.append("img", img);
@@ -112,24 +139,23 @@
         console.log(key, value);
       });
 
-      // axios({
-      //   method: "post",
-      //   url: "/user/writing",
-      //   data: formData,
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // })
-      //   .then((res) => {
-      //     console.log(res.data);
-
-      //     alert("등록 성공");
-      //     window.location.reload(); // 등록 성공하면 새로고침
-      //   })
-      //   .catch((e) => {
-      //     console.error(e);
-      //     alert("error");
-      //   });
+      axios({
+        method: "post",
+        url: "/free/writing",
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+        .then((res) => {
+          console.log("ddddddd");
+          // alert(res.data.message);
+          // window.location.reload(); // 등록 성공하면 새로고침
+        })
+        .catch((e) => {
+          console.error(e);
+          alert("error");
+        });
     };
   </script>
 </html>

@@ -33,22 +33,30 @@ const free = (sequelize) => {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      like: {
+      likecnt: {
         type: DataTypes.INTEGER(10),
         allowNull: true, // 좋아요 수는 없을 수 있으므로 allowNull을 true로 설정
         defaultValue: 0, // 기본값을 0으로 설정
       },
+      categoryId: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        references: {
+          model: "category", // 🔥 `Users` 테이블의 `id`를 참조
+          key: "id",
+        },
+        onUpdate: "CASCADE", // `Users`의 `id` 변경 시 자동 반영
+        onDelete: "CASCADE", // `Users` 삭제 시 `Free` 데이터도 삭제
+      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: sequelize.literal("CURRENT_TIMESTAMP"),
+        defaultValue: DataTypes.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: sequelize.literal(
-          "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-        ),
+        defaultValue: DataTypes.NOW,
       },
     },
     {
