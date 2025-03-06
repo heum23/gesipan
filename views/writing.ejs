@@ -49,7 +49,6 @@
         ><br />
 
         <input id="title" type="text" placeholder="제목" /><br />
-
         <div id="detail"></div>
         <button onclick="createData()">등록</button>
       </div>
@@ -63,9 +62,7 @@
     const tokenCookie = cookies.find((item) =>
       item.trim().startsWith("token=")
     );
-    if (!tokenCookie) {
-      main.innerHTML = `로그인 후 이용가능합니다`;
-    }
+
     const token = tokenCookie.split("token=")[1];
 
     axios({

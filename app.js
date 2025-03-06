@@ -73,6 +73,11 @@ app.get("/find", (req, res) => {
 app.get("/mine", (req, res) => {
   res.render("mine");
 });
+
+app.get("/myPost", (req, res) => {
+  res.render("mypost");
+});
+
 app.listen(port, () => {
   console.log(port, "번 포트에서 대기 중");
 });
