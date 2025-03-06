@@ -5,7 +5,7 @@ require("dotenv").config(); // 환경 변수 로드
 
 const SECRET = process.env.SECRET; // 환경 변수 가져오기
 
-console.log(SECRET); // 테스트 출력
+// console.log(SECRET); // 테스트 출력
 
 // 회원가입 유저 등록
 const postUser = async (req, res) => {

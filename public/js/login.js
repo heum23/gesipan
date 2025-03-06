@@ -9,7 +9,7 @@ const login = () => {
     data: { email, password },
   }).then((res) => {
     if (res.data.message) {
-      alert(res.data.message);
+      message.innerHTML = `${res.data.message}`;
     }
     if (res.data.token) {
       window.location.href = "/";

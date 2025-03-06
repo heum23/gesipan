@@ -32,5 +32,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post("/writing", upload.single("img"), freeController.writeData);
+router.post("/posting", freeController.postAll);
 
 module.exports = router;

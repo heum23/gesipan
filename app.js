@@ -58,7 +58,7 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.get("/wriintg", (req, res) => {
+app.get("/writing", (req, res) => {
   res.render("writing");
 });
 //회원가입
@@ -73,7 +73,6 @@ app.get("/find", (req, res) => {
 app.get("/mine", (req, res) => {
   res.render("mine");
 });
->>>>>>> 00f51c87b503fe0065695303aa0c593bdd857d22
 app.listen(port, () => {
   console.log(port, "번 포트에서 대기 중");
 });
