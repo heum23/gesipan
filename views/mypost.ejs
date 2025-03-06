@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    .main {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .table {
+      display: flex;
+      width: 75%;
+      aspect-ratio: 8/1;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .img {
+      width: 100%;
+      height: auto;
+    }
+    .imgDiv {
+      width: 300px;
+    }
+    .name {
+      font-size: 12px;
+    }
+    .date {
+      font-size: 12px;
+    }
+  </style>
+  <body>
+    <div class="main"></div>
+  </body>
+  <script>
+    const main = document.querySelector(".main");
+    const myData = () => {
+      let cookies = document.cookie.split(";");
+      const tokenCookie = cookies.find((item) =>
+        item.trim().startsWith("token=")
+      );
+      const token = tokenCookie.split("token=")[1];
+
+      axios({
+        method: "post",
+        url: "/free/token",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          if (res.data.post) {
+            res.data.post.map((item) => {
+              const newDate = new Date(item.updatedAt)
+                .toISOString()
+                .split("T")[0];
+              main.innerHTML += `<div class="table">
+                <div class='imgDiv'><img class='img' src="${item.img}"></div>
+                <div>${item.title}</div>
+                <div class='name'> ${res.data.name}</div>
+                <div class="date">수정한 날짜 :${newDate}</div></div>`;
+            });
+          } else {
+            main.innerHTML = `${res.data.message}`;
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    };
+    myData();
+  </script>
+</html>

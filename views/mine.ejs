@@ -175,7 +175,7 @@
         <div>새 비밀번호 확인</div>
         <input type="password" id="checkPw" placeholder="새 비밀번호 확인" />
         <div class="text"></div>
-        <button class="btn" id="changePwBtn" disabled>비밀번호 변경</button>
+        <div class="btnDiv"></div>
       </div>
     </div>
 
@@ -185,7 +185,6 @@
       let overlay = document.querySelector(".overlay");
       const password = document.getElementById("password");
       const checkPw = document.getElementById("checkPw");
-      const btn = document.getElementById("changePwBtn");
 
       const myData = () => {
         let cookies = document.cookie.split(";");
@@ -205,7 +204,6 @@
             Authorization: `Bearer ${token}`,
           },
         }).then((res) => {
-          console.log(res.data.user);
           if (res.data.user) {
             let user = res.data.user;
             main.innerHTML += `<div class='container'>
@@ -213,10 +211,15 @@
               <div class='text'>email : ${user.email}</div>
               <div class='text'  style="cursor:pointer;">비밀번호 : <button class="changePwBtn" onclick="changePw()">변경하기</button></div>
               <div class='text'> 전화번호 : ${user.number}</div>
-              <div class='text'> 작성한 게시물</div>
+              <div onclick = 'myPost()' class='text'> 작성한 게시물</div>
               <div class='text'>좋아요 한 게시물</div>
               </div>
             `;
+            document.querySelector(
+              ".btnDiv"
+            ).innerHTML = `<button onclick="changeNewPw(${user.id})" class="btn" id="changePwBtn" disabled>
+              비밀번호 변경
+            </button>`;
           } else {
             main.innerHTML = `로그인 후 이용가능합니다`;
           }
@@ -239,6 +242,7 @@
       const updatePw = () => {
         const pwValue = password.value;
         const checkValue = checkPw.value;
+        const btn = document.getElementById("changePwBtn");
 
         const passRegex =
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}\[\]:;"'.,<>?/-]).{8,}$/;
@@ -275,19 +279,21 @@
       password.addEventListener("input", updatePw);
       checkPw.addEventListener("input", updatePw);
 
-      const changeNewPw = () => {
+      const changeNewPw = (id) => {
         const pwValue = password.value;
         axios({
           method: "post",
           url: "/user/updatePw",
-          data: { pw: pwValue },
+          data: { pw: pwValue, id: id },
         }).then((res) => {
           alert("비밀번호 변경 완료");
           window.location.reload();
         });
       };
 
-      btn.addEventListener("click", changeNewPw);
+      const myPost = () => {
+        window.location.href = "/myPost";
+      };
     </script>
   </body>
 </html>

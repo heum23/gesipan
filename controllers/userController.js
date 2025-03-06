@@ -5,8 +5,6 @@ require("dotenv").config(); // 환경 변수 로드
 
 const SECRET = process.env.SECRET; // 환경 변수 가져오기
 
-console.log(SECRET); // 테스트 출력
-
 // 회원가입 유저 등록
 const postUser = async (req, res) => {
   let { email, password, name, address, age, number, gender } = req.body; // 회원가입 폼 데이터
@@ -23,7 +21,7 @@ const postUser = async (req, res) => {
       number,
       gender,
     });
-    console.log("성공");
+
     res.json({
       message: "회원가입 성공!", //성공 시 메시지
     });
@@ -79,7 +77,6 @@ const login = async (req, res) => {
 //id 찾기
 let idFind = async (req, res) => {
   let { number } = req.body; //휴대폰 전화번호
-  console.log(req.body);
   try {
     const findId = await User.findOne({
       where: { number }, // number 필드로 검색
