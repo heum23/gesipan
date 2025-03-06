@@ -53,24 +53,27 @@ require("./models/index");
 app.get("/", (req, res) => {
   res.render("main");
 });
+//로그인 페이지
 app.get("/login", (req, res) => {
   res.render("login");
 });
 
-app.get("/writing", (req, res) => {
+app.get("/wriintg", (req, res) => {
   res.render("writing");
 });
-
+//회원가입
 app.get("/signup", (req, res) => {
   res.render("signup");
 });
+//id/pw 찾기
 app.get("/find", (req, res) => {
   res.render("find");
 });
+//내정보란
 app.get("/mine", (req, res) => {
   res.render("mine");
 });
-
+>>>>>>> 00f51c87b503fe0065695303aa0c593bdd857d22
 app.listen(port, () => {
   console.log(port, "번 포트에서 대기 중");
 });
