@@ -2,15 +2,16 @@
 <html lang="en">
   <head>
     <script
-      type="text/javascript"
-      src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+      src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"
       charset="utf-8"
     ></script>
+    <<<<<<< HEAD
     <script
       type="text/javascript"
       src="http://code.jquery.com/jquery-1.11.3.min.js"
     ></script>
 
+    ======= >>>>>>> 7186df0b6edd000ff0f2493cdbfbb456840a2a4e
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,31 +52,75 @@
     </div>
   </body>
   <script>
-    var naver_id_login = new naver_id_login(
-      "r2e3fx9D8K59Ki8e_0U8",
-      "http://localhost:3000/"
-    );
-    // 접근 토큰 값 출력
-    // alert(naver_id_login.oauthParams.access_token);
-    // 네이버 사용자 프로필 조회
-    naver_id_login.get_naver_userprofile("naverSignInCallback()");
+    const postAll = () => {
+      const post = document.querySelector(".postWrap");
 
-    // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
-    function naverSignInCallback() {
-      let userId = naver_id_login.getProfileData("email");
-      let name = naver_id_login.getProfileData("name");
-      let gender = naver_id_login.getProfileData("gender");
       axios({
         method: "post",
-        url: "/user/emailCheck",
-        data: { email: userId },
-      }).then((res) => {
-        if (res.data.message) {
-          alert("가입되지 않은 아이디입니다.");
-          window.location.href = "/signup";
-        }
-      });
-    }
+        url: "/free/posting",
+      })
+        .then((res) => {
+          // 응답받은 데이터를 HTML로 변환하여 postWrap에 삽입
+          const posts = res.data.allPost;
+          post.innerHTML = posts
+            .map(
+              (post) => `
+        <div class="post">
+          <h3>${post.title}</h3>
+          <p>${post.content}</p>
+        </div>
+      `
+            )
+            .join("");
+        })
+        .catch((e) => {
+          e, "error";
+        });
+    };
+
+    // 스크롤 시 헤더 변화
+    window.addEventListener("scroll", function () {
+      const headerWrap = document.querySelector(".headerWrap");
+      if (window.scrollY > 50) {
+        headerWrap.classList.add("scroll");
+      } else {
+        headerWrap.classList.remove("scroll");
+      }
+    });
+  </script>
+  <script>
+    const naverLogin = new naver.LoginWithNaverId({
+      clientId: "r2e3fx9D8K59Ki8e_0U8",
+      callbackUrl: "http://localhost:3000/",
+      loginButton: { color: "green", type: 2, height: 40 },
+    });
+    naverLogin.getLoginStatus(function (status) {
+      if (status) {
+        const email = naverLogin.user.getEmail();
+        const name = naverLogin.user.getName();
+        const birthyear = naverLogin.user.getBirthyear();
+        const birthday = naverLogin.user.getBirthday();
+        console.log(email, name, birthyear, birthday);
+        axios({
+          method: "post",
+          url: "/user/emailCheck",
+          data: { email: email },
+        }).then((res) => {
+          if (res.data.message) {
+            alert("가입되지 않은 아이디입니다.");
+            window.location.href = `/signup`;
+          } else {
+            axios({
+              method: "post",
+              url: "/user/login",
+              data: { email: email },
+            }).then((res) => {
+              console.log(res.data.token);
+            });
+          }
+        });
+      }
+    });
   </script>
   <script src="/public/js/main.js"></script>
 </html>

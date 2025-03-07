@@ -260,13 +260,18 @@ for (let year = currentYear; year >= currentYear - 100; year--) {
 for (let month = 1; month <= 12; month++) {
   const option = document.createElement("option");
   option.value = month;
-  option.textContent = month;
+  option.textContent = String(month).padStart(2, "0"); // 1을 01로 표시
   monthSelect.appendChild(option);
 }
 
 // 일 생성 (기본적으로 31일로 설정)
 const updateDays = () => {
+  const daySelect = document.getElementById("day");
+  const yearSelect = document.getElementById("year");
+  const monthSelect = document.getElementById("month");
+  console.log(monthSelect.value);
   daySelect.innerHTML = ""; // 기존의 옵션을 삭제
+
   const selectedYear = parseInt(yearSelect.value);
   const selectedMonth = parseInt(monthSelect.value);
 
@@ -279,14 +284,14 @@ const updateDays = () => {
   defaultOption.textContent = "선택";
   daySelect.appendChild(defaultOption);
 
+  // 1일부터 daysInMonth일까지 옵션 추가
   for (let day = 1; day <= daysInMonth; day++) {
     const option = document.createElement("option");
-    option.value = day;
-    option.textContent = day;
+    option.value = String(day).padStart(2, "0"); // 두 자릿수로 표시
+    option.textContent = String(day).padStart(2, "0");
     daySelect.appendChild(option);
   }
 };
-
 // 연도 또는 월이 변경될 때마다 일 수를 업데이트
 yearSelect.addEventListener("change", updateDays);
 monthSelect.addEventListener("change", updateDays);
