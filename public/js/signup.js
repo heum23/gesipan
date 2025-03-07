@@ -222,6 +222,7 @@ const signup = () => {
     age: `${year}-${month}-${day}`,
     number: `${phone1}-${phone2}-${phone3}`,
     address: address + " " + detailAddress,
+    loginType: "local",
   };
 
   console.log(data, "---");
@@ -234,6 +235,7 @@ const signup = () => {
   })
     .then((res) => {
       console.log("회원가입 성공");
+      window.location.href = "/";
     })
     .catch((e) => {
       console.error("회원가입 실패", e);

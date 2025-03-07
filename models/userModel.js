@@ -17,7 +17,6 @@ const users = (sequelize) => {
       },
       password: {
         type: DataTypes.STRING(255),
-        allowNull: false,
       },
       name: {
         type: DataTypes.STRING(10),
@@ -31,11 +30,13 @@ const users = (sequelize) => {
       },
       number: {
         type: DataTypes.STRING(25),
-        allowNull: false,
       },
       gender: {
         type: DataTypes.STRING(11),
         allowNull: false,
+      },
+      loginType: {
+        type: DataTypes.STRING(10),
       },
       createdAt: {
         type: DataTypes.DATE,

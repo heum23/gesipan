@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- 네이버 로그인 라이브러리 CDN -->
+    <script
+      type="text/javascript"
+      src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+      charset="utf-8"
+    ></script>
+
+    <!-- jQuery -->
+    <script
+      type="text/javascript"
+      src="http://code.jquery.com/jquery-1.11.3.min.js"
+    ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,8 +40,9 @@
           required
         />
       </div>
-      <div id="message"></div>
-
+      <!-- 네이버 로그인 버튼 노출 영역 -->
+      <div id="naver_id_login"></div>
+      <!-- //네이버 로그인 버튼 노출 영역 -->
       <div type="button" id="login_btn" onclick="login()">로그인</div>
       <div>
         <div class="auth-links">
@@ -42,4 +55,16 @@
     </form>
   </body>
   <script src="/public/js/login.js"></script>
+
+  <script>
+    var naver_id_login = new naver_id_login(
+      "r2e3fx9D8K59Ki8e_0U8",
+      "http://localhost:3000/"
+    );
+    var state = naver_id_login.getUniqState();
+    naver_id_login.setButton("green", 3, 40);
+    naver_id_login.setDomain("http://localhost:3000");
+    naver_id_login.setState(state);
+    naver_id_login.init_naver_id_login();
+  </script>
 </html>

@@ -16,7 +16,6 @@ module.exports = {
       },
       password: {
         type: DataTypes.STRING(255), // ✅ 비밀번호는 해싱 후 길어질 수 있으므로 255 추천
-        allowNull: false,
       },
       name: {
         type: DataTypes.STRING(10),
@@ -30,11 +29,13 @@ module.exports = {
       },
       number: {
         type: DataTypes.STRING(25),
-        allowNull: false,
       },
       gender: {
         type: DataTypes.STRING(11),
         allowNull: false,
+      },
+      loginType: {
+        type: DataTypes.STRING(10),
       },
       createdAt: {
         type: DataTypes.DATE,
