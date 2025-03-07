@@ -62,12 +62,11 @@
     const tokenCookie = cookies.find((item) =>
       item.trim().startsWith("token=")
     );
-
     const token = tokenCookie.split("token=")[1];
 
     axios({
       method: "post",
-      url: "/free/token",
+      url: "/user/token",
       headers: {
         Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 담아서 전송
       },

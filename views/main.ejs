@@ -18,21 +18,19 @@
   </head>
   <style></style>
   <body>
-    <header>
-      <div class="headerWrap">
-        <div class="headerLeft">
-          <div class="logo leftLogo">TALKTALK</div>
+    <header id="header">
+      <div class="headerLeft">
+        <div class="logo leftLogo">TALKTALK</div>
+      </div>
+      <div class="headerCenter">
+        <div class="logo centerLogo">TALKTALK</div>
+      </div>
+      <div class="headerRight">
+        <div class="heart">
+          <img src="/public/img/heartEmpty.png" alt="heart" />
         </div>
-        <div class="headerCenter">
-          <div class="logo centerLogo">TALKTALK</div>
-        </div>
-        <div class="headerRight">
-          <div class="heart">
-            <img src="/public/img/heartEmpty.png" alt="heart" />
-          </div>
-          <div class="login">login</div>
-          <div class="signup">signup</div>
-        </div>
+        <div class="login" id="loginBtn">login</div>
+        <div class="signup" id="signupBtn">signup</div>
       </div>
     </header>
 
@@ -41,8 +39,13 @@
       <img src="" alt="" class="bannerImg" />
     </div>
 
+    <div id="mainTitleMessage">
+      <p>Where Conversations Happen!</p>
+    </div>
+
     <!-- 메인 -->
     <div class="main">
+      <div class="category"></div>
       <div class="postWrap"></div>
     </div>
   </body>
