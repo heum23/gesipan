@@ -62,11 +62,12 @@
     const tokenCookie = cookies.find((item) =>
       item.trim().startsWith("token=")
     );
+
     const token = tokenCookie.split("token=")[1];
 
     axios({
       method: "post",
-      url: "/user/token",
+      url: "/free/token",
       headers: {
         Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 담아서 전송
       },
@@ -144,9 +145,8 @@
         },
       })
         .then((res) => {
-          console.log("ddddddd");
-          // alert(res.data.message);
-          // window.location.reload(); // 등록 성공하면 새로고침
+          alert(res.data.message);
+          window.location.href = "/";
         })
         .catch((e) => {
           console.error(e);

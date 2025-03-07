@@ -1,4 +1,5 @@
-let emailDC = false;
+let emailDC = false; // 이메일 중복 검사 유효성 변수
+// 이메일 중복 검사
 const emailCheck = () => {
   const emailInput = document.querySelector("#email");
   const email = emailInput.value;
@@ -202,7 +203,6 @@ function disabledCheck() {
 const signup = () => {
   const email = document.querySelector("#email").value;
   const password = document.querySelector("#password").value;
-  // const passwordCheck = document.querySelector("#passwordCheck").value;
   const name = document.querySelector("#name").value;
   const gender = document.querySelector('input[name="gender"]:checked')?.value; // 성별 라디오 버튼에서 선택된 값
   const year = document.querySelector("#year").value;

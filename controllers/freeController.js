@@ -20,9 +20,9 @@ const writeData = async (req, res) => {
       likecnt,
       categoryId,
     });
-    console.log("등록 성공");
+
     res.json({
-      message: "글쓰기 등록 완료",
+      message: "글쓰기 등록이 완료되었습니다.",
     });
   } catch (e) {
     console.log(e, "e");
