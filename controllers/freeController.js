@@ -3,6 +3,7 @@ const { User, free } = require("../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config(); // 환경 변수 로드
 const SECRET = process.env.SECRET; // 환경 변수 가져오기
+
 // 글쓰기 등록
 const writeData = async (req, res) => {
   let { title, detail, userId, likecnt, categoryId } = req.body;
@@ -48,4 +49,20 @@ const tokenCheck = async (req, res) => {
   }
 };
 
-module.exports = { writeData, tokenCheck };
+// 메인페이지 모든 게시글 보기
+const postData = async (req, res) => {
+  try {
+    const posts = await free.findAll();
+
+    if (posts.length === 0) {
+      return res.json({ message: "게시글이 없습니다." });
+    }
+
+    res.json({ post: posts });
+  } catch (e) {
+    console.error("DB 조회 오류:", e);
+    res.status(500).json({ message: "서버 오류" });
+  }
+};
+
+module.exports = { writeData, tokenCheck, postData };

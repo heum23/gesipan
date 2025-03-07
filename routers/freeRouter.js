@@ -33,7 +33,7 @@ const upload = multer({ storage });
 
 router.post("/writing", upload.single("img"), freeController.writeData);
 
-router.post("/posting", freeController.postAll);
+router.post("/posting", freeController.postData);
 
 router.post("/token", freeController.tokenCheck);
 
