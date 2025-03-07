@@ -47,5 +47,12 @@ const tokenCheck = async (req, res) => {
     console.log(e);
   }
 };
-
-module.exports = { writeData, tokenCheck };
+const postAll = async (req, res) => {
+  try {
+    const allPost = await free.findall();
+    res.json({ allPost });
+  } catch {
+    console.log("erroer");
+  }
+};
+module.exports = { writeData, tokenCheck, postAll };
