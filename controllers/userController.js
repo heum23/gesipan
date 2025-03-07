@@ -9,9 +9,13 @@ const SECRET = process.env.SECRET; // 환경 변수 가져오기
 const postUser = async (req, res) => {
   let { email, password, name, address, age, number, gender } = req.body; // 회원가입 폼 데이터
   let hashPw = "";
+  let loginType = "";
   if (password) {
     const salt = await bcrypt.genSalt(10); // 솔트 생성
     hashPw = await bcrypt.hash(password, salt); // 비밀번호 암호화
+    loginType = "local";
+  } else {
+    loginType = "naver";
   }
   try {
     // 데이터 저장
@@ -23,6 +27,7 @@ const postUser = async (req, res) => {
       age,
       number,
       gender,
+      loginType,
     });
 
     res.json({
@@ -60,9 +65,11 @@ const login = async (req, res) => {
     if (!loginId) {
       return res.json({ message: "아이디가 존재하지 않습니다." });
     }
-    const isMatch = await bcrypt.compare(password, loginId.password);
-    if (!isMatch) {
-      return res.json({ message: "비밀번호가 올바르지 않습니다." });
+    if (password) {
+      const isMatch = await bcrypt.compare(password, loginId.password);
+      if (!isMatch) {
+        return res.json({ message: "비밀번호가 올바르지 않습니다." });
+      }
     }
     const token = jwt.sign({ id: loginId.email }, SECRET);
     res.cookie("token", token, {

@@ -2,13 +2,8 @@
 <html lang="en">
   <head>
     <script
-      type="text/javascript"
-      src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+      src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"
       charset="utf-8"
-    ></script>
-    <script
-      type="text/javascript"
-      src="http://code.jquery.com/jquery-1.11.3.min.js"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8" />
@@ -87,30 +82,37 @@
     });
   </script>
   <script>
-    var naver_id_login = new naver_id_login(
-      "r2e3fx9D8K59Ki8e_0U8",
-      "http://localhost:3000/"
-    );
-    // 접근 토큰 값 출력
-    // alert(naver_id_login.oauthParams.access_token);
-    // 네이버 사용자 프로필 조회
-    naver_id_login.get_naver_userprofile("naverSignInCallback()");
-
-    // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
-    function naverSignInCallback() {
-      let userId = naver_id_login.getProfileData("email");
-      let name = naver_id_login.getProfileData("name");
-      let gender = naver_id_login.getProfileData("gender");
-      axios({
-        method: "post",
-        url: "/user/emailCheck",
-        data: { email: userId },
-      }).then((res) => {
-        if (res.data.message) {
-          alert("가입되지 않은 아이디입니다.");
-          window.location.href = "/signup";
-        }
-      });
-    }
+    const naverLogin = new naver.LoginWithNaverId({
+      clientId: "r2e3fx9D8K59Ki8e_0U8",
+      callbackUrl: "http://localhost:3000/",
+      loginButton: { color: "green", type: 2, height: 40 },
+    });
+    naverLogin.getLoginStatus(function (status) {
+      if (status) {
+        const email = naverLogin.user.getEmail();
+        const name = naverLogin.user.getName();
+        const birthyear = naverLogin.user.getBirthyear();
+        const birthday = naverLogin.user.getBirthday();
+        console.log(email, name, birthyear, birthday);
+        axios({
+          method: "post",
+          url: "/user/emailCheck",
+          data: { email: email },
+        }).then((res) => {
+          if (res.data.message) {
+            alert("가입되지 않은 아이디입니다.");
+            window.location.href = `/signup`;
+          } else {
+            axios({
+              method: "post",
+              url: "/user/login",
+              data: { email: email },
+            }).then((res) => {
+              console.log(res.data.token);
+            });
+          }
+        });
+      }
+    });
   </script>
 </html>
