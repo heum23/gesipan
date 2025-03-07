@@ -81,7 +81,7 @@ body {
 .post {
   display: flex;
   align-items: flex-start;
-  padding: 20px;
+  padding: 20px 30px;
   margin-bottom: 20px;
   border-bottom: 1px solid #ddd;
 }
@@ -102,6 +102,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column; /* 제목과 내용을 세로로 배치 */
+  padding: 0 20px;
 }
 
 .postText h3 {

@@ -1,13 +1,19 @@
 // 스크롤 시 헤더 변화
 window.addEventListener("scroll", function () {
   const header = document.getElementById("header");
+  const leftLogo = this.document.querySelector(".leftLogo");
+  const centerLogo = this.document.querySelector(".centerLogo");
   console.log(header);
 
   if (window.scrollY > 50) {
     // 50px 이상 스크롤 내리면
     header.classList.add("scroll");
+    leftLogo.style.opacity = "0";
+    centerLogo.style.opacity = "1";
   } else {
     header.classList.remove("scroll");
+    leftLogo.style.opacity = "1";
+    centerLogo.style.opacity = "0";
   }
 });
 // 메인페이지 모든 게시글 보기
