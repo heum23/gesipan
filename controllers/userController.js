@@ -8,8 +8,11 @@ const SECRET = process.env.SECRET; // 환경 변수 가져오기
 // 회원가입 유저 등록
 const postUser = async (req, res) => {
   let { email, password, name, address, age, number, gender } = req.body; // 회원가입 폼 데이터
-  const salt = await bcrypt.genSalt(10); // 솔트 생성
-  const hashPw = await bcrypt.hash(password, salt); // 비밀번호 암호화
+  let hashPw = "";
+  if (password) {
+    const salt = await bcrypt.genSalt(10); // 솔트 생성
+    hashPw = await bcrypt.hash(password, salt); // 비밀번호 암호화
+  }
   try {
     // 데이터 저장
     const newUser = await User.create({

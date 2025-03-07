@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script
+      type="text/javascript"
+      src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
+      charset="utf-8"
+    ></script>
+    <script
+      type="text/javascript"
+      src="http://code.jquery.com/jquery-1.11.3.min.js"
+    ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="/public/css/main.css" />
   </head>
+  <style></style>
   <body>
     <header>
       <div class="headerWrap">
@@ -31,6 +41,14 @@
     </div>
 
     <div class="main"></div>
+
+    회원가입 로그인 id 찾기 pw 찾기 비밀번호 수정 게시판 카테코리 게시판 좋아요
+    이름 페이지네이션 로그인 상태면 로그아웃
+    <!-- 메인페이지 (css) => 게시글로 이동  -->
+    (id)게시글 등록 ==> (category DB 테이블 채우기 ) 에디터(첫번쨰 src find)
+    뮬터(이미지) 좋아요 갯수보여주기 로그인 한 사람만 (쿠키 아이디 있는지 검사 )
+    상세페이지 => 좋아요 (쿠키 아이디 있는지 검사) 내정보란
+    <div id="message"></div>
   </body>
   <script>
     window.addEventListener("scroll", function () {
@@ -41,5 +59,32 @@
         headerWrap.classList.remove("scroll");
       }
     });
+  </script>
+  <script>
+    var naver_id_login = new naver_id_login(
+      "r2e3fx9D8K59Ki8e_0U8",
+      "http://localhost:3000/"
+    );
+    // 접근 토큰 값 출력
+    // alert(naver_id_login.oauthParams.access_token);
+    // 네이버 사용자 프로필 조회
+    naver_id_login.get_naver_userprofile("naverSignInCallback()");
+
+    // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+    function naverSignInCallback() {
+      let userId = naver_id_login.getProfileData("email");
+      let name = naver_id_login.getProfileData("name");
+      let gender = naver_id_login.getProfileData("gender");
+      axios({
+        method: "post",
+        url: "/user/emailCheck",
+        data: { email: userId },
+      }).then((res) => {
+        if (res.data.message) {
+          alert("가입되지 않은 아이디입니다.");
+          window.location.href = "/signup";
+        }
+      });
+    }
   </script>
 </html>
