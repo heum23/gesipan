@@ -78,6 +78,10 @@ app.get("/myPost", (req, res) => {
   res.render("mypost");
 });
 
+// app.get("/detail", (req, res) => {
+//   res.render("detail");
+// });
+
 app.listen(port, () => {
   console.log(port, "번 포트에서 대기 중");
 });

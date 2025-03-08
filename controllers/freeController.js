@@ -52,7 +52,7 @@ const tokenCheck = async (req, res) => {
 // 메인페이지 모든 게시글 보기
 const postData = async (req, res) => {
   try {
-    const posts = await free.findAll();
+    const posts = await free.findAll({});
 
     if (posts.length === 0) {
       return res.json({ message: "게시글이 없습니다." });
@@ -65,4 +65,21 @@ const postData = async (req, res) => {
   }
 };
 
-module.exports = { writeData, tokenCheck, postData };
+// 상세페이지 보기
+const postOne = async (req, res) => {
+  // return;
+  try {
+    const post = await free.findOne({ where: { id: req.params.id } });
+
+    if (!post) {
+      return res.status(404).json({ message: "게시글을 찾을 수 없습니다." });
+    }
+
+    res.render("detail", { post });
+  } catch (err) {
+    console.error("게시글을 가져오는 데 오류가 발생했습니다:", err);
+    res.status(500).send("서버 내부 오류");
+  }
+};
+
+module.exports = { writeData, tokenCheck, postData, postOne };

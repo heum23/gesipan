@@ -35,6 +35,8 @@ router.post("/writing", upload.single("img"), freeController.writeData);
 
 router.post("/posting", freeController.postData);
 
+router.get("/detail/:id", freeController.postOne);
+
 router.post("/token", freeController.tokenCheck);
 
 module.exports = router;
