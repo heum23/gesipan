@@ -77,7 +77,9 @@ app.get("/mine", (req, res) => {
 app.get("/myPost", (req, res) => {
   res.render("mypost");
 });
-
+app.get("/check", (req, res) => {
+  res.render("check");
+});
 app.listen(port, () => {
   console.log(port, "번 포트에서 대기 중");
 });
