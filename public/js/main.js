@@ -37,7 +37,9 @@ const postAll = () => {
       postWrap.innerHTML = posts
         .map((post) => {
           const newDate = new Date(post.updatedAt).toISOString().split("T")[0];
-          return `<div class="post">
+          return `<div class="post" id="post_${post.id}" onclick="postDetail(${
+            post.id
+          })">
                 <div><img class="postImg" src="${
                   post.img || "/public/img/heartFull.png"
                 }" alt="image" /></div>
@@ -46,6 +48,7 @@ const postAll = () => {
                   <p>${newDate}</p>
                   <p>${post.detail}</p>
                 </div>
+
               </div>
             `;
         })
@@ -129,3 +132,26 @@ const checkLoginStatus = () => {
 };
 
 checkLoginStatus();
+
+const postDetail = (id) => {
+  const post = document.querySelector(".post");
+
+  axios({
+    method: "get",
+    url: `/free/detail/${id}`,
+  })
+    .then((res) => {
+      console.log(res.data.post);
+      window.location.href = `/free/detail/${id}`;
+    })
+    .catch((e) => {
+      if (e.response && e.response.status === 404) {
+        // 게시글을 찾을 수 없는 경우
+        alert("게시글을 찾을 수 없습니다.");
+      } else {
+        // 서버 에러나 다른 오류 처리
+        console.error("Failed to fetch post details:", e);
+        alert("게시글을 가져오는 데 문제가 발생했습니다.");
+      }
+    });
+};
