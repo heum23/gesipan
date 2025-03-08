@@ -188,25 +188,50 @@
 
       const myData = () => {
         let cookies = document.cookie.split(";");
+        const naverCookie = cookies.find((item) =>
+          item.includes("naverToken=")
+        );
         const tokenCookie = cookies.find((item) =>
           item.trim().startsWith("token=")
         );
-        if (!tokenCookie) {
+        if (!tokenCookie && !naverCookie) {
           main.innerHTML = `로그인 후 이용가능합니다`;
           return;
         }
-        const token = tokenCookie.split("token=")[1];
-
-        axios({
-          method: "post",
-          url: "/user/token",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }).then((res) => {
-          if (res.data.user) {
+        if (naverCookie) {
+          const token = naverCookie.split("naverToken=")[1];
+          axios({
+            method: "post",
+            url: "/user/token",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }).then((res) => {
+            console.log(res);
             let user = res.data.user;
             main.innerHTML += `<div class='container'>
+              <div class='text'>이름 : ${user.name}</div>
+              <div class='text'>email : ${user.email}</div>
+              <div class='text'> 전화번호 : ${user.number}</div>
+              <div onclick = 'myPost()' class='text'> 작성한 게시물</div>
+              <div class='text'>좋아요 한 게시물</div>
+              </div>
+            `;
+          });
+        }
+        if (tokenCookie) {
+          const token = tokenCookie.split("token=")[1];
+
+          axios({
+            method: "post",
+            url: "/user/token",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }).then((res) => {
+            if (res.data.user.loginType === "local") {
+              let user = res.data.user;
+              main.innerHTML += `<div class='container'>
               <div class='text'>이름 : ${user.name}</div>
               <div class='text'>email : ${user.email}</div>
               <div class='text'  style="cursor:pointer;">비밀번호 : <button class="changePwBtn" onclick="changePw()">변경하기</button></div>
@@ -215,15 +240,24 @@
               <div class='text'>좋아요 한 게시물</div>
               </div>
             `;
-            document.querySelector(
-              ".btnDiv"
-            ).innerHTML = `<button onclick="changeNewPw(${user.id})" class="btn" id="changePwBtn" disabled>
+              document.querySelector(
+                ".btnDiv"
+              ).innerHTML = `<button onclick="changeNewPw(${user.id})" class="btn" id="changePwBtn" disabled>
               비밀번호 변경
             </button>`;
-          } else {
-            main.innerHTML = `로그인 후 이용가능합니다`;
-          }
-        });
+            } else if (res.data.user.loginType === "naver") {
+              let user = res.data.user;
+              main.innerHTML += `<div class='container'>
+              <div class='text'>이름 : ${user.name}</div>
+              <div class='text'>email : ${user.email}</div>
+              <div class='text'> 전화번호 : ${user.number}</div>
+              <div onclick = 'myPost()' class='text'> 작성한 게시물</div>
+              <div class='text'>좋아요 한 게시물</div>
+              </div>
+            `;
+            }
+          });
+        }
       };
       myData();
 

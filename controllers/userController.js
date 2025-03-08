@@ -2,7 +2,7 @@ const { User } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config(); // 환경 변수 로드
-
+const axios = require("axios");
 const SECRET = process.env.SECRET; // 환경 변수 가져오기
 
 // 회원가입 유저 등록
@@ -146,6 +146,36 @@ const tokenCheck = async (req, res) => {
     res.json({ message: "로그인 O", user: userFind });
   }
 };
+const checkToken = async (req, res) => {
+  if (req.body) {
+    try {
+      const access_token = req.body.accessToken;
+      const response = await axios.get(`https://openapi.naver.com/v1/nid/me`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+      console.log(response);
+      const token = jwt.sign({ id: response.data.response.email }, SECRET);
+      res.cookie("naverToken", token, {
+        httpOnly: false, // 클라이언트에서 JavaScript로 쿠키에 접근하지 못하게 설정
+        secure: false,
+        sameSite: "strict",
+        maxAge: 60 * 60 * 1000, // 1시간 동안 유효한 쿠키
+      });
+      res.json({
+        email: response.data.response.email,
+        name: response.data.response.name,
+        gender: response.data.response.gender,
+        number: response.data.response.mobile,
+        birthday: response.data.response.birthday,
+        birthyear: response.data.response.birthyear,
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+};
 module.exports = {
   postUser,
   idFind,
@@ -154,4 +184,5 @@ module.exports = {
   login,
   updatePw,
   tokenCheck,
+  checkToken,
 };

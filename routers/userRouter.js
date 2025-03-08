@@ -9,5 +9,5 @@ router.post("/findPw", userController.pwFind);
 router.post("/updatePw", userController.updatePw);
 router.post("/login", userController.login);
 router.post("/token", userController.tokenCheck);
-
+router.post("/checktoken", userController.checkToken);
 module.exports = router;

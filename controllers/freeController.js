@@ -40,7 +40,7 @@ const tokenCheck = async (req, res) => {
     const myPost = await free.findAll({
       where: { userId: userFind.id },
     }); // 작성한 게시글 찾아오기
-    if (!myPost) {
+    if (myPost.length === 0) {
       return res.json({ message: "작성한 게시글이 없습니다." });
     } // 작성한 게시글 없을 때
     res.json({ post: myPost, name: userFind.name }); //있을 때

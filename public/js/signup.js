@@ -235,7 +235,7 @@ const signup = () => {
   })
     .then((res) => {
       console.log("회원가입 성공");
-      window.location.href = "/";
+      window.location.href = "/login";
     })
     .catch((e) => {
       console.error("회원가입 실패", e);

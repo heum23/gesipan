@@ -45,34 +45,68 @@
       const tokenCookie = cookies.find((item) =>
         item.trim().startsWith("token=")
       );
-      const token = tokenCookie.split("token=")[1];
-
-      axios({
-        method: "post",
-        url: "/free/token",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((res) => {
-          if (res.data.post) {
-            res.data.post.map((item) => {
-              const newDate = new Date(item.updatedAt)
-                .toISOString()
-                .split("T")[0];
-              main.innerHTML += `<div class="table">
+      const naverCookie = cookies.find((item) =>
+        item.trim().startsWith("naverToken=")
+      );
+      if (naverCookie) {
+        const token = naverCookie.split("naverToken=")[1];
+        axios({
+          method: "post",
+          url: "/free/token",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((res) => {
+            if (res.data.post) {
+              res.data.post.map((item) => {
+                const newDate = new Date(item.updatedAt)
+                  .toISOString()
+                  .split("T")[0];
+                main.innerHTML += `<div class="table">
                 <div class='imgDiv'><img class='img' src="${item.img}"></div>
                 <div>${item.title}</div>
                 <div class='name'> ${res.data.name}</div>
                 <div class="date">수정한 날짜 :${newDate}</div></div>`;
-            });
-          } else {
-            main.innerHTML = `${res.data.message}`;
-          }
+              });
+            } else {
+              main.innerHTML = `${res.data.message}`;
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+      if (tokenCookie) {
+        const token = tokenCookie.split("token=")[1];
+
+        axios({
+          method: "post",
+          url: "/free/token",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         })
-        .catch((e) => {
-          console.log(e);
-        });
+          .then((res) => {
+            if (res.data.post) {
+              res.data.post.map((item) => {
+                const newDate = new Date(item.updatedAt)
+                  .toISOString()
+                  .split("T")[0];
+                main.innerHTML += `<div class="table">
+                <div class='imgDiv'><img class='img' src="${item.img}"></div>
+                <div>${item.title}</div>
+                <div class='name'> ${res.data.name}</div>
+                <div class="date">수정한 날짜 :${newDate}</div></div>`;
+              });
+            } else {
+              main.innerHTML = `${res.data.message}`;
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
     };
     myData();
   </script>

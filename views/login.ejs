@@ -33,6 +33,7 @@
           required
         />
       </div>
+      <div id="message"></div>
       <!-- 네이버 로그인 버튼 노출 영역 -->
       <div id="naverIdLogin"></div>
       <!-- //네이버 로그인 버튼 노출 영역 -->
@@ -52,7 +53,7 @@
   <script>
     const naverLogin = new naver.LoginWithNaverId({
       clientId: "r2e3fx9D8K59Ki8e_0U8",
-      callbackUrl: "http://localhost:3000/",
+      callbackUrl: "http://localhost:3000/check",
       loginButton: { color: "green", type: 2, height: 40 },
     });
     naverLogin.init(); // 로그인 설정

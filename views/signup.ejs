@@ -181,73 +181,63 @@
 
     // 네이버 사용자 프로필 조회
     // naver_id_login.get_naver_userprofile("naverSignInCallback()");
-
-    // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
-    naverLogin.getLoginStatus(function (status) {
-      if (status) {
+    function getAccessToken() {
+      const hash = window.location.hash.substring(1);
+      const params = new URLSearchParams(hash);
+      const token = params.get("access_token");
+      axios.post("/user/checktoken", { accessToken: token }).then((res) => {
+        console.log(res.data);
         let password = document.getElementById("password");
         let passwordCheck = document.getElementById("passwordCheck");
         let emailNaver = document.getElementById("email");
         let nameNaver = document.getElementById("name");
-        const email = naverLogin.user.getEmail();
-        const name = naverLogin.user.getName();
-        const birthyear = naverLogin.user.getBirthyear();
-        const birthday = naverLogin.user.getBirthday();
-        const gender = naverLogin.user.getGender();
-        console.log(email, name, birthday);
-        emailNaver.value = email;
-        nameNaver.value = name;
+        emailNaver.value = res.data.email;
+        nameNaver.value = res.data.name;
         password.setAttribute("readonly", true);
         passwordCheck.setAttribute("readonly", true);
         emailNaver.setAttribute("readonly", true);
         nameNaver.setAttribute("readonly", true);
-        if (gender === "F") {
+        if (res.data.gender === "F") {
           document.querySelector(
             'input[name="gender"][value="female"]'
           ).checked = true;
-        } else if (gender === "M") {
+        } else if (res.data.gender === "M") {
           document.querySelector(
             'input[name="gender"][value="male"]'
           ).checked = true;
         }
-        if (birthyear) {
-          document.getElementById("year").value = birthyear; // 출생연도 설정
+        if (res.data.birthyear) {
+          document.getElementById("year").value = res.data.birthyear; // 출생연도 설정
           document.getElementById("year").setAttribute("readonly", true); // 읽기 전용 설정
         }
 
-        if (birthday) {
-          let [month, day] = birthday.split("-");
+        if (res.data.birthday) {
+          let [month, day] = res.data.birthday.split("-");
           document.getElementById("month").value = String(parseInt(month)); // 월 설정
           updateDays();
           document.getElementById("day").value = String(parseInt(day));
           document.getElementById("month").setAttribute("readonly", true); // 읽기 전용 설정
           document.getElementById("day").setAttribute("readonly", true); // 읽기 전용 설정
         }
-      }
-      (emailD = true),
-        (passD = true),
-        (passCheckD = true),
-        (nameD = true),
-        (emailDC = true);
-    });
+        const phoneNumber = res.data.number; // res.data.number 값을 받아야 함
+        const [first, second, third] = phoneNumber.split("-");
 
-    // axios({
-    //   method: "post",
-    //   url: "http://localhost:3000/user/signup",
-    //   data: {
-    //     email: userId,
-    //     name: name,
-    //     gender: gender === "M" ? "male" : "female",
-    //     loginType: "naver",
-    //   },
-    // }).then((res) => {
-    //   console.log(res.data.message);
-    //   if (res.data.message === "회원가입 성공!") {
-    //     alert(res.data.message);
-    //     window.location.href = "/";
-    //   }
-    //   // });
-    // }
+        document.getElementById("phone1").value = first;
+        document.getElementById("phone2").value = second;
+        document.getElementById("phone3").value = third;
+        (emailD = true),
+          (passD = true),
+          (passCheckD = true),
+          (nameD = true),
+          (phoneD1 = true),
+          (phoneD2 = true),
+          (phoneD3 = true);
+        document.getElementById("phone1").setAttribute("readonly", true);
+        document.getElementById("phone2").setAttribute("readonly", true);
+        document.getElementById("phone3").setAttribute("readonly", true);
+      });
+    }
+    getAccessToken();
   </script>
   <!-- js -->
   <script src="/public/js/signup.js"></script>

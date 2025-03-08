@@ -249,7 +249,6 @@
         url: "/user/findPw",
         data: { email: email },
       }).then((res) => {
-        console.log(res.data);
         if (!res.data.data) {
           showPw.innerHTML = `${res.data.message}`;
           newPw.classList.add("none");
