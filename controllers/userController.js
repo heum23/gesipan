@@ -147,6 +147,71 @@ const tokenCheck = async (req, res) => {
     res.json({ message: "로그인 O", user: userFind });
   }
 };
+const kakaoToken = (req, res) => {
+  const { code } = req.body;
+
+  // 카카오 REST API 키 및 리다이렉트 URI
+  const clientId = "49deb31dffc0b3dd248d2bdcee1a9984"; // 카카오 REST API 키
+  const redirectUri = "http://localhost:3000/kakaocheck"; // 리다이렉트 URI
+
+  // 카카오 액세스 토큰 요청
+  axios
+    .post("https://kauth.kakao.com/oauth/token", null, {
+      params: {
+        grant_type: "authorization_code",
+        client_id: clientId,
+        redirect_uri: redirectUri,
+        code: code,
+      },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    })
+    .then((response) => {
+      const accessToken = response.data.access_token;
+      axios
+        .get("https://kapi.kakao.com/v2/user/me", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then(async (userInfo) => {
+          const name = userInfo.data.kakao_account.profile.nickname;
+          const email = userInfo.data.kakao_account.email;
+          console.log("사용자 정보:", email); // 사용자 정보 출력
+          const findId = await User.findOne({
+            where: { email: email }, // number 필드로 검색
+          });
+          if (findId !== null) {
+            const token = jwt.sign({ id: email }, SECRET);
+            res.cookie("token", token, {
+              httpOnly: false, // 클라이언트에서 JavaScript로 쿠키에 접근하지 못하게 설정
+              secure: false,
+              sameSite: "strict",
+              maxAge: 60 * 60 * 1000, // 1시간 동안 유효한 쿠키
+            });
+            res.json({
+              email: email,
+            });
+          } else {
+            res.json({
+              message: "등록되지 않은 아이디입니다.",
+              email: email,
+              name: name,
+            });
+          }
+        })
+        .catch((err) => {
+          console.error("사용자 정보 요청 실패:", err);
+          res.status(500).send("사용자 정보 요청 실패"); // 상태 코드 500과 함께 에러 메시지 반환
+        });
+    })
+    .catch((error) => {
+      console.error("엑세스 토큰 요청 실패:", error);
+      res.status(500).send("엑세스 토큰 요청 실패"); // 상태 코드 500과 함께 에러 메시지 반환
+    });
+};
+
 const checkToken = async (req, res) => {
   if (req.body) {
     try {
@@ -176,34 +241,22 @@ const checkToken = async (req, res) => {
           birthyear: response.data.response.birthyear,
         });
       } else {
-        res.json({ message: "등록되지 않은 아이디입니다." });
+        res.json({
+          message: "등록되지 않은 아이디입니다.",
+          email: response.data.response.email,
+          name: response.data.response.name,
+          gender: response.data.response.gender,
+          number: response.data.response.mobile,
+          birthday: response.data.response.birthday,
+          birthyear: response.data.response.birthyear,
+        });
       }
     } catch (e) {
       console.error(e);
     }
   }
 };
-const signupNaver = async (req, res) => {
-  try {
-    console.log(req.body.accessToken, "dfsasa");
-    const access_token = req.body.accessToken;
-    const response = await axios.get(`https://openapi.naver.com/v1/nid/me`, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
-    res.json({
-      email: response.data.response.email,
-      name: response.data.response.name,
-      gender: response.data.response.gender,
-      number: response.data.response.mobile,
-      birthday: response.data.response.birthday,
-      birthyear: response.data.response.birthyear,
-    });
-  } catch (e) {
-    console.log(e);
-  }
-};
+
 module.exports = {
   postUser,
   idFind,
@@ -213,5 +266,5 @@ module.exports = {
   updatePw,
   tokenCheck,
   checkToken,
-  signupNaver,
+  kakaoToken,
 };
