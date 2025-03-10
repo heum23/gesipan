@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script
-      src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"
-      charset="utf-8"
-    ></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+      Kakao.init("d0dd311168368be5e1739ca82f4edf68"); // 사용하려는 앱의 JavaScript 키 입력
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -175,68 +175,34 @@
   </body>
   <script src="/public/js/signup.js"></script>
   <script>
-    function getAccessToken() {
-      const hash = window.location.hash.substring(1);
-      const params = new URLSearchParams(hash);
-      const token = params.get("access_token");
-      axios.post("/user/checktoken", { accessToken: token }).then((res) => {
-        if (!res.data.message) {
-          window.location.href = "/";
-        } else {
-          document.querySelector("body").classList.remove("none");
-          alert(res.data.message);
-          let password = document.getElementById("password");
-          let passwordCheck = document.getElementById("passwordCheck");
-          let emailNaver = document.getElementById("email");
-          let nameNaver = document.getElementById("name");
-          emailNaver.value = res.data.email;
-          nameNaver.value = res.data.name;
-          password.setAttribute("readonly", true);
-          passwordCheck.setAttribute("readonly", true);
-          emailNaver.setAttribute("readonly", true);
-          nameNaver.setAttribute("readonly", true);
-          if (res.data.gender === "F") {
-            document.querySelector(
-              'input[name="gender"][value="female"]'
-            ).checked = true;
-          } else if (res.data.gender === "M") {
-            document.querySelector(
-              'input[name="gender"][value="male"]'
-            ).checked = true;
-          }
-          if (res.data.birthyear) {
-            document.getElementById("year").value = res.data.birthyear; // 출생연도 설정
-            document.getElementById("year").setAttribute("readonly", true); // 읽기 전용 설정
-          }
-
-          if (res.data.birthday) {
-            let [month, day] = res.data.birthday.split("-");
-            document.getElementById("month").value = String(parseInt(month)); // 월 설정
-            updateDays();
-            document.getElementById("day").value = String(parseInt(day));
-            document.getElementById("month").setAttribute("readonly", true); // 읽기 전용 설정
-            document.getElementById("day").setAttribute("readonly", true); // 읽기 전용 설정
-          }
-          const phoneNumber = res.data.number; // res.data.number 값을 받아야 함
-          const [first, second, third] = phoneNumber.split("-");
-
-          document.getElementById("phone1").value = first;
-          document.getElementById("phone2").value = second;
-          document.getElementById("phone3").value = third;
-          (emailD = true),
-            (passD = true),
-            (passCheckD = true),
-            (nameD = true),
-            (phoneD1 = true),
-            (phoneD2 = true),
-            (phoneD3 = true);
-          document.getElementById("phone1").setAttribute("readonly", true);
-          document.getElementById("phone2").setAttribute("readonly", true);
-          document.getElementById("phone3").setAttribute("readonly", true);
-        }
-      });
-    }
-
-    getAccessToken();
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code"); // URL에서 'code' 파라미터 추출
+    console.log(code); // 확인
+    axios({
+      method: "post",
+      url: "/user/kakaoToken",
+      data: { code },
+      headers: {
+        "Content-Type": "application/json", // 헤더 설정
+      },
+    }).then((res) => {
+      if (!res.data.message) {
+        window.location.href = "/";
+      } else {
+        document.querySelector("body").classList.remove("none");
+        alert(res.data.message);
+        let password = document.getElementById("password");
+        let passwordCheck = document.getElementById("passwordCheck");
+        let emailNaver = document.getElementById("email");
+        let nameNaver = document.getElementById("name");
+        emailNaver.value = res.data.email;
+        nameNaver.value = res.data.name;
+        emailNaver.setAttribute("readonly", true);
+        password.setAttribute("readonly", true);
+        passwordCheck.setAttribute("readonly", true);
+        nameNaver.setAttribute("readonly", true);
+        (emailD = true), (passD = true), (passCheckD = true), (nameD = true);
+      }
+    });
   </script>
 </html>

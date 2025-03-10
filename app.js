@@ -80,8 +80,8 @@ app.get("/myPost", (req, res) => {
 app.get("/check", (req, res) => {
   res.render("check");
 });
-app.get("/free/detail", (req, res) => {
-  res.render("detail");
+app.get("/kakaocheck", (req, res) => {
+  res.render("kakaocheck");
 });
 
 app.listen(port, () => {

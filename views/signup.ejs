@@ -2,6 +2,11 @@
 <html lang="en">
   <head>
     <script
+      src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.0/kakao.min.js"
+      integrity="sha384-l+xbElFSnPZ2rOaPrU//2FF5B4LB8FiX5q4fXYTlfcG4PGpMkE1vcL7kNXI6Cci0"
+      crossorigin="anonymous"
+    ></script>
+    <script
       src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"
       charset="utf-8"
     ></script>
@@ -167,83 +172,18 @@
         <!-- 네이버 로그인 버튼 노출 영역 -->
         <div id="naverIdLogin"></div>
         <!-- //네이버 로그인 버튼 노출 영역 -->
+        <a id="kakao-login-btn" href="javascript:loginWithKakao()">
+          <img
+            src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg"
+            width="222"
+            alt="카카오 로그인 버튼"
+          />
+        </a>
       </form>
     </div>
     <footer></footer>
   </body>
-  <script>
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: "r2e3fx9D8K59Ki8e_0U8",
-      callbackUrl: "http://localhost:3000/signup",
-      loginButton: { color: "green", type: 2, height: 40 },
-    });
-    naverLogin.init(); // 로그인 설정
 
-    // 네이버 사용자 프로필 조회
-    // naver_id_login.get_naver_userprofile("naverSignInCallback()");
-    function getAccessToken() {
-      const hash = window.location.hash.substring(1);
-      const params = new URLSearchParams(hash);
-      const token = params.get("access_token");
-      axios.post("/user/checktoken2", { accessToken: token }).then((res) => {
-        console.log(res.data);
-        let password = document.getElementById("password");
-        let passwordCheck = document.getElementById("passwordCheck");
-        let emailNaver = document.getElementById("email");
-        let nameNaver = document.getElementById("name");
-        emailNaver.value = res.data.email;
-        nameNaver.value = res.data.name;
-        password.setAttribute("readonly", true);
-        passwordCheck.setAttribute("readonly", true);
-        emailNaver.setAttribute("readonly", true);
-        nameNaver.setAttribute("readonly", true);
-        if (res.data.gender === "F") {
-          document.querySelector(
-            'input[name="gender"][value="female"]'
-          ).checked = true;
-        } else if (res.data.gender === "M") {
-          document.querySelector(
-            'input[name="gender"][value="male"]'
-          ).checked = true;
-        }
-        if (res.data.birthyear) {
-          document.getElementById("year").value = res.data.birthyear; // 출생연도 설정
-          document.getElementById("year").setAttribute("readonly", true); // 읽기 전용 설정
-        }
-
-        if (res.data.birthday) {
-          let [month, day] = res.data.birthday.split("-");
-          document.getElementById("month").value = String(parseInt(month)); // 월 설정
-          updateDays();
-          document.getElementById("day").value = String(parseInt(day));
-          document.getElementById("month").setAttribute("readonly", true); // 읽기 전용 설정
-          document.getElementById("day").setAttribute("readonly", true); // 읽기 전용 설정
-        }
-        const phoneNumber = res.data.number; // res.data.number 값을 받아야 함
-        const [first, second, third] = phoneNumber.split("-");
-
-        document.getElementById("phone1").value = first;
-        document.getElementById("phone2").value = second;
-        document.getElementById("phone3").value = third;
-        (emailD = true),
-          (passD = true),
-          (passCheckD = true),
-          (nameD = true),
-          (phoneD1 = true),
-          (phoneD2 = true),
-          (phoneD3 = true);
-        document.getElementById("phone1").setAttribute("readonly", true);
-        document.getElementById("phone2").setAttribute("readonly", true);
-        document.getElementById("phone3").setAttribute("readonly", true);
-      });
-    }
-    window.addEventListener("load", () => {
-      if (!window.accessTokenFetched) {
-        window.accessTokenFetched = true; // 중복 실행 방지
-        getAccessToken();
-      }
-    });
-  </script>
   <!-- js -->
   <script src="/public/js/signup.js"></script>
   <!-- 주소 api 라이브러리 -->
