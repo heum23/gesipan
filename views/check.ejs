@@ -12,44 +12,17 @@
   </head>
   <body>
     <script>
-      // const naverLogin = new naver.LoginWithNaverId({
-      //   clientId: "r2e3fx9D8K59Ki8e_0U8",
-      //   callbackUrl: "http://localhost:3000/check",
-      //   loginButton: { color: "green", type: 2, height: 40 },
-      // });
-      // naverLogin.getLoginStatus(function (status) {
-      //   if (status) {
-      //     const email = naverLogin.user.getEmail();
-      //     const name = naverLogin.user.getName();
-      //     const birthyear = naverLogin.user.getBirthyear();
-      //     const birthday = naverLogin.user.getBirthday();
-      //     console.log(email, name, birthyear, birthday);
-      //     axios({
-      //       method: "post",
-      //       url: "/user/emailCheck",
-      //       data: { email: email },
-      //     }).then((res) => {
-      //       if (res.data.message) {
-      //         alert("가입되지 않은 아이디입니다.");
-      //         window.location.href = `/signup`;
-      //       } else {
-      //         axios({
-      //           method: "post",
-      //           url: "/user/login",
-      //           data: { email: email },
-      //         }).then((res) => {
-      //           console.log(res.data.token);
-      //         });
-      //       }
-      //     });
-      //   }
-      // });
       function getAccessToken() {
         const hash = window.location.hash.substring(1);
         const params = new URLSearchParams(hash);
         const token = params.get("access_token");
         axios.post("/user/checktoken", { accessToken: token }).then((res) => {
-          window.location.href = "/";
+          if (!res.data.message) {
+            window.location.href = "/";
+          } else {
+            alert(res.data.message);
+            window.location.href = "/signup";
+          }
         });
       }
       getAccessToken();

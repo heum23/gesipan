@@ -185,7 +185,7 @@
       const hash = window.location.hash.substring(1);
       const params = new URLSearchParams(hash);
       const token = params.get("access_token");
-      axios.post("/user/checktoken", { accessToken: token }).then((res) => {
+      axios.post("/user/checktoken2", { accessToken: token }).then((res) => {
         console.log(res.data);
         let password = document.getElementById("password");
         let passwordCheck = document.getElementById("passwordCheck");
@@ -237,7 +237,12 @@
         document.getElementById("phone3").setAttribute("readonly", true);
       });
     }
-    getAccessToken();
+    window.addEventListener("load", () => {
+      if (!window.accessTokenFetched) {
+        window.accessTokenFetched = true; // 중복 실행 방지
+        getAccessToken();
+      }
+    });
   </script>
   <!-- js -->
   <script src="/public/js/signup.js"></script>

@@ -136,6 +136,7 @@ const updatePw = async (req, res) => {
 
 const tokenCheck = async (req, res) => {
   const token = req.headers["authorization"].split(" ")[1];
+  console.log(token);
   const token1 = jwt.verify(token, SECRET);
   const userFind = await User.findOne({
     where: { email: token1.id },
@@ -155,25 +156,52 @@ const checkToken = async (req, res) => {
           Authorization: `Bearer ${access_token}`,
         },
       });
-      console.log(response);
-      const token = jwt.sign({ id: response.data.response.email }, SECRET);
-      res.cookie("naverToken", token, {
-        httpOnly: false, // 클라이언트에서 JavaScript로 쿠키에 접근하지 못하게 설정
-        secure: false,
-        sameSite: "strict",
-        maxAge: 60 * 60 * 1000, // 1시간 동안 유효한 쿠키
+      const findId = await User.findOne({
+        where: { email: response.data.response.email }, // number 필드로 검색
       });
-      res.json({
-        email: response.data.response.email,
-        name: response.data.response.name,
-        gender: response.data.response.gender,
-        number: response.data.response.mobile,
-        birthday: response.data.response.birthday,
-        birthyear: response.data.response.birthyear,
-      });
+      if (findId !== null) {
+        const token = jwt.sign({ id: response.data.response.email }, SECRET);
+        res.cookie("token", token, {
+          httpOnly: false, // 클라이언트에서 JavaScript로 쿠키에 접근하지 못하게 설정
+          secure: false,
+          sameSite: "strict",
+          maxAge: 60 * 60 * 1000, // 1시간 동안 유효한 쿠키
+        });
+        res.json({
+          email: response.data.response.email,
+          name: response.data.response.name,
+          gender: response.data.response.gender,
+          number: response.data.response.mobile,
+          birthday: response.data.response.birthday,
+          birthyear: response.data.response.birthyear,
+        });
+      } else {
+        res.json({ message: "등록되지 않은 아이디입니다." });
+      }
     } catch (e) {
       console.error(e);
     }
+  }
+};
+const signupNaver = async (req, res) => {
+  try {
+    console.log(req.body.accessToken, "dfsasa");
+    const access_token = req.body.accessToken;
+    const response = await axios.get(`https://openapi.naver.com/v1/nid/me`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    res.json({
+      email: response.data.response.email,
+      name: response.data.response.name,
+      gender: response.data.response.gender,
+      number: response.data.response.mobile,
+      birthday: response.data.response.birthday,
+      birthyear: response.data.response.birthyear,
+    });
+  } catch (e) {
+    console.log(e);
   }
 };
 module.exports = {
@@ -185,4 +213,5 @@ module.exports = {
   updatePw,
   tokenCheck,
   checkToken,
+  signupNaver,
 };
