@@ -33,11 +33,7 @@ const free = (sequelize) => {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      likecnt: {
-        type: DataTypes.INTEGER(10),
-        allowNull: true, // 좋아요 수는 없을 수 있으므로 allowNull을 true로 설정
-        defaultValue: 0, // 기본값을 0으로 설정
-      },
+
       categoryId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,

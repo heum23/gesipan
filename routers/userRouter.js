@@ -10,4 +10,5 @@ router.post("/updatePw", userController.updatePw);
 router.post("/login", userController.login);
 router.post("/token", userController.tokenCheck);
 router.post("/checktoken", userController.checkToken);
+router.post("/checktoken2", userController.signupNaver);
 module.exports = router;
