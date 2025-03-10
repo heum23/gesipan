@@ -35,8 +35,12 @@ router.post("/writing", upload.single("img"), freeController.writeData);
 
 router.post("/posting", freeController.postData);
 
+router.post("/token", freeController.tokenCheck);
+
 router.get("/detail/:id", freeController.postOne);
 
-router.post("/token", freeController.tokenCheck);
+router.get("/updatePage/:id", freeController.moveUpdate); // 페이지 이동
+
+router.delete("/delete/:id", freeController.deleteData);
 
 module.exports = router;

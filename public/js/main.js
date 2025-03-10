@@ -44,21 +44,39 @@ const postAll = () => {
                   post.img || "/public/img/heartFull.png"
                 }" alt="image" /></div>
                 <div class="postText">
+                  <div>${post.userName}</div>
                   <h3>${post.title}</h3>
-                  <p>${newDate}</p>
-                  <p>${post.detail}</p>
+                  <div>${newDate}</div>
+                  <div class="detail">${post.detail}</div>
                 </div>
 
               </div>
             `;
         })
         .join(""); // 배열을 문자열로 결합
+
+      // 메인게시글 내용 글자 수 제한
+      const postDetails = document.querySelectorAll(".detail");
+      postDetails.forEach((detail) => {
+        showText(detail, 200); // 200자로 제한
+      });
     })
     .catch((e) => {
       console.error("게시글을 가져오는 데 실패했습니다:", e);
     });
 };
+
 postAll();
+
+// 메인게시글 내용 글자 수 제한(...으로 축약)
+showText = (detail, maxLength) => {
+  const originalText = detail.innerText;
+
+  if (originalText.length > maxLength) {
+    const showText = originalText.substring(0, maxLength) + "...";
+    detail.innerText = showText;
+  }
+};
 
 // 토큰 유무에 따른 헤더 버튼 변경
 // 로그인 <--> 로그아웃 / 회원가입 <--> 내정보
@@ -141,7 +159,7 @@ const postDetail = (id) => {
     url: `/free/detail/${id}`,
   })
     .then((res) => {
-      console.log(res.data.post);
+      // console.log(res.data.post);
       window.location.href = `/free/detail/${id}`;
     })
     .catch((e) => {

@@ -118,11 +118,22 @@ body {
   color: #333;
 }
 
-.postText p {
+.postText div {
   margin: 5px 0 0;
   font-size: 14px;
   color: #666;
 }
+
+/* css로 글자 수 제한(...축약)으로 보이게 하는 방법 (몇 줄 제한) */
+/* .detail {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  color: #333;
+} */
 
 .like img {
   width: 20px;

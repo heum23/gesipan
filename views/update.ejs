@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Editor's Style -->
+    <link
+      rel="stylesheet"
+      href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff4e6; /* 살구색 배경 */
+      margin: 0;
+      padding: 100px;
+    }
+
+    .Container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #ffdab9; /* 살구색 계열 배경 */
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .imgBox {
+      background-color: #ffdab9; /* 살구색 계열 배경 */
+      padding: 20px;
+      text-align: center;
+    }
+
+    #prevContainer {
+      cursor: pointer;
+      width: 250px;
+      height: 300px;
+      margin: 0 auto;
+      border: 2px dashed #ff8c00; /* 밝은 오렌지색 테두리 */
+      border-radius: 8px;
+      position: relative;
+      background-color: #ffe4b5; /* 밝은 살구색 배경 */
+    }
+
+    #prevImg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    #placeholder {
+      display: block;
+      color: #ff8c00; /* 밝은 오렌지색 */
+      font-size: 18px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .textBox {
+      background-color: #ffdab9; /* 살구색 계열 배경 */
+      padding: 20px;
+    }
+
+    #category,
+    #title {
+      width: 100%; /* 제목 인풋 너비 100%로 조정 */
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ff8c00;
+      font-size: 16px;
+      color: #555;
+      box-sizing: border-box;
+    }
+
+    #category {
+      background-color: #ffe4b5;
+    }
+
+    #title {
+      background-color: #fffaf0;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      background-color: #ff8c00; /* 버튼 살구색 */
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff7f32; /* 버튼 hover 효과 */
+    }
+
+    /* 미디어 쿼리 추가 (반응형 디자인) */
+    @media (max-width: 600px) {
+      .imgBox,
+      .textBox {
+        padding: 15px;
+      }
+
+      #prevContainer {
+        width: 100%;
+        height: auto;
+        padding-top: 100%;
+      }
+
+      button {
+        font-size: 16px;
+      }
+    }
+  </style>
+  <body>
+    <div class="Container">
+      <div class="imgBox">
+        <!-- 파일 선택 상자는 숨기고 div 박스 클릭 시 파일 선택 -->
+        <input
+          id="imgFile"
+          type="file"
+          onchange="fileInput(event)"
+          style="display: none"
+        />
+        <!-- 미리보기 박스 클릭 시 파일 선택 상자로 넘어감 -->
+        <div id="prevContainer" onclick="inputPrevImg()">
+          <img
+            id="prevImg"
+            src="<%= post.img %>"
+            alt="미리보기"
+            style="width: 250px; height: 300px; object-fit: cover"
+          />
+          <span id="placeholder" style="display: none"> 이미지 선택 </span>
+        </div>
+      </div>
+      <div class="textBox">
+        <select id="category">
+          <option value="1 || <%= post.categoryId %> " selected>음악</option>
+          <option value="2 || <%= post.categoryId %>" selected>미술</option>
+          <option value="3 || <%= post.categoryId %>" selected>책</option>
+          <option value="4 || <%= post.categoryId %>" selected>여행</option>
+          <option value="5 || <%= post.categoryId %> " selected>
+            반려동물
+          </option></select
+        ><br />
+
+        <input
+          id="title"
+          type="text"
+          placeholder="제목"
+          value="<%= post.title %>"
+        /><br />
+        <div id="detail"></div>
+        <button onclick="updateData()">수정</button>
+      </div>
+    </div>
+  </body>
+  <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+  <script>
+    // let myId = "";
+
+    // let cookies = document.cookie.split(";");
+    // const tokenCookie = cookies.find((item) =>
+    //   item.trim().startsWith("token=")
+    // );
+    // const token = tokenCookie.split("token=")[1];
+
+    // axios({
+    //   method: "post",
+    //   url: "/user/token",
+    //   headers: {
+    //     Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 담아서 전송
+    //   },
+    // }).then((res) => {
+    //   myId = res.data.user.id;
+    // });
+
+    // 토스에디터 설정
+    const editor = new toastui.Editor({
+      el: document.querySelector("#detail"), // 에디터를 적용할 요소 (컨테이너)
+      height: "300px", // 에디터 영역의 높이 값 (OOOpx || auto)
+      initialEditType: "wysiwyg", // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+      initialValue: "<%= post.detail %>", // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+      previewStyle: "vertical", // 마크다운 프리뷰 스타일 (tab || vertical)
+    });
+
+    // 이미지 미리보기
+    const inputPrevImg = () => {
+      document.getElementById("imgFile").click();
+    };
+
+    // 파일을 선택했을 때 미리보기 이미지를 업데이트
+    const fileInput = (event) => {
+      const file = event.target.files[0]; // 선택된 파일
+      const prevImg = document.getElementById("prevImg");
+      const placeholder = document.getElementById("placeholder");
+
+      if (file) {
+        // 사용자가 파일을 선택한 경우에만 실행됨
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          prevImg.src = e.target.result;
+          prevImg.style.display = "block";
+          placeholder.style.display = "none";
+        };
+        // 파일을 데이터 URL 형식으로 읽음 (이미지 파일을 base64 인코딩 형태로 변환)
+        reader.readAsDataURL(file);
+      }
+    };
+  </script>
+</html>
