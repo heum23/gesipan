@@ -6,19 +6,19 @@ const SECRET = process.env.SECRET; // 환경 변수 가져오기
 
 // 글쓰기 등록
 const writeData = async (req, res) => {
-  let { title, detail, userId, likecnt, categoryId } = req.body;
+  let { title, detail, userId, categoryId } = req.body;
   const img = req.file ? `/uploads/${req.file.filename}` : null;
 
-  if (!likecnt) {
-    likecnt = 0;
-  }
+  // if (!likecnt) {
+  //   likecnt = 0;
+  // }
   try {
     const upData = await free.create({
       img,
       title,
       detail,
       userId,
-      likecnt,
+
       categoryId,
     });
 
@@ -155,25 +155,48 @@ const moveUpdate = async (req, res) => {
   try {
     // 수정하려는 게시글의 데이터를 가져옵니다.
     const post = await free.findOne({
-      where: { id: req.params.id }, // URL에서 id를 가져와 해당 게시글을 찾음
+      where: { id: req.params.id },
     });
-
-    console.log(post);
 
     // 게시글이 없다면 오류 처리
     if (!post) {
       return res.status(404).send("게시글을 찾을 수 없습니다.");
     }
     // 수정할 폼에 표시할 데이터를 전달합니다.
-    res.render("update", { post }); // 'writing' 템플릿에 post 데이터를 전달
+    res.render("update", { post });
   } catch (e) {
     console.error("서버 오류:", e);
     res.status(500).send("서버 오류");
   }
-  // res.send("준비중...");
 };
 
 // 수정한 글 업데이트
+const updateData = async (req, res) => {
+  const { title, detail, userId, categoryId } = req.body;
+
+  let img;
+
+  // 파일이 새로 업로드되었을 경우
+  if (req.file) {
+    img = `/uploads/${req.file.filename}`;
+  } else {
+    img = req.body.img; // 기존 이미지 경로 사용
+  }
+
+  try {
+    const post = await free.update(
+      { img, title, detail, userId, categoryId },
+      {
+        where: { id: req.params.id },
+      }
+    );
+
+    res.json({ message: "수정완료 되었습니다" });
+  } catch (e) {
+    console.log(e, "error error error");
+    res.json({ message: "수정에 문제가 생겼습니다" });
+  }
+};
 
 module.exports = {
   writeData,
@@ -182,4 +205,5 @@ module.exports = {
   postOne,
   deleteData,
   moveUpdate,
+  updateData,
 };

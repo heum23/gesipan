@@ -41,6 +41,8 @@ router.get("/detail/:id", freeController.postOne);
 
 router.get("/updatePage/:id", freeController.moveUpdate); // 페이지 이동
 
+router.put("/update/:id", upload.single("img"), freeController.updateData);
+
 router.delete("/delete/:id", freeController.deleteData);
 
 module.exports = router;

@@ -162,30 +162,39 @@
           value="<%= post.title %>"
         /><br />
         <div id="detail"></div>
-        <button onclick="updateData()">수정</button>
+        <button onclick="updateData('<%= post.id%>')">수정</button>
       </div>
     </div>
   </body>
   <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
   <script>
-    // let myId = "";
+    let myId = "<%= post.userId %>";
+    console.log(myId);
+    let cookies = document.cookie.split(";");
+    const tokenCookie = cookies.find((item) =>
+      item.trim().startsWith("token=")
+    );
 
-    // let cookies = document.cookie.split(";");
-    // const tokenCookie = cookies.find((item) =>
-    //   item.trim().startsWith("token=")
-    // );
-    // const token = tokenCookie.split("token=")[1];
+    if (!tokenCookie) {
+      alert("로그인이 만료되었습니다");
+      window.location.href = "/login";
+    } else {
+      const token = tokenCookie.split("token=")[1];
 
-    // axios({
-    //   method: "post",
-    //   url: "/user/token",
-    //   headers: {
-    //     Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 담아서 전송
-    //   },
-    // }).then((res) => {
-    //   myId = res.data.user.id;
-    // });
+      axios({
+        method: "post",
+        url: "/user/token",
+        headers: {
+          Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 담아서 전송
+        },
+      }).then((res) => {
+        // myId = res.data.user.id;
+        if (res.data.message === "로그인 X") {
+          alert(res.data.message);
+        }
+      });
+    }
 
     // 토스에디터 설정
     const editor = new toastui.Editor({
@@ -218,6 +227,53 @@
         // 파일을 데이터 URL 형식으로 읽음 (이미지 파일을 base64 인코딩 형태로 변환)
         reader.readAsDataURL(file);
       }
+    };
+
+    const updateData = (id) => {
+      const fileInput = document.getElementById("imgFile");
+      const img = fileInput.files[0];
+      const title = document.getElementById("title").value;
+      const detail = editor.getMarkdown();
+      const userId = myId;
+      //const category = document.getElementById("category").value;
+      const category = `<%= post.categoryId %>`;
+      const categoryId = Number(category);
+      const originalImg = `<%= post.img %>`;
+
+      const formData = new FormData();
+
+      if (img) {
+        formData.append("img", img);
+      } else {
+        formData.append("img", originalImg);
+      }
+
+      formData.append("title", title);
+      formData.append("detail", detail);
+      formData.append("userId", userId);
+      formData.append("categoryId", categoryId);
+
+      // FormData의 내용을 확인하기 위해 forEach 사용
+      formData.forEach((value, key) => {
+        console.log(key, value); // key와 value를 출력
+      });
+
+      axios({
+        method: "put",
+        url: `/free/update/${id}`,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data", // 파일 전송을 위한 설정
+        },
+      })
+        .then((res) => {
+          alert(res.data.message);
+          window.location.href = `/free/detail/${id}`;
+        })
+        .catch((e) => {
+          console.log(e, "e");
+          alert(res.data.message);
+        });
     };
   </script>
 </html>
