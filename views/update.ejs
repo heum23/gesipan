@@ -146,13 +146,18 @@
       </div>
       <div class="textBox">
         <select id="category">
-          <option value="1 || <%= post.categoryId %> " selected>음악</option>
-          <option value="2 || <%= post.categoryId %>" selected>미술</option>
-          <option value="3 || <%= post.categoryId %>" selected>책</option>
-          <option value="4 || <%= post.categoryId %>" selected>여행</option>
-          <option value="5 || <%= post.categoryId %> " selected>
-            반려동물
-          </option></select
+          <% const categories = [ { id: 1, name: "음악" }, { id: 2, name: "미술"
+          }, { id: 3, name: "책" }, { id: 4, name: "여행" }, { id: 5, name:
+          "반려동물" } ]; %> <% for (let i = 0; i < categories.length; i++) { %>
+          <% if (categories[i].id === post.categoryId) { %>
+          <option value="<%= categories[i].id %>" selected>
+            <%= categories[i].name %>
+          </option>
+          <% } else { %>
+          <option value="<%= categories[i].id %>">
+            <%= categories[i].name %>
+          </option>
+          <% } %> <% } %></select
         ><br />
 
         <input
@@ -169,7 +174,7 @@
   <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
   <script>
-    let myId = "<%= post.userId %>";
+    let myId = "<%= post.userId %>"; // 로그인한 사용자의 id(INTEGER)
     console.log(myId);
     let cookies = document.cookie.split(";");
     const tokenCookie = cookies.find((item) =>
@@ -201,7 +206,7 @@
       el: document.querySelector("#detail"), // 에디터를 적용할 요소 (컨테이너)
       height: "300px", // 에디터 영역의 높이 값 (OOOpx || auto)
       initialEditType: "wysiwyg", // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-      initialValue: "<%= post.detail %>", // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+      initialValue: `<%= post.detail.replace(/<\/?[^>]+(>|$)/g, "") %>`, // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
       previewStyle: "vertical", // 마크다운 프리뷰 스타일 (tab || vertical)
     });
 
@@ -235,8 +240,8 @@
       const title = document.getElementById("title").value;
       const detail = editor.getMarkdown();
       const userId = myId;
-      //const category = document.getElementById("category").value;
-      const category = `<%= post.categoryId %>`;
+      const category = document.getElementById("category").value;
+      // const category = `<%= post.categoryId %>`;
       const categoryId = Number(category);
       const originalImg = `<%= post.img %>`;
 

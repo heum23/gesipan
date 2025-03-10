@@ -174,12 +174,13 @@ const moveUpdate = async (req, res) => {
 const updateData = async (req, res) => {
   const { title, detail, userId, categoryId } = req.body;
 
-  let img;
+  let img; // 이미지 변수
 
-  // 파일이 새로 업로드되었을 경우
+  // 파일을 업로드 되었을 경우
   if (req.file) {
     img = `/uploads/${req.file.filename}`;
   } else {
+    // 파일을 바꾸지 않을 경우
     img = req.body.img; // 기존 이미지 경로 사용
   }
 
@@ -191,7 +192,7 @@ const updateData = async (req, res) => {
       }
     );
 
-    res.json({ message: "수정완료 되었습니다" });
+    res.json({ message: "수정 완료되었습니다" });
   } catch (e) {
     console.log(e, "error error error");
     res.json({ message: "수정에 문제가 생겼습니다" });

@@ -83,7 +83,7 @@ showText = (detail, maxLength) => {
 loginBtn.addEventListener("click", () => {
   if (loginBtn.textContent === "login") {
     // 마이페이지로 이동 (로그아웃 상태에서)
-    window.location.href = "/login"; // 예시로 마이페이지로 이동
+    window.location.href = "/login"; // 로그인 페이지로 이동
   } else {
     // 메인페이지로 이동 (로그인 상태에서)
     window.location.reload();
@@ -94,10 +94,10 @@ loginBtn.addEventListener("click", () => {
 signupBtn.addEventListener("click", () => {
   if (signupBtn.textContent === "mypage") {
     // 마이페이지로 이동 (로그인 상태에서)
-    window.location.href = "/mine"; // 예시로 마이페이지로 이동
+    window.location.href = "/mine"; // 마이페이지로 이동
   } else {
     // 회원가입 페이지로 이동 (비로그인 상태에서)
-    window.location.href = "/signup"; // 예시로 회원가입 페이지로 이동
+    window.location.href = "/signup"; // 회원가입 페이지로 이동
   }
 });
 const checkLoginStatus = () => {
