@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="main"></div>
+  </body>
+  <script>
+    const main = document.querySelector(".main");
+    const myData = () => {
+      let cookies = document.cookie.split(";");
+      const tokenCookie = cookies.find((item) =>
+        item.trim().startsWith("token=")
+      );
+      if (tokenCookie) {
+        const token = tokenCookie.split("token=")[1];
+
+        axios({
+          method: "post",
+          url: "/like/token",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((res) => {
+            if (res.data.data) {
+              res.data.data.map((item) => {
+                axios({
+                  method: "post",
+                  url: "/like/post",
+                  data: { id: item.postId },
+                }).then((res) => {
+                  main.innerHTML += `<div class="table">
+                <div class='imgDiv'><img src = '${res.data.post.img}'></div>
+                <div class='name'> ${res.data.post.title}</div>
+                 <div>${res.data.post.detail}</div>
+               `;
+                });
+              });
+            } else {
+              main.innerHTML = `${res.data.message}`;
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    };
+    myData();
+  </script>
+</html>
