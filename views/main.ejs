@@ -66,15 +66,26 @@
       </div>
       <div class="postWrap"></div>
     </div>
+    <footer id="footer">
+      <div class="footerLogo"></div>
+      <div class="footerInfo">
+        <div>대표 박소현 진순흠</div>
+        <div>주소 서울특별시 마포구 숭문 4길 6</div>
+        <div>사업자 등록번호 000-00-00000</div>
+        <br />
+        <div>Copyright ⓒ 2025 TALKTALK All rights reserved.</div>
+      </div>
+      <div class="footerSNS"></div>
+    </footer>
   </body>
   <script>
+    // 글쓰기 버튼 클릭 시
     const create = () => {
       let cookies = document.cookie.split(";");
       const tokenCookie = cookies.find((item) =>
         item.trim().startsWith("token=")
       );
 
-      console.log(tokenCookie, "----------");
       if (tokenCookie) {
         const token = tokenCookie.split("token=")[1];
         console.log(token, "token");
