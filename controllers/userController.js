@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config(); // 환경 변수 로드
 const axios = require("axios");
+const { where } = require("sequelize");
 const SECRET = process.env.SECRET; // 환경 변수 가져오기
 
 // 회원가입 유저 등록
@@ -133,7 +134,15 @@ const updatePw = async (req, res) => {
     console.log(e, "error");
   }
 };
-
+const updateAdress = (req, res) => {
+  try {
+    const { id, address } = req.body;
+    User.update({ address: address }, { where: { id } });
+    res.json({ message: "성공" });
+  } catch (e) {
+    console.log(e);
+  }
+};
 const tokenCheck = async (req, res) => {
   const token = req.headers["authorization"].split(" ")[1];
   console.log(token);
@@ -267,4 +276,5 @@ module.exports = {
   tokenCheck,
   checkToken,
   kakaoToken,
+  updateAdress,
 };

@@ -26,9 +26,6 @@ const tokenCheck = () => {
         const postElement = document.querySelector(".mainWrap");
         const postUserId = postElement.getAttribute("data-user-id");
 
-        console.log("myId: ", myId);
-        console.log("postUserId: ", postUserId);
-
         // myId와 postUserId를 비교하여 삭제 버튼을 보이게 함
         if (myId === Number(postUserId)) {
           document.getElementById("editBtn").style.display = "block"; // 수정 버튼 보이기

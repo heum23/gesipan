@@ -5,6 +5,7 @@ const port = 3000;
 const cookieParser = require("cookie-parser");
 const userRouter = require("./routers/userRouter");
 const freeRouter = require("./routers/freeRouter");
+const likeRouter = require("./routers/likeRouter");
 const multer = require("multer");
 // 세부설정
 const storage = multer.diskStorage({
@@ -48,6 +49,8 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 app.use("/user", userRouter);
 app.use("/free", freeRouter);
+app.use("/user", userRouter);
+app.use("/like", likeRouter);
 require("./models/index");
 
 app.get("/", (req, res) => {
@@ -73,17 +76,21 @@ app.get("/find", (req, res) => {
 app.get("/mine", (req, res) => {
   res.render("mine");
 });
-
+//내가 작성한 게시글
 app.get("/myPost", (req, res) => {
   res.render("mypost");
 });
+//네이버 로그인
 app.get("/check", (req, res) => {
   res.render("check");
 });
+//카카오로그인
 app.get("/kakaocheck", (req, res) => {
   res.render("kakaocheck");
 });
-
+app.get("/myheart", (req, res) => {
+  res.render("myheart");
+});
 app.listen(port, () => {
   console.log(port, "번 포트에서 대기 중");
 });

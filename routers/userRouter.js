@@ -11,5 +11,5 @@ router.post("/login", userController.login);
 router.post("/token", userController.tokenCheck);
 router.post("/checktoken", userController.checkToken);
 router.post("/kakaoToken", userController.kakaoToken);
-
+router.post("/updateAdress", userController.updateAdress);
 module.exports = router;

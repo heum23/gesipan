@@ -7,32 +7,37 @@
     <title>Document</title>
   </head>
   <style>
-    .main {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+    body {
+      font-family: "Arial", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fae0c2;
     }
+
+    .main {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+    }
+
+    .img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+
     .table {
       display: flex;
-      width: 75%;
-      aspect-ratio: 8/1;
-      justify-content: space-between;
-      align-items: center;
     }
-    .img {
-      width: 100%;
-      height: auto;
+    .title {
+      font-weight: bold;
+      font-size: 20px;
     }
-    .imgDiv {
-      width: 300px;
-    }
-    .name {
-      font-size: 12px;
-    }
-    .date {
-      font-size: 12px;
+    .text {
+      font-size: 16px;
     }
   </style>
   <body>
@@ -45,38 +50,6 @@
       const tokenCookie = cookies.find((item) =>
         item.trim().startsWith("token=")
       );
-      const naverCookie = cookies.find((item) =>
-        item.trim().startsWith("naverToken=")
-      );
-      if (naverCookie) {
-        const token = naverCookie.split("naverToken=")[1];
-        axios({
-          method: "post",
-          url: "/free/token",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-          .then((res) => {
-            if (res.data.post) {
-              res.data.post.map((item) => {
-                const newDate = new Date(item.updatedAt)
-                  .toISOString()
-                  .split("T")[0];
-                main.innerHTML += `<div class="table">
-                <div class='imgDiv'><img class='img' src="${item.img}"></div>
-                <div>${item.title}</div>
-                <div class='name'> ${res.data.name}</div>
-                <div class="date">수정한 날짜 :${newDate}</div></div>`;
-              });
-            } else {
-              main.innerHTML = `${res.data.message}`;
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
       if (tokenCookie) {
         const token = tokenCookie.split("token=")[1];
 
@@ -93,11 +66,17 @@
                 const newDate = new Date(item.updatedAt)
                   .toISOString()
                   .split("T")[0];
-                main.innerHTML += `<div class="table">
+                main.innerHTML += `<div onclick='postDetail(${item.id})' class="table">
                 <div class='imgDiv'><img class='img' src="${item.img}"></div>
-                <div>${item.title}</div>
-                <div class='name'> ${res.data.name}</div>
-                <div class="date">수정한 날짜 :${newDate}</div></div>`;
+                <div>
+                  <div class='name text'> ${res.data.name}</div>
+                <div class='title'>${item.title}</div>
+                <div class="date text">수정한 날짜 :${newDate}</div>
+                <div class='detail text'>${item.detail}</div></div></div>`;
+              });
+              const postDetails = document.querySelectorAll(".detail");
+              postDetails.forEach((detail) => {
+                showText(detail, 200); // 200자로 제한
               });
             } else {
               main.innerHTML = `${res.data.message}`;
@@ -109,5 +88,25 @@
       }
     };
     myData();
+    const postDetail = (id) => {
+      axios({
+        method: "get",
+        url: `/free/detail/${id}`,
+      })
+        .then((res) => {
+          // console.log(res.data.post);
+          window.location.href = `/free/detail/${id}`;
+        })
+        .catch((e) => {
+          if (e.response && e.response.status === 404) {
+            // 게시글을 찾을 수 없는 경우
+            alert("게시글을 찾을 수 없습니다.");
+          } else {
+            // 서버 에러나 다른 오류 처리
+            console.error("Failed to fetch post details:", e);
+            alert("게시글을 가져오는 데 문제가 발생했습니다.");
+          }
+        });
+    };
   </script>
 </html>

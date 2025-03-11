@@ -45,4 +45,5 @@ router.put("/update/:id", upload.single("img"), freeController.updateData);
 
 router.delete("/delete/:id", freeController.deleteData);
 
+router.get("/heart", freeController.heartCheck);
 module.exports = router;

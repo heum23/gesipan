@@ -1,4 +1,3 @@
-const { name } = require("ejs");
 const { User, free } = require("../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config(); // 환경 변수 로드
@@ -198,6 +197,10 @@ const updateData = async (req, res) => {
   }
 };
 
+const heartCheck = (req, res) => {
+  const { postId, userId } = req.params;
+  console.log(postId, userId);
+};
 module.exports = {
   writeData,
   tokenCheck,
@@ -206,4 +209,5 @@ module.exports = {
   deleteData,
   moveUpdate,
   updateData,
+  heartCheck,
 };
