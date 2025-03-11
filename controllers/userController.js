@@ -187,7 +187,6 @@ const kakaoToken = (req, res) => {
         .then(async (userInfo) => {
           const name = userInfo.data.kakao_account.profile.nickname;
           const email = userInfo.data.kakao_account.email;
-          console.log("사용자 정보:", email); // 사용자 정보 출력
           const findId = await User.findOne({
             where: { email: email }, // number 필드로 검색
           });

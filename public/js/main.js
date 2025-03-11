@@ -16,12 +16,18 @@ window.addEventListener("scroll", function () {
   }
 });
 // 메인페이지 모든 게시글 보기
+const sortSelect = document.querySelector("#sort");
+
 const postAll = () => {
   const postWrap = document.querySelector(".postWrap");
+
+  // 선택된 값 가져오기
+  const type = sortSelect.value;
 
   axios({
     method: "post",
     url: "/free/posting",
+    data: { type },
   })
     .then((res) => {
       const posts = res.data.post;
@@ -69,32 +75,6 @@ const postAll = () => {
 };
 
 postAll();
-
-// 수정한 날짜를 나타내는 형식
-function timeForToday(value) {
-  const today = new Date();
-  const timeValue = new Date(value);
-
-  const betweenTime = Math.floor(
-    (today.getTime() - timeValue.getTime()) / 1000 / 60
-  );
-  if (betweenTime < 1) return "방금전";
-  if (betweenTime < 60) {
-    return `${betweenTime}분전`;
-  }
-
-  const betweenTimeHour = Math.floor(betweenTime / 60);
-  if (betweenTimeHour < 24) {
-    return `${betweenTimeHour}시간전`;
-  }
-
-  const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-  if (betweenTimeDay < 1) {
-    return `${betweenTimeDay}일전`;
-  }
-
-  return timeValue.toLocaleDateString(); // new Date 형식으로 날짜 표시
-}
 
 // 메인게시글 내용 글자 수 제한(...으로 축약)
 showText = (detail, maxLength) => {

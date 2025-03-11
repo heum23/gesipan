@@ -78,6 +78,17 @@ body {
   gap: 10px;
   justify-content: space-between;
 }
+#sort {
+  padding: 5px;
+  width: 120px;
+  border-radius: 10px;
+  color: orange;
+  border: 1.5px solid orange;
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+}
 
 .categoryWrap {
   display: flex;
