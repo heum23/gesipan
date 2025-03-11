@@ -234,10 +234,6 @@ const updateData = async (req, res) => {
   }
 };
 
-const heartCheck = (req, res) => {
-  const { postId, userId } = req.params;
-  console.log(postId, userId);
-};
 module.exports = {
   writeData,
   tokenCheck,
@@ -247,5 +243,4 @@ module.exports = {
   moveUpdate,
   updateData,
   categoryData,
-  heartCheck,
 };
