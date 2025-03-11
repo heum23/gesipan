@@ -106,6 +106,15 @@
     };
     myData();
     const clickHeart = (id) => {
+      let cookies = document.cookie.split(";");
+
+      const tokenCookie = cookies.find((item) =>
+        item.trim().startsWith("token=")
+      );
+      if (!tokenCookie) {
+        alert("로그인 후 가능합니다.");
+        return;
+      }
       axios({
         method: "post",
         url: "/like/postHeart",

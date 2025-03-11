@@ -37,8 +37,6 @@ router.post("/posting", freeController.postData);
 
 router.post("/token", freeController.tokenCheck);
 
-router.get("/category/:categoryId", freeController.categoryData);
-
 router.get("/detail/:id", freeController.postOne);
 
 router.get("/updatePage/:id", freeController.moveUpdate); // 페이지 이동
@@ -47,5 +45,6 @@ router.put("/update/:id", upload.single("img"), freeController.updateData);
 
 router.delete("/delete/:id", freeController.deleteData);
 
-router.get("/heart", freeController.heartCheck);
+router.get("/category/:categoryId", freeController.categoryData);
+
 module.exports = router;

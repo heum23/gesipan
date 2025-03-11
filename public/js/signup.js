@@ -281,7 +281,7 @@ const updateDays = () => {
   // "선택" 옵션 추가
   const defaultOption = document.createElement("option");
   defaultOption.value = "";
-  defaultOption.textContent = "선택";
+  defaultOption.textContent = "DD";
   daySelect.appendChild(defaultOption);
 
   // 1일부터 daysInMonth일까지 옵션 추가
