@@ -28,7 +28,11 @@
       </div>
       <div class="headerRight">
         <div class="heart">
-          <img src="/public/img/heartEmpty.png" alt="heart" />
+          <img
+            onclick="heartMove()"
+            src="/public/img/heartEmpty.png"
+            alt="heart"
+          />
         </div>
         <div class="login" id="loginBtn">login</div>
         <div class="signup" id="signupBtn">signup</div>
@@ -47,6 +51,14 @@
     <!-- 메인 -->
     <div class="main">
       <div class="mainSubBox">
+        <div>
+          <select id="sort">
+            <option value="newest">최신순</option>
+            <option value="oldest">과거순</option>
+            <option value="like-high">좋아요 많은 순</option>
+            <option value="like-low">좋아요 적은 순</option>
+          </select>
+        </div>
         <div class="categoryWrap">
           <button class="category" onclick="categoryType('1')">음악</button>
           <button class="category" onclick="categoryType('2')">영화</button>
@@ -71,6 +83,9 @@
     </footer>
   </body>
   <script>
+    const heartMove = () => {
+      window.location.href = "/myheart";
+    };
     // 글쓰기 버튼 클릭 시
     const create = () => {
       let cookies = document.cookie.split(";");

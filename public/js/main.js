@@ -3,7 +3,6 @@ window.addEventListener("scroll", function () {
   const header = document.getElementById("header");
   const leftLogo = this.document.querySelector(".leftLogo");
   const centerLogo = this.document.querySelector(".centerLogo");
-  console.log(header);
 
   if (window.scrollY > 50) {
     // 50px 이상 스크롤 내리면
@@ -17,16 +16,21 @@ window.addEventListener("scroll", function () {
   }
 });
 // 메인페이지 모든 게시글 보기
+const sortSelect = document.querySelector("#sort");
+
 const postAll = () => {
   const postWrap = document.querySelector(".postWrap");
+
+  // 선택된 값 가져오기
+  const type = sortSelect.value;
 
   axios({
     method: "post",
     url: "/free/posting",
+    data: { type },
   })
     .then((res) => {
       const posts = res.data.post;
-      console.log(posts, "------------");
 
       // 만약 데이터가 없다면 '게시글이 없습니다' 메시지 표시
       if (!posts) {
@@ -71,7 +75,7 @@ const postAll = () => {
 };
 
 postAll();
-
+sortSelect.addEventListener("change", postAll);
 // 메인게시글 내용 글자 수 제한(...으로 축약)
 showText = (detail, maxLength) => {
   const originalText = detail.innerText;

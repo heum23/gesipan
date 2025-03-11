@@ -50,6 +50,20 @@ const tokenCheck = async (req, res) => {
 // 메인페이지 모든 게시글 보기
 const postData = async (req, res) => {
   try {
+    const orderOptions = [];
+    let { type } = req.body;
+    console.log(type);
+    if (type === "newest") {
+      orderOptions.push(["updatedAt", "DESC"]); // 기본 내림차순
+    } else if (type === "oldest") {
+      orderOptions.push(["updatedAt", "ASC"]); // 기본 내림차순
+    } else if (type === "like-high") {
+      orderOptions.push(["updatedAt", "DESC"]);
+    } else if (type === "like-low") {
+      orderOptions.push(["updatedAt", "ASC"]);
+    } else {
+      orderOptions.push(["updatedAt", "DESC"]); // 기본값으로 최신순
+    }
     const posts = await free.findAll({
       include: [
         {
@@ -58,6 +72,7 @@ const postData = async (req, res) => {
           attributes: ["name"], // `User`에서 가져올 필드는 'name'
         },
       ],
+      order: orderOptions, // order 옵션을 추가하여 정렬
     });
 
     if (posts.length === 0) {

@@ -16,7 +16,7 @@
       body {
         margin-top: 100px;
         font-family: "Arial", sans-serif;
-        background-color: #fae0c2;
+        background-color: white;
         padding: 20px;
         display: flex;
         justify-content: center;
@@ -24,31 +24,29 @@
       }
 
       .main {
-        width: 50%;
+        width: 70%;
         background-color: white;
         border-radius: 8px;
-        padding-top: 10px;
         text-align: center;
       }
-
-      .main h2 {
-        font-size: 24px;
-        color: #333;
-        margin-bottom: 20px;
+      .sub {
+        width: 30%;
+        padding-left: 30px;
       }
 
       .container {
-        width: 50%;
-        margin-left: 30px;
-        padding: 20px;
+        padding-top: 20px;
+        width: 100%;
         border-radius: 8px;
       }
 
       .text {
+        width: 100%;
         font-size: 20px;
         color: #555;
         margin-bottom: 20px;
         text-align: left;
+        align-items: center;
       }
 
       .changePw {
@@ -107,8 +105,8 @@
       }
 
       .btn {
-        background-color: #4caf50;
-        color: white;
+        background-color: lightgray;
+        color: whitesmoke;
         padding: 10px;
         border: none;
         cursor: pointer;
@@ -119,7 +117,7 @@
       }
 
       .btn:hover {
-        background-color: #45a049;
+        background-color: gray;
       }
 
       .btn:disabled {
@@ -138,6 +136,7 @@
       }
 
       .changePwBtn {
+        text-align: left;
         background-color: lightgray;
         color: white;
         padding: 8px 16px;
@@ -147,7 +146,6 @@
         border-radius: 5px;
         transition: background 0.3s ease;
         text-align: center;
-        margin-top: 10px;
         font-size: 14px;
       }
 
@@ -167,18 +165,73 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         border-radius: 8px;
         text-align: center;
-        width: 300px;
+        width: 400px;
         aspect-ratio: 1/0.9;
         transition: all 0.3s ease;
       }
       .look {
         margin-top: -10px;
       }
+      .text2 {
+        width: 100%;
+        display: flex;
+        align-items: center;
+      }
+      .edit {
+        position: relative;
+        top: -6px;
+        right: -5px;
+      }
+      .maincontainer {
+        display: flex;
+      }
+      .box {
+        width: 100%;
+        display: flex;
+        overflow: hidden;
+      }
+      .text_xl {
+        font-size: 1.5rem;
+        line-height: 2rem;
+        font-weight: bold;
+      }
+      .text_box {
+        display: flex;
+        flex-direction: column;
+      }
+      .left {
+        text-align: left;
+      }
+      .margin_top_btm {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      .text_L {
+        font-weight: 700;
+        text-align: left;
+      }
+      .btnDiv2 {
+        display: flex;
+        justify-content: flex-start;
+      }
     </style>
   </head>
   <body>
-    <div class="main">
-      <h2>내 정보</h2>
+    <div class="box">
+      <div class="sub">
+        <div class="text_box">
+          <div class="text_xl">마이 페이지</div>
+          <div>
+            <div class="margin_top_btm" onclick="myPost()">
+              내가 작성한 게시글
+            </div>
+            <div onclick="heartMove()">내가 좋아한 게시글</div>
+          </div>
+        </div>
+      </div>
+      <div class="main">
+        <div class="text_xl left">내 정보</div>
+      </div>
     </div>
 
     <!-- ✅ 배경 오버레이 추가 -->
@@ -202,17 +255,14 @@
     <div class="changeAddress none">
       <button class="close-btn" onclick="closeModal(2)">✖</button>
       <div class="pw-container">
-        <div>우편번호</div>
+        <div>주소 찾기</div>
         <input type="text" id="postcode" placeholder="우편번호" required />
         <button class="btn" onclick="execDaumPostcode()">우편번호 찾기</button>
 
-        <div>주소</div>
         <input type="text" id="address" placeholder="주소" />
 
-        <div>상세 주소</div>
         <input type="text" id="detailAddress" placeholder="상세주소" />
 
-        <div>참고 항목</div>
         <input type="text" id="extraAddress" placeholder="참고항목" />
 
         <button class="btn" onclick="updateAddress()">저장</button>
@@ -258,21 +308,30 @@
             let user = res.data.user;
             userId = user.id;
             let addressHTML =
-              user.address.length > 1
-                ? `<div class='text'>주소 : ${user.address} <div><button class='btn' onclick="changePw(2)">수정</button></div></div>`
-                : `<div class='text'>주소 : <div><button class='btn' "onclick="changePw(2)">입력하러 이동</button></div></div>`;
-            console.log(addressHTML);
+              user.address && user.address.trim() !== ""
+                ? `<div class='text2'><div>주소 : ${user.address} </div><div> <button class='btn edit' onclick="changePw(2)">수정</button> </div></div>`
+                : `<div class='text2'><div>주소 :</div> <div><button class='btn edit' onclick="changePw(2)">주소 등록</button></div> </div>`;
+
             if (user.loginType === "local") {
-              main.innerHTML += `<div class='container'>
-              <div class='text'>이름 : ${user.name}</div>
-              <div class='text'>email : ${user.email}</div>
-              <div class='text'  style="cursor:pointer;">비밀번호 : <button class="changePwBtn text" onclick="changePw(1)">변경하기</button></div>
-              <div class='text'> 전화번호 : ${user.number}</div>
-              <div class='text'> ${addressHTML}</div> 
-              <div onclick = 'myPost()' class='text'> 작성한 게시물</div>
-              <div class='text' onclick='heartMove()'>좋아요 한 게시물</div>
+              main.innerHTML += `
+           <div class='container'>
+                 <div class='text_L'>email(ID)</div>
+              <div class='text'> ${user.email}</div>
+               <div class='text_L'>비밀번호</div>
+               <br>
+               <div class='btnDiv2'> <button class="changePwBtn " onclick="changePw(1)">
+                  변경하기
+                </button></div>
+              </div>;
+              <div class='text_L'>전화번호</div>
+              <div class='text'>${user.number}</div>
+              <div class='text_L'>이름</div>
+              <div class='text'>${user.name}</div>
+              <div class='text_L'>주소</div>
+               <div class='text'> ${addressHTML}</div> 
               </div>
             `;
+
               document.querySelector(
                 ".btnDiv"
               ).innerHTML = `<button onclick="changeNewPw(${user.id})" class="btn" id="changePwBtn" disabled>
@@ -280,12 +339,14 @@
             </button>`;
             } else if (user.loginType === "naver") {
               main.innerHTML += `<div class='container'>
-              <div class='text'>이름 : ${user.name}</div>
-              <div class='text'>email : ${user.email}</div>
-              <div class='text'> 전화번호 : ${user.number}</div>
+                 <div class='text_L'>email(ID)</div>
+              <div class='text'> ${user.email}</div>
+              <div class='text_L'>전화번호</div>
+              <div class='text'>${user.number}</div>
+              <div class='text_L'>이름</div>
+              <div class='text'>${user.name}</div>
+              <div class='text_L'>주소</div>
                <div class='text'> ${addressHTML}</div> 
-              <div class='text'>내 게시글 <button class="btn look" onclick="myPost()"> 보기</button></div>
-              <div class='text' onclick='heartMove()'>내가 좋아한 게시글 <button class="btn look" onclick="heartMove()"> 보기</button></div>
               </div>
             `;
             }
