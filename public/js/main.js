@@ -3,7 +3,6 @@ window.addEventListener("scroll", function () {
   const header = document.getElementById("header");
   const leftLogo = this.document.querySelector(".leftLogo");
   const centerLogo = this.document.querySelector(".centerLogo");
-  console.log(header);
 
   if (window.scrollY > 50) {
     // 50px 이상 스크롤 내리면
@@ -26,17 +25,16 @@ const postAll = () => {
   })
     .then((res) => {
       const posts = res.data.post;
-      console.log(posts, "------------");
 
       // 만약 데이터가 없다면 '게시글이 없습니다' 메시지 표시
       if (!posts) {
-        postWrap.innerHTML = "<p>게시글이 없습니다.</p>";
+        postWrap.innerHTML = `<div class="notPost">게시글이 없습니다.</div>`;
         return;
       }
 
       postWrap.innerHTML = posts
         .map((post) => {
-          const newDate = new Date(post.updatedAt).toISOString().split("T")[0];
+          // const newDate = new Date(post.updatedAt).toISOString().split("T")[0];
           return `<div class="post" id="post_${post.id}" onclick="postDetail(${
             post.id
           })">
@@ -46,7 +44,7 @@ const postAll = () => {
                 <div class="postText">
                   <div>${post.userName}</div>
                   <h3>${post.title}</h3>
-                  <div>${newDate}</div>
+                  <div>${timeForToday(post.updatedAt)}</div>
                   <div class="detail">${post.detail}</div>
                   <div class="likeCount">
                     <div class="likeImg"><img src="/public/img/heartFull.png" alt="좋아요" /></div>
@@ -72,6 +70,32 @@ const postAll = () => {
 
 postAll();
 
+// 수정한 날짜를 나타내는 형식
+function timeForToday(value) {
+  const today = new Date();
+  const timeValue = new Date(value);
+
+  const betweenTime = Math.floor(
+    (today.getTime() - timeValue.getTime()) / 1000 / 60
+  );
+  if (betweenTime < 1) return "방금전";
+  if (betweenTime < 60) {
+    return `${betweenTime}분전`;
+  }
+
+  const betweenTimeHour = Math.floor(betweenTime / 60);
+  if (betweenTimeHour < 24) {
+    return `${betweenTimeHour}시간전`;
+  }
+
+  const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+  if (betweenTimeDay < 1) {
+    return `${betweenTimeDay}일전`;
+  }
+
+  return timeValue.toLocaleDateString(); // new Date 형식으로 날짜 표시
+}
+
 // 메인게시글 내용 글자 수 제한(...으로 축약)
 showText = (detail, maxLength) => {
   const originalText = detail.innerText;
@@ -95,8 +119,7 @@ const categoryType = (categoryId) => {
 
       // 만약 데이터가 없다면 '게시글이 없습니다' 메시지 표시
       if (!posts) {
-        // postWrap.innerHTML = "<p>게시글이 없습니다.</p>";
-        postWrap.innerHTML = res.data.message;
+        postWrap.innerHTML = `<div class="notPost">게시글이 없습니다.</div>`;
         return;
       }
 
@@ -106,16 +129,17 @@ const categoryType = (categoryId) => {
           return `<div class="post" id="post_${post.id}" onclick="postDetail(${
             post.id
           })">
-              <div><img class="postImg" src="${
-                post.img || "/public/img/heartFull.png"
-              }" alt="image" /></div>
+              <div class="postImgBox">
+                <img class="postImg" src="${
+                  post.img || "/public/img/heartFull.png"
+                }" alt="image" />
+                </div>
               <div class="postText">
                 <div>${post.userName}</div>
                 <h3>${post.title}</h3>
                 <div>${newDate}</div>
                 <div class="detail">${post.detail}</div>
               </div>
-
             </div>
           `;
         })
@@ -213,7 +237,6 @@ const postDetail = (id) => {
     url: `/free/detail/${id}`,
   })
     .then((res) => {
-      // console.log(res.data.post);
       window.location.href = `/free/detail/${id}`;
     })
     .catch((e) => {

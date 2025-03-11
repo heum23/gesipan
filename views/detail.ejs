@@ -7,6 +7,15 @@
     <title>상세 페이지</title>
     <link rel="stylesheet" href="/public/css/detail.css" />
   </head>
+  <style>
+    .postNameBox {
+      display: flex;
+      gap: 10px;
+    }
+    .name {
+      font-weight: bold;
+    }
+  </style>
   <body>
     <div class="main">
       <div
@@ -14,13 +23,16 @@
         id="post_<%= post.id %>"
         data-user-id="<%= post.userId %>"
       >
-        <div><%= post.userName %></div>
         <!-- 게시글 제목 -->
         <h1><%= post.title %></h1>
-        <!-- 게시글 업데이트 시간 -->
-        <div><%= post.updatedAt %></div>
+        <div class="postNameBox">
+          <!-- 작성자 -->
+          <div class="name"><%= post.userName %></div>
+          <!-- 게시글 업데이트 시간 -->
+          <div><%= post.updatedAt %></div>
+        </div>
 
-        <div>
+        <div class="detailImgBox">
           <img
             class="detailImg"
             src="<%= post.img || '/public/img/heartFull.png' %>"
@@ -29,32 +41,43 @@
         </div>
         <!-- 게시글 내용 -->
         <p><%= post.detail %></p>
-        <div class="btnWrap">
-          <button
-            id="editBtn"
-            onclick="editPost('<%= post.id %>')"
-            style="display: none"
-          >
-            수정
-          </button>
-          <button
-            id="deleteBtn"
-            onclick="deletePost('<%= post.id %>')"
-            style="display: none"
-          >
-            삭제
-          </button>
-        </div>
 
         <br />
-        <div onclick="clickHeart(`<%= post.id %>`)">
-          <img
-            class="heartimg"
-            src="/public/img/heartEmpty.png"
-            data-id="<%= post.id %>"
-          />
+        <div class="buttonContainer">
+          <div class="clickHeart" onclick="clickHeart(`<%= post.id %>`)">
+            <img
+              class="heartimg"
+              src="/public/img/heartEmpty.png"
+              data-id="<%= post.id %>"
+            />
+            <div>공감</div>
+          </div>
+
+          <div id="detailBtn">
+            <div class="btnWrap">
+              <button
+                id="editBtn"
+                onclick="editPost('<%= post.id %>')"
+                style="display: none"
+              >
+                수정
+              </button>
+              <button
+                id="deleteBtn"
+                onclick="deletePost('<%= post.id %>')"
+                style="display: none"
+              >
+                삭제
+              </button>
+            </div>
+            <button class="homeBtn" onclick="goHome()">
+              <div class="homeImg">
+                <img src="/public/img/home.png" alt="mainPage" />
+              </div>
+              <div>홈</div>
+            </button>
+          </div>
         </div>
-        <div onclick="goHome()">메인으로</div>
       </div>
     </div>
   </body>
