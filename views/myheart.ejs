@@ -4,52 +4,151 @@
     <meta charset="UTF-8" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>게시판</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f1f1f1;
+      }
+
+      .main {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+      }
+
+      .img {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        object-fit: cover;
+        margin-right: 15px;
+      }
+
+      .table {
+        display: flex;
+        margin-bottom: 20px;
+        cursor: pointer;
+      }
+
+      .title {
+        font-weight: bold;
+        font-size: 20px;
+      }
+
+      .text {
+        font-size: 16px;
+      }
+
+      .date {
+        font-size: 14px;
+        color: #888;
+      }
+
+      hr {
+        border: 0;
+        border-top: 1px solid #ddd;
+        margin: 20px 0;
+      }
+    </style>
   </head>
   <body>
     <div class="main"></div>
-  </body>
-  <script>
-    const main = document.querySelector(".main");
-    const myData = () => {
-      let cookies = document.cookie.split(";");
-      const tokenCookie = cookies.find((item) =>
-        item.trim().startsWith("token=")
-      );
-      if (tokenCookie) {
-        const token = tokenCookie.split("token=")[1];
 
+    <script>
+      const main = document.querySelector(".main");
+
+      // 글 내용이 너무 길 경우 줄여서 표시하는 함수
+      const showText = (detail, maxLength) => {
+        const originalText = detail.innerText;
+        if (originalText.length > maxLength) {
+          detail.innerText = originalText.substring(0, maxLength) + "...";
+        }
+      };
+
+      // 데이터 로딩 및 표시 함수
+      const myData = () => {
+        let cookies = document.cookie.split(";");
+        const tokenCookie = cookies.find((item) =>
+          item.trim().startsWith("token=")
+        );
+
+        if (tokenCookie) {
+          const token = tokenCookie.split("token=")[1];
+
+          axios({
+            method: "post",
+            url: "/like/token", // token을 사용하여 인증된 데이터 가져오기
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((res) => {
+              if (res.data.data) {
+                res.data.data.map((item) => {
+                  axios({
+                    method: "post",
+                    url: "/like/post", // 각 게시글의 데이터를 가져오기
+                    data: { id: item.postId },
+                  }).then((res) => {
+                    main.innerHTML += `<div class="table" onclick='postDetail(${
+                      res.data.post.id
+                    })'>
+                      <div class='imgDiv'><img class='img' src="${
+                        res.data.post.img
+                      }" alt="${res.data.post.title}"></div>
+                      <div>
+                        <div class='name text'>${res.data.post.title}</div>
+                        <div class="date text">수정한 날짜 : ${
+                          new Date(res.data.post.updatedAt)
+                            .toISOString()
+                            .split("T")[0]
+                        }</div>
+                        <div class='detail text'>${res.data.post.detail}</div>
+                      </div>
+                    </div><hr>`;
+
+                    // 150자까지 글 내용 제한
+                    const postDetails = document.querySelectorAll(".detail");
+                    postDetails.forEach((detail) => {
+                      showText(detail, 150); // 150자로 제한
+                    });
+                  });
+                });
+              } else {
+                main.innerHTML = `${res.data.message}`;
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+      };
+
+      // 게시글 상세보기 함수
+      const postDetail = (id) => {
         axios({
-          method: "post",
-          url: "/like/token",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          method: "get",
+          url: `/free/detail/${id}`,
         })
           .then((res) => {
-            if (res.data.data) {
-              res.data.data.map((item) => {
-                axios({
-                  method: "post",
-                  url: "/like/post",
-                  data: { id: item.postId },
-                }).then((res) => {
-                  main.innerHTML += `<div class="table">
-                <div class='imgDiv'><img src = '${res.data.post.img}'></div>
-                <div class='name'> ${res.data.post.title}</div>
-                 <div>${res.data.post.detail}</div>
-               `;
-                });
-              });
-            } else {
-              main.innerHTML = `${res.data.message}`;
-            }
+            window.location.href = `/free/detail/${id}`; // 클릭한 게시글의 상세페이지로 이동
           })
           .catch((e) => {
-            console.log(e);
+            if (e.response && e.response.status === 404) {
+              alert("게시글을 찾을 수 없습니다.");
+            } else {
+              console.error("게시글을 가져오는 데 문제가 발생했습니다.", e);
+              alert("게시글을 가져오는 데 문제가 발생했습니다.");
+            }
           });
-      }
-    };
-    myData();
-  </script>
+      };
+
+      // 데이터 로딩
+      myData();
+    </script>
+  </body>
 </html>

@@ -8,7 +8,7 @@ const writeData = async (req, res) => {
   let { title, detail, userId, categoryId } = req.body;
   const img = req.file ? `/uploads/${req.file.filename}` : null;
 
-  likecnt = 0;
+  let likecnt = 0;
 
   try {
     const upData = await free.create({
