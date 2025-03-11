@@ -33,7 +33,6 @@ const users = (sequelize) => {
       },
       gender: {
         type: DataTypes.STRING(11),
-        allowNull: false,
       },
       loginType: {
         type: DataTypes.STRING(10),
