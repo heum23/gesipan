@@ -14,7 +14,7 @@ body {
   padding: 20px;
   box-sizing: border-box;
   /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
-  height: 50px;
+  /* height: 50px; */
   width: 100%;
   background-color: transparent; /* 기본 배경색을 투명으로 설정 */
   position: fixed;
@@ -29,7 +29,7 @@ body {
 }
 
 .logo {
-  font-size: 20px;
+  font-size: 26px;
   font-weight: bold;
   color: #333;
 }
@@ -109,7 +109,7 @@ body {
 
 .create {
   cursor: pointer;
-  /* 글쓰기 버튼에 필요한 스타일 추가 가능 */
+  color: orange;
 }
 
 /* 게시글 목록 */

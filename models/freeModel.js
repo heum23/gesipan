@@ -33,7 +33,6 @@ const free = (sequelize) => {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-
       categoryId: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
@@ -44,6 +43,7 @@ const free = (sequelize) => {
         onUpdate: "CASCADE", // `Users`의 `id` 변경 시 자동 반영
         onDelete: "CASCADE", // `Users` 삭제 시 `Free` 데이터도 삭제
       },
+      likecnt: { type: DataTypes.INTEGER(11) },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,

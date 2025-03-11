@@ -48,6 +48,10 @@ const postAll = () => {
                   <h3>${post.title}</h3>
                   <div>${newDate}</div>
                   <div class="detail">${post.detail}</div>
+                  <div class="likeCount">
+                    <div class="likeImg"><img src="/public/img/heartFull.png" alt="좋아요" /></div>
+                    <div>${post.likecnt}</div>
+                  </div>
                 </div>
 
               </div>
