@@ -78,6 +78,56 @@ showText = (detail, maxLength) => {
   }
 };
 
+// 카테고리 별 게시글 보기
+const categoryType = (categoryId) => {
+  const postWrap = document.querySelector(".postWrap");
+
+  axios({
+    method: "get",
+    url: `/free/category/${categoryId}`,
+  })
+    .then((res) => {
+      const posts = res.data.post;
+
+      // 만약 데이터가 없다면 '게시글이 없습니다' 메시지 표시
+      if (!posts) {
+        // postWrap.innerHTML = "<p>게시글이 없습니다.</p>";
+        postWrap.innerHTML = res.data.message;
+        return;
+      }
+
+      postWrap.innerHTML = posts
+        .map((post) => {
+          const newDate = new Date(post.updatedAt).toISOString().split("T")[0];
+          return `<div class="post" id="post_${post.id}" onclick="postDetail(${
+            post.id
+          })">
+              <div><img class="postImg" src="${
+                post.img || "/public/img/heartFull.png"
+              }" alt="image" /></div>
+              <div class="postText">
+                <div>${post.userName}</div>
+                <h3>${post.title}</h3>
+                <div>${newDate}</div>
+                <div class="detail">${post.detail}</div>
+              </div>
+
+            </div>
+          `;
+        })
+        .join(""); // 배열을 문자열로 결합
+
+      // 메인게시글 내용 글자 수 제한
+      const postDetails = document.querySelectorAll(".detail");
+      postDetails.forEach((detail) => {
+        showText(detail, 200); // 200자로 제한
+      });
+    })
+    .catch((e) => {
+      console.error("카테고리 별 게시글을 가져오지 못했습니다", e);
+    });
+};
+
 // 토큰 유무에 따른 헤더 버튼 변경
 // 로그인 <--> 로그아웃 / 회원가입 <--> 내정보
 loginBtn.addEventListener("click", () => {

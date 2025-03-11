@@ -17,7 +17,25 @@
     <title>Document</title>
     <link rel="stylesheet" href="/public/css/main.css" />
   </head>
-  <style></style>
+  <style>
+    .mainSubBox {
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+    }
+    .categoryWrap {
+      display: flex;
+      gap: 10px;
+    }
+    .category {
+      padding: 5px;
+      width: 90px;
+      border-radius: 10px;
+      border: 1.5px solid orange;
+      background-color: transparent;
+      cursor: pointer;
+    }
+  </style>
   <body>
     <header id="header">
       <div class="headerLeft">
@@ -46,8 +64,16 @@
 
     <!-- 메인 -->
     <div class="main">
-      <div class="create" onclick="create()">글쓰기</div>
-      <div class="category"></div>
+      <div class="mainSubBox">
+        <div class="categoryWrap">
+          <button class="category" onclick="categoryType('1')">음악</button>
+          <button class="category" onclick="categoryType('2')">영화</button>
+          <button class="category" onclick="categoryType('3')">책</button>
+          <button class="category" onclick="categoryType('4')">여행</button>
+          <button class="category" onclick="categoryType('5')">반려동물</button>
+        </div>
+        <div class="create" onclick="create()">글쓰기</div>
+      </div>
       <div class="postWrap"></div>
     </div>
   </body>
