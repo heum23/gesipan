@@ -44,6 +44,14 @@
     <div class="main"></div>
   </body>
   <script>
+    showText = (detail, maxLength) => {
+      const originalText = detail.innerText;
+
+      if (originalText.length > maxLength) {
+        const showText = originalText.substring(0, maxLength) + "...";
+        detail.innerText = showText;
+      }
+    };
     const main = document.querySelector(".main");
     const myData = () => {
       let cookies = document.cookie.split(";");
@@ -72,11 +80,11 @@
                   <div class='name text'> ${res.data.name}</div>
                 <div class='title'>${item.title}</div>
                 <div class="date text">수정한 날짜 :${newDate}</div>
-                <div class='detail text'>${item.detail}</div></div></div>`;
+                <div class='detail text'>${item.detail}</div></div></div><hr>`;
               });
               const postDetails = document.querySelectorAll(".detail");
               postDetails.forEach((detail) => {
-                showText(detail, 200); // 200자로 제한
+                showText(detail, 150); // 200자로 제한
               });
             } else {
               main.innerHTML = `${res.data.message}`;
@@ -88,6 +96,7 @@
       }
     };
     myData();
+
     const postDetail = (id) => {
       axios({
         method: "get",

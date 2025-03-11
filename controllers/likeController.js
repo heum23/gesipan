@@ -23,11 +23,19 @@ const postHeart = async (req, res) => {
   });
   if (already) {
     await already.destroy();
+    await free.increment("likecnt", {
+      by: -1, // 1 감소
+      where: { id: postId },
+    });
     res.json({ message: "이미 좋아요를 누르신 게시물입니다" });
   } else {
     await like.create({
       postId,
       userId,
+    });
+    await free.increment("likecnt", {
+      by: 1, // 1 증가
+      where: { id: postId },
     });
     res.json({ data: "dsadsdsa" });
   }
