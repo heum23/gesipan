@@ -61,12 +61,6 @@ const postData = async (req, res) => {
       ],
     });
 
-    // `posts` 객체를 콘솔에 출력하여 확인
-    console.log(posts);
-
-    // JSON.stringify로 보기 좋은 형태로 출력
-    console.log(JSON.stringify(posts, null, 2));
-
     if (posts.length === 0) {
       return res.json({ message: "게시글이 없습니다." });
     }
@@ -90,6 +84,48 @@ const postData = async (req, res) => {
     console.error("DB 조회 오류:", e);
 
     res.status(500).json({ message: "서버 오류" });
+  }
+};
+
+// 카테고리별 게시글 보기
+const categoryData = async (req, res) => {
+  let categoryId = Number(req.params.categoryId);
+  try {
+    // 카테고리 ID로 필터링하여 게시글 조회
+    const postByCategory = await free.findAll({
+      where: {
+        categoryId: categoryId, // 카테고리 ID로 필터링
+      },
+      include: [
+        {
+          model: User, // `User` 모델을 include
+          as: "user", // `free` 모델에서 정의한 관계 이름
+          attributes: ["name"], // `User`에서 가져올 필드는 'name'
+        },
+      ],
+    });
+
+    if (postByCategory.length === 0) {
+      return res.json({ message: "게시글이 없습니다." });
+    }
+
+    // res.json({ post: posts });
+
+    // posts 객체에서 'user' 정보와 'name'을 포함하여 응답
+    const responseData = postByCategory.map((post) => ({
+      id: post.id,
+      img: post.img,
+      title: post.title,
+      detail: post.detail,
+      likecnt: post.likecnt,
+      userName: post.user.name,
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
+    }));
+
+    res.json({ post: responseData });
+  } catch (e) {
+    res.status(500).json({ message: "오류!!!!!!!!!!" });
   }
 };
 
@@ -173,12 +209,13 @@ const moveUpdate = async (req, res) => {
 const updateData = async (req, res) => {
   const { title, detail, userId, categoryId } = req.body;
 
-  let img;
+  let img; // 이미지 변수
 
-  // 파일이 새로 업로드되었을 경우
+  // 파일을 업로드 되었을 경우
   if (req.file) {
     img = `/uploads/${req.file.filename}`;
   } else {
+    // 파일을 바꾸지 않을 경우
     img = req.body.img; // 기존 이미지 경로 사용
   }
 
@@ -190,7 +227,7 @@ const updateData = async (req, res) => {
       }
     );
 
-    res.json({ message: "수정완료 되었습니다" });
+    res.json({ message: "수정 완료되었습니다" });
   } catch (e) {
     console.log(e, "error error error");
     res.json({ message: "수정에 문제가 생겼습니다" });
@@ -209,5 +246,6 @@ module.exports = {
   deleteData,
   moveUpdate,
   updateData,
+  categoryData,
   heartCheck,
 };

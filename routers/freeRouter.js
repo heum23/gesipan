@@ -37,6 +37,8 @@ router.post("/posting", freeController.postData);
 
 router.post("/token", freeController.tokenCheck);
 
+router.get("/category/:categoryId", freeController.categoryData);
+
 router.get("/detail/:id", freeController.postOne);
 
 router.get("/updatePage/:id", freeController.moveUpdate); // 페이지 이동

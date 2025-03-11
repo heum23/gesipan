@@ -56,27 +56,29 @@ require("./models/index");
 app.get("/", (req, res) => {
   res.render("main");
 });
-//로그인 페이지
+// 로그인 페이지
 app.get("/login", (req, res) => {
   res.render("login");
 });
-
+// 글쓰기
 app.get("/writing", (req, res) => {
   res.render("writing");
 });
-//회원가입
+// 회원가입
 app.get("/signup", (req, res) => {
   res.render("signup");
 });
-//id/pw 찾기
+// id/pw 찾기
 app.get("/find", (req, res) => {
   res.render("find");
 });
-//내정보란
+// 내 정보
 app.get("/mine", (req, res) => {
   res.render("mine");
 });
-//내가 작성한 게시글
+
+// 내가 작성한 글
+
 app.get("/myPost", (req, res) => {
   res.render("mypost");
 });
