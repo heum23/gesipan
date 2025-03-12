@@ -41,26 +41,6 @@ tokenCheck();
 
 // 삭제 버튼
 const deletePost = (id) => {
-  // let cookies = document.cookie.split(";");
-  // const tokenCookie = cookies.find((item) =>
-  //   item.trim().startsWith("token=")
-  // );
-  // // if (!tokenCookie) {
-  // //   alert("삭제 권한이 없습니다. 로그인이 필요합니다.");
-  // //   window.location.href = "/login";
-  // //   return;
-  // // }
-  // const token = tokenCookie.split("token=")[1];
-
-  // const postUserId = document
-  //   .querySelector(`#post_<%= post.id %>`)
-  //   .getAttribute("data-user-id");
-
-  // if (myId !== Number(postUserId)) {
-  //   alert("삭제 권한이 없습니다.");
-  //   return;
-  // }
-
   if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
     axios({
       method: "delete",

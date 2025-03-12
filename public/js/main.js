@@ -16,50 +16,6 @@ window.addEventListener("scroll", function () {
   }
 });
 
-const menuIcon = document.getElementById("menuIcon");
-const sideMenu = document.getElementById("sideMenu");
-const closeBtn = document.getElementById("closeBtn");
-
-// 메뉴 버튼 클릭 시 사이드 메뉴 열기/닫기
-menuIcon.addEventListener("click", () => {
-  sideMenu.classList.toggle("open"); // 메뉴가 열리고 닫힘
-});
-
-// 닫기 버튼 클릭 시 사이드 메뉴 닫기
-closeBtn.addEventListener("click", () => {
-  sideMenu.classList.remove("open"); // 사이드 메뉴 닫기
-});
-
-// 로그인, 회원가입, 좋아요한 글 클릭 시 페이지 이동
-const loginMenu = document.getElementById("loginMenu");
-const signupMenu = document.getElementById("signupMenu");
-const myLikesMenu = document.getElementById("myLikesMenu");
-
-// 로그인 메뉴 클릭 시 로그인 페이지로 이동
-loginMenu.addEventListener("click", () => {
-  window.location.href = "/login";
-});
-
-// 회원가입 메뉴 클릭 시 회원가입 페이지로 이동
-signupMenu.addEventListener("click", () => {
-  window.location.href = "/signup";
-});
-
-// 좋아요한 글 메뉴 클릭 시 좋아요한 글 페이지로 이동
-myLikesMenu.addEventListener("click", () => {
-  window.location.href = "/myheart"; // 내가 좋아요한 글 페이지
-});
-
-// // 사이드 메뉴 외부 클릭 시 메뉴 닫기
-// document.addEventListener("click", (event) => {
-//   if (
-//     !sideMenu.contains(event.target) &&
-//     !menuIcon.contains(event.target)
-//   ) {
-//     sideMenu.classList.remove("open");
-//   }
-// });
-
 // 메인페이지 모든 게시글 보기
 const sortSelect = document.querySelector("#sort");
 
@@ -303,3 +259,37 @@ const postDetail = (id) => {
       }
     });
 };
+
+const menuIcon = document.getElementById("menuIcon");
+const sideMenu = document.getElementById("sideMenu");
+const closeBtn = document.getElementById("closeBtn");
+
+// 메뉴 버튼 클릭 시 사이드 메뉴 열기/닫기
+menuIcon.addEventListener("click", () => {
+  sideMenu.classList.toggle("open"); // 메뉴가 열리고 닫힘
+});
+
+// 닫기 버튼 클릭 시 사이드 메뉴 닫기
+closeBtn.addEventListener("click", () => {
+  sideMenu.classList.remove("open"); // 사이드 메뉴 닫기
+});
+
+// 로그인, 회원가입, 좋아요한 글 클릭 시 페이지 이동
+const loginMenu = document.getElementById("loginMenu");
+const signupMenu = document.getElementById("signupMenu");
+const myLikesMenu = document.getElementById("myLikesMenu");
+
+// 로그인 메뉴 클릭 시 로그인 페이지로 이동
+loginMenu.addEventListener("click", () => {
+  window.location.href = "/login";
+});
+
+// 회원가입 메뉴 클릭 시 회원가입 페이지로 이동
+signupMenu.addEventListener("click", () => {
+  window.location.href = "/signup";
+});
+
+// 좋아요한 글 메뉴 클릭 시 좋아요한 글 페이지로 이동
+myLikesMenu.addEventListener("click", () => {
+  window.location.href = "/myheart"; // 내가 좋아요한 글 페이지
+});

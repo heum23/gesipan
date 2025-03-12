@@ -3,7 +3,7 @@ body {
   font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #fae0c2; /* 배경색 설정 */
+  background-color: #fff4e6; /* 배경색 설정 */
 }
 
 /* 헤더 */
@@ -64,7 +64,8 @@ body {
 #mainTitleMessage {
   margin: 20px auto;
   padding: 20px;
-  font-size: 50px;
+  font-size: 60px;
+  font-weight: 600;
   text-align: center;
   max-width: 1000px;
 }
@@ -82,6 +83,9 @@ body {
   display: flex;
   gap: 10px;
   justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
 }
 
 /* 정렬 셀렉트 박스 */
@@ -120,13 +124,19 @@ body {
 
 .category:hover {
   color: white; /* 호버 시 글자색을 하얗게 변경 */
-  background-color: orangered; /* 호버 시 배경색을 오렌지레드로 변경 */
+  background-color: #003366; /* 호버 시 배경색을 오렌지레드로 변경 */
 }
 
 /* 게시글 작성 버튼 */
 .create {
   cursor: pointer;
-  color: orange;
+  background-color: orange;
+  color: white;
+  padding: 5px;
+  width: 60px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 /* 게시글 목록 */
@@ -146,7 +156,7 @@ body {
 .post {
   display: flex;
   align-items: center;
-  padding: 20px 30px;
+  padding: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid #ddd;
   box-sizing: border-box;
@@ -168,7 +178,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column; /* 제목과 내용을 세로로 배치 */
-  padding: 0 20px;
+  padding-left: 20px;
 }
 
 .postText h3 {
@@ -285,14 +295,18 @@ body {
   /* 닫기 버튼 스타일 */
   .closeBtn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
     font-size: 20px;
     color: #333;
     cursor: pointer;
     background-color: transparent;
     border: none;
-    padding: 5px;
+  }
+
+  .closeBtn img {
+    width: 30px;
+    height: 30px;
   }
 
   /* 닫기 버튼 호버 스타일 */
@@ -309,10 +323,20 @@ body {
     flex-direction: column-reverse;
     gap: 10px;
     justify-content: center;
+    align-items: center;
   }
-  #sort {
+
+  .sortBox {
     display: flex;
     justify-content: center;
+    width: 100%;
+  }
+
+  #sort {
+    width: 80%;
+  }
+  .categoryWrap {
+    display: none; /* 카테고리 버튼 숨기기 */
   }
 
   .post {
