@@ -265,6 +265,15 @@ const checkToken = async (req, res) => {
   }
 };
 
+const del = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const result = await User.destroy({ where: { id } });
+    res.json({ message: "탈퇴성공" });
+  } catch (e) {
+    console.log(e);
+  }
+};
 module.exports = {
   postUser,
   idFind,
@@ -276,4 +285,5 @@ module.exports = {
   checkToken,
   kakaoToken,
   updateAdress,
+  del,
 };
