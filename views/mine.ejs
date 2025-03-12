@@ -16,7 +16,7 @@
       body {
         margin-top: 100px;
         font-family: "Arial", sans-serif;
-        background-color: white;
+        background-color: rgb(255 255 255 / var(--tw-bg-opacity));
         padding: 20px;
         display: flex;
         justify-content: center;
@@ -24,14 +24,16 @@
       }
 
       .main {
-        width: 75%;
+        width: 80%;
         background-color: white;
-        border-radius: 8px;
         text-align: center;
+        padding-left: 60px;
       }
       .sub {
-        width: 25%;
+        width: 20%;
         padding-left: 70px;
+        border-right: 1px solid black;
+        padding-right: -50px;
       }
 
       .container {
@@ -39,7 +41,6 @@
         width: 100%;
         border-radius: 8px;
       }
-
       .text {
         width: 100%;
         font-size: 1rem;
@@ -48,7 +49,23 @@
         text-align: left;
         align-items: center;
       }
-
+      .input_text {
+        width: 100%;
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 30px;
+        text-align: left;
+        align-items: center;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        outline: none;
+      }
+      .inputDiv {
+        width: 20%;
+        text-align: left;
+      }
       .changePw {
         display: flex;
         flex-direction: column;
@@ -171,6 +188,7 @@
       .box {
         width: 100%;
         display: flex;
+        justify-content: center;
         overflow: hidden;
       }
       .text_xl {
@@ -317,19 +335,26 @@
               main.innerHTML += `
            <div class='container'>
                  <div class='text_L'>email(ID)</div>
-              <div class='text'> ${user.email}</div>
+               <div class="inputDiv">
+               <input type="text" value="${user.email}" class='input_text' readonly>
+              </div>
                <div class='text_L'>비밀번호</div>
-               <br>
-               <div class='btnDiv2'> <button class="changePwBtn " onclick="changePw(1)">
+           
+               <div class='btnDiv2'> <button class="exit-btn " onclick="changePw(1)">
                   변경하기
                 </button></div>
-              
+              <br>
               <div class='text_L'>전화번호</div>
-              <div class='text'>${user.number}</div>
+              <div class="inputDiv">
+               <input type="text" value="${user.number}" class='input_text' readonly>
+              </div>
               <div class='text_L'>이름</div>
-              <div class='text'>${user.name}</div>
-              <div class='text_L'>주소</div>
+              <div class="inputDiv">
+               <input type="text" value="${user.name}" class='input_text' readonly>
+              </div>
+               <div class='text_L'>주소</div>
                <div class='text'> ${addressHTML}</div> 
+               <div class='text_L'>탈퇴하기</div>
                 <div class="btnDiv2">
             <button class="exit-btn" onclick="exit(${user.id})">
                  탈퇴하기
@@ -346,11 +371,17 @@
             } else if (user.loginType === "naver") {
               main.innerHTML += `<div class='container'>
                  <div class='text_L'>email(ID)</div>
-              <div class='text'> ${user.email}</div>
+              <div class="inputDiv">
+               <input type="text" value="${user.email}" class='input_text' readonly>
+              </div>
               <div class='text_L'>전화번호</div>
-              <div class='text'>${user.number}</div>
+              <div class="inputDiv">
+               <input type="text" value="${user.number}" class='input_text' readonly>
+              </div>
               <div class='text_L'>이름</div>
-              <div class='text'>${user.name}</div>
+              <div class="inputDiv">
+               <input type="text" value="${user.name}" class='input_text' readonly>
+              </div>
               <div class='text_L'>주소</div>
                <div class='text'> ${addressHTML}</div> 
                <div class='text_L'>탈퇴하기</div>

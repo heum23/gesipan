@@ -13,18 +13,23 @@
       <form id="signupForm">
         <div class="join">
           <div class="inputTitle">아이디</div>
-          <input
-            type="email"
-            placeholder="이메일을 입력해주세요"
-            name="email"
-            id="email"
-            required
-          />
-          <div id="emailCheck" class="emailCheck" onclick="emailCheck()">
-            중복확인
+          <div class="idInput">
+            <input
+              type="email"
+              placeholder="이메일을 입력해주세요"
+              name="email"
+              id="email"
+              required
+            />
+            <div id="emailCheck" class="emailCheck" onclick="emailCheck()">
+              중복확인
+            </div>
           </div>
         </div>
-        <div id="emailMessage" style="color: red"></div>
+        <div class="join">
+          <div class="inputTitle"></div>
+          <div class="warning" id="emailMessage" style="color: red"></div>
+        </div>
         <div class="join">
           <label class="inputTitle">비밀번호</label>
           <input
@@ -34,9 +39,11 @@
             id="password"
             required
           />
-          <div id="passwordMessage" style="color: red"></div>
         </div>
-
+        <div class="join">
+          <div class="inputTitle"></div>
+          <div class="warning" id="passwordMessage" style="color: red"></div>
+        </div>
         <div class="join">
           <div class="inputTitle">비밀번호 확인</div>
           <input
@@ -46,7 +53,10 @@
             id="passwordCheck"
             required
           />
-          <div id="passCheckMessage" style="color: red"></div>
+        </div>
+        <div class="join">
+          <div class="inputTitle"></div>
+          <div class="warning" id="passCheckMessage" style="color: red"></div>
         </div>
         <!-- <span id="eye-icon" class="eye-icon">👁️</span> -->
         <!-- 눈 아이콘 추가 -->
@@ -61,7 +71,10 @@
             maxlength="20"
             required
           />
-          <div id="nameMessage" style="color: red"></div>
+        </div>
+        <div class="join">
+          <div class="inputTitle"></div>
+          <div class="warning" id="nameMessage" style="color: red"></div>
         </div>
 
         <!-- <script>
@@ -79,9 +92,9 @@
         });
       </script> -->
 
-        <div class="join">
+        <div class="join gender">
           <div class="inputTitle">성별</div>
-          <label
+          <label class="genderSelect"
             ><input
               type="radio"
               name="gender"
@@ -98,6 +111,7 @@
             />남성</label
           >
         </div>
+
         <div class="join birth_input">
           <div class="inputTitle">생년월일</div>
           <select name="yy" id="year" required>
@@ -144,9 +158,11 @@
             pattern="[0-9]{4}"
             required
           />
-          <div id="phoneMessage" style="color: red"></div>
         </div>
-
+        <div class="join">
+          <div class="inputTitle"></div>
+          <div class="warning" id="phoneMessage" style="color: red"></div>
+        </div>
         <button
           type="button"
           id="signupBtn"

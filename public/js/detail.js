@@ -41,26 +41,6 @@ tokenCheck();
 
 // 삭제 버튼
 const deletePost = (id) => {
-  // let cookies = document.cookie.split(";");
-  // const tokenCookie = cookies.find((item) =>
-  //   item.trim().startsWith("token=")
-  // );
-  // // if (!tokenCookie) {
-  // //   alert("삭제 권한이 없습니다. 로그인이 필요합니다.");
-  // //   window.location.href = "/login";
-  // //   return;
-  // // }
-  // const token = tokenCookie.split("token=")[1];
-
-  // const postUserId = document
-  //   .querySelector(`#post_<%= post.id %>`)
-  //   .getAttribute("data-user-id");
-
-  // if (myId !== Number(postUserId)) {
-  //   alert("삭제 권한이 없습니다.");
-  //   return;
-  // }
-
   if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
     axios({
       method: "delete",
@@ -79,4 +59,63 @@ const deletePost = (id) => {
 // 수정페이지 이동
 const editPost = (id) => {
   window.location.href = `/free/updatePage/${id}`;
+};
+
+const heart = () => {
+  const img = document.querySelector(".heartimg");
+  const postId = img.getAttribute("data-id"); // post.id 가져오기
+  axios({
+    method: "get",
+    url: "/like/heart",
+    params: { postId: Number(postId), userId: userId },
+  }).then((res) => {
+    if (res.data.message === "X") {
+      document.querySelector(".heartimg").src = "/public/img/heartEmpty.png";
+    } else {
+      document.querySelector(".heartimg").src = "/public/img/heartFull.png";
+    }
+  });
+};
+let userId = "";
+const myData = () => {
+  let cookies = document.cookie.split(";");
+
+  const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
+  if (!tokenCookie) {
+    return;
+  }
+
+  if (tokenCookie) {
+    const token = tokenCookie.split("token=")[1];
+
+    axios({
+      method: "post",
+      url: "/user/token",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      let user = res.data.user;
+      userId = user.id;
+      heart();
+    });
+  }
+};
+myData();
+const clickHeart = (id) => {
+  let cookies = document.cookie.split(";");
+
+  const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
+  if (!tokenCookie) {
+    alert("로그인 후 가능합니다.");
+    return;
+  }
+  axios({
+    method: "post",
+    url: "/like/postHeart",
+    data: { postId: id, userId: userId },
+  }).then((res) => {
+    console.log(res);
+    heart();
+  });
 };
