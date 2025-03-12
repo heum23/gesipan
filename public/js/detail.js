@@ -60,3 +60,62 @@ const deletePost = (id) => {
 const editPost = (id) => {
   window.location.href = `/free/updatePage/${id}`;
 };
+
+const heart = () => {
+  const img = document.querySelector(".heartimg");
+  const postId = img.getAttribute("data-id"); // post.id 가져오기
+  axios({
+    method: "get",
+    url: "/like/heart",
+    params: { postId: Number(postId), userId: userId },
+  }).then((res) => {
+    if (res.data.message === "X") {
+      document.querySelector(".heartimg").src = "/public/img/heartEmpty.png";
+    } else {
+      document.querySelector(".heartimg").src = "/public/img/heartFull.png";
+    }
+  });
+};
+let userId = "";
+const myData = () => {
+  let cookies = document.cookie.split(";");
+
+  const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
+  if (!tokenCookie) {
+    return;
+  }
+
+  if (tokenCookie) {
+    const token = tokenCookie.split("token=")[1];
+
+    axios({
+      method: "post",
+      url: "/user/token",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      let user = res.data.user;
+      userId = user.id;
+      heart();
+    });
+  }
+};
+myData();
+const clickHeart = (id) => {
+  let cookies = document.cookie.split(";");
+
+  const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
+  if (!tokenCookie) {
+    alert("로그인 후 가능합니다.");
+    return;
+  }
+  axios({
+    method: "post",
+    url: "/like/postHeart",
+    data: { postId: id, userId: userId },
+  }).then((res) => {
+    console.log(res);
+    heart();
+  });
+};

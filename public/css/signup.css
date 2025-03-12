@@ -25,12 +25,14 @@ h2 {
 }
 
 .join {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   display: flex;
 }
 
 .inputTitle {
   width: 25%;
+  display: flex;
+  align-items: center;
 }
 
 /*.join div {
@@ -39,7 +41,14 @@ h2 {
   color: #555;
 }*/
 
-input[type="email"],
+input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
 input[type="password"],
 input[type="text"],
 input[type="tel"],
@@ -51,7 +60,10 @@ select {
   box-sizing: border-box;
   font-size: 16px;
 }
-
+.gender {
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="text"]:focus,
@@ -73,18 +85,20 @@ select[readonly] {
   align-items: center;
   justify-content: space-between;
 }
+
 .birth_input {
-  margin-left: 2px;
+  margin-left: -2px;
   gap: 10px;
-  width: 98.3%;
+  width: 100%;
 }
 .phone_input {
-  margin-left: 1px;
+  margin-left: -2px;
   gap: 10px;
   width: 100%;
 }
 .birth_input select,
 .phone_input input {
+  margin-bottom: 10px;
   width: 25%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -104,7 +118,6 @@ select[readonly] {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
-  margin-top: 20px;
 }
 
 .signupBtn:disabled {
@@ -115,19 +128,36 @@ select[readonly] {
 .signupBtn:hover:enabled {
   background-color: #005bb5;
 }
+.idInput {
+  width: 60%;
 
+  position: relative;
+}
 /* 중복확인 버튼 스타일 */
 .emailCheck {
-  padding: 10px 10px;
+  position: absolute;
+  top: 15%;
+  right: 1%;
+  padding: 5px 5px;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
-  margin-left: 10px;
   transition: 0.3s;
 }
 
 .emailCheck:hover {
   background-color: #ddd;
+}
+.warning {
+  margin-bottom: 10px;
+
+  height: 20px; /* 원하는 크기로 조정 */
+}
+.genderSelect {
+  margin-right: 70px;
+}
+.none {
+  display: none;
 }
