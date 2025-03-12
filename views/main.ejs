@@ -7,17 +7,6 @@
     <title>TALKTALK</title>
     <link rel="stylesheet" href="/public/css/main.css" />
   </head>
-  <style>
-    .likeCount {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .likeImg img {
-      width: 20px;
-      height: 20px;
-    }
-  </style>
   <body>
     <header id="header">
       <div class="headerLeft">
@@ -37,7 +26,23 @@
         <div class="login" id="loginBtn">login</div>
         <div class="signup" id="signupBtn">signup</div>
       </div>
+      <div class="menuBtn">
+        <img id="menuIcon" src="/public/img/menu.png" alt="menu" />
+      </div>
     </header>
+
+    <!-- 메뉴가 나타날 오른쪽 상자 -->
+    <div class="sideMenu" id="sideMenu">
+      <div class="menuContent">
+        <div class="closeBtn" id="closeBtn">X</div>
+
+        <div class="menuItem" id="loginMenu">Login</div>
+        <div class="menuItem" id="signupMenu">Sign Up</div>
+        <div class="menuItem" id="myLikesMenu">My Liked Posts</div>
+
+        <div class="menuItem" onclick="create()">글쓰기</div>
+      </div>
+    </div>
 
     <!-- 배경이미지가 들어갈 배너 영역 -->
     <div class="banner">
