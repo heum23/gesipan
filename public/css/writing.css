@@ -21,7 +21,7 @@ body {
 
 #prevContainer {
   cursor: pointer;
-  width: 250px;
+  width: 300px;
   height: 300px;
   margin: 0 auto;
   border: 2px dashed #ff8c00; /* 밝은 오렌지색 테두리 */
