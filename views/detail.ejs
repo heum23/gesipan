@@ -7,16 +7,43 @@
     <title>상세 페이지</title>
     <link rel="stylesheet" href="/public/css/detail.css" />
   </head>
-  <style>
-    .postNameBox {
-      display: flex;
-      gap: 10px;
-    }
-    .name {
-      font-weight: bold;
-    }
-  </style>
+
   <body>
+    <header id="header">
+      <div class="headerLeft">
+        <div class="logo leftLogo" onclick="goHome()">TALKTALK</div>
+      </div>
+      <!-- <div class="headerCenter">
+        <div class="logo centerLogo" style="opacity: 0">TALKTALK</div>
+      </div> -->
+      <div class="headerRight">
+        <div class="heart">
+          <img
+            onclick="heartMove()"
+            src="/public/img/heartEmpty.png"
+            alt="heart"
+          />
+        </div>
+        <div class="login" id="loginBtn">login</div>
+        <div class="signup" id="signupBtn">signup</div>
+      </div>
+      <div class="menuBtn">
+        <img id="menuIcon" src="/public/img/menu.png" alt="menu" />
+      </div>
+    </header>
+
+    <!-- 메뉴가 나타날 오른쪽 상자 -->
+    <div class="sideMenu" id="sideMenu">
+      <div class="menuContent">
+        <div class="closeBtn" id="closeBtn">
+          <img src="/public/img/close.png" alt="close" />
+        </div>
+        <div class="menuItem" id="loginMenu">Login</div>
+        <div class="menuItem" id="signupMenu">Sign Up</div>
+        <div class="menuItem" id="myLikesMenu">My Liked Posts</div>
+      </div>
+    </div>
+
     <div class="main">
       <div
         class="mainWrap"
@@ -74,12 +101,23 @@
               <div class="homeImg">
                 <img src="/public/img/home.png" alt="mainPage" />
               </div>
-              <div>홈</div>
+              <div class="home">홈</div>
             </button>
           </div>
         </div>
       </div>
     </div>
+    <footer id="footer">
+      <div class="footerLogo"></div>
+      <div class="footerInfo">
+        <div>대표 박소현 진순흠</div>
+        <div>주소 서울특별시 마포구 숭문 4길 6</div>
+        <div>사업자 등록번호 000-00-00000</div>
+        <br />
+        <div>Copyright ⓒ 2025 TALKTALK All rights reserved.</div>
+      </div>
+      <div class="footerSNS"></div>
+    </footer>
   </body>
   <script src="/public/js/detail.js"></script>
 </html>

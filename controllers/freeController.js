@@ -139,7 +139,7 @@ const categoryData = async (req, res) => {
 
     res.json({ post: responseData });
   } catch (e) {
-    res.status(500).json({ message: "오류!!!!!!!!!!" });
+    res.status(500).json({ message: "서버 오류" });
   }
 };
 

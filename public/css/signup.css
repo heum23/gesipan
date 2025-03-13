@@ -1,19 +1,17 @@
 body {
   font-family: Arial, sans-serif;
-
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
 }
-*/ .mainContainer {
+.mainContainer {
   background-color: #fff;
   padding: 30px;
   border-radius: 8px;
-
   width: 100%;
-  max-width: 500px;
+  max-width: 550px;
   height: auto;
 }
 
@@ -21,7 +19,7 @@ h2 {
   text-align: center;
   color: #333;
   font-size: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .join {
@@ -53,17 +51,14 @@ input[type="password"],
 input[type="text"],
 input[type="tel"],
 select {
-  width: 60%;
+  width: 75%;
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
   font-size: 16px;
 }
-.gender {
-  margin-top: -10px;
-  margin-bottom: 20px;
-}
+
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="text"]:focus,
@@ -98,7 +93,7 @@ select[readonly] {
 }
 .birth_input select,
 .phone_input input {
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   width: 25%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -129,10 +124,20 @@ select[readonly] {
   background-color: #005bb5;
 }
 .idInput {
-  width: 60%;
-
+  width: 75%;
   position: relative;
 }
+
+/* placeholder 색상 설정 */
+input::placeholder {
+  color: #888888; /* 원하는 색상으로 설정 */
+}
+
+/* birth 셀렉트의 텍스트 색상 설정 */
+select {
+  color: #888888; /* placeholder 색상과 동일한 색상 */
+}
+
 /* 중복확인 버튼 스타일 */
 .emailCheck {
   position: absolute;

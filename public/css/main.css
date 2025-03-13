@@ -13,7 +13,7 @@ body {
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
-  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   width: 100%;
   background-color: transparent; /* 기본 배경색을 투명으로 설정 */
   position: fixed;
@@ -32,6 +32,7 @@ body {
   font-size: 26px;
   font-weight: bold;
   color: #333;
+  cursor: pointer;
 }
 
 /* 헤더 가운데 영역 */
@@ -60,10 +61,18 @@ body {
   width: 20px;
 }
 
+/* 로그인/회원가입 버튼 스타일 */
+#loginBtn,
+#signupBtn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
 /* 메인 제목 */
 #mainTitleMessage {
-  margin: 20px auto;
-  padding: 20px;
+  margin: 150px auto 100px auto;
   font-size: 60px;
   font-weight: 600;
   text-align: center;
@@ -125,6 +134,15 @@ body {
 .category:hover {
   color: white; /* 호버 시 글자색을 하얗게 변경 */
   background-color: #003366; /* 호버 시 배경색을 오렌지레드로 변경 */
+}
+
+.search {
+  position: relative;
+}
+.searchIcon {
+  position: absolute;
+  width: 20px;
+  height: 20px;
 }
 
 /* 게시글 작성 버튼 */
@@ -204,6 +222,12 @@ body {
   font-size: 14px;
   color: #333;
 } */
+.detail {
+  font-size: 16px; /* 가독성이 좋은 크기 */
+  line-height: 1.6; /* 줄 간격 증가로 읽기 편하게 */
+  color: #555; /* 너무 진하지 않은 색상 */
+  margin-top: 10px;
+}
 
 /* 좋아요 수 */
 .likeCount {
@@ -314,18 +338,6 @@ body {
     color: #ff5c5c; /* 호버 시 빨간색 */
   }
 
-  .create {
-    display: none;
-  }
-
-  .mainSubBox {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-  }
-
   .sortBox {
     display: flex;
     justify-content: center;
@@ -366,11 +378,31 @@ footer {
   text-align: center;
 }
 
-/* 로그인/회원가입 버튼 스타일 */
-#loginBtn,
-#signupBtn {
-  padding: 5px 10px;
-  border-radius: 5px;
-  transition: 0.3s;
+/* 탑 버튼 */
+#scrollTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  font-size: 25px;
+  width: 1.5vw;
+  height: 1.5vw;
+  color: lightgray;
+  background-color: orange;
+  padding: 5px;
+  border: none;
+  border-radius: 50%;
   cursor: pointer;
+  display: none; /* 초기에는 버튼 숨기기 */
+  justify-content: center;
+  align-items: center;
+}
+
+#scrollTop:hover {
+  background-color: #003366;
+}
+
+/* 이미지 스타일 */
+.upImg {
+  width: 100%;
+  height: 100%;
 }

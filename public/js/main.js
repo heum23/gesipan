@@ -1,3 +1,8 @@
+// 메인페이지로 이동 (전체 게시글 보기)
+const goHome = () => {
+  window.location.href = "/";
+};
+
 // 스크롤 시 헤더 변화
 window.addEventListener("scroll", function () {
   const header = document.getElementById("header");
@@ -17,7 +22,7 @@ window.addEventListener("scroll", function () {
 });
 
 // 메인페이지 모든 게시글 보기
-const sortSelect = document.querySelector("#sort");
+const sortSelect = document.querySelector("#sort"); // 정렬 가져오기
 
 const postAll = () => {
   const postWrap = document.querySelector(".postWrap");
@@ -58,7 +63,6 @@ const postAll = () => {
                     <div>${post.likecnt}</div>
                   </div>
                 </div>
-
               </div>
             `;
         })
@@ -138,18 +142,20 @@ const categoryType = (categoryId) => {
           return `<div class="post" id="post_${post.id}" onclick="postDetail(${
             post.id
           })">
-              <div class="postImgBox">
-                <img class="postImg" src="${
+                <div><img class="postImg" src="${
                   post.img || "/public/img/heartFull.png"
-                }" alt="image" />
+                }" alt="image" /></div>
+                <div class="postText">
+                  <div>${post.userName}</div>
+                  <h3>${post.title}</h3>
+                  <div>${timeForToday(post.updatedAt)}</div>
+                  <div class="detail">${post.detail}</div>
+                  <div class="likeCount">
+                    <div class="likeImg"><img src="/public/img/heartFull.png" alt="좋아요" /></div>
+                    <div>${post.likecnt}</div>
+                  </div>
                 </div>
-              <div class="postText">
-                <div>${post.userName}</div>
-                <h3>${post.title}</h3>
-                <div>${newDate}</div>
-                <div class="detail">${post.detail}</div>
               </div>
-            </div>
           `;
         })
         .join(""); // 배열을 문자열로 결합
@@ -292,4 +298,26 @@ signupMenu.addEventListener("click", () => {
 // 좋아요한 글 메뉴 클릭 시 좋아요한 글 페이지로 이동
 myLikesMenu.addEventListener("click", () => {
   window.location.href = "/myheart"; // 내가 좋아요한 글 페이지
+});
+
+// 탑 버튼 (제일 위로)
+// 버튼 참조
+const scrollTopBtn = document.getElementById("scrollTop");
+
+// 스크롤 이벤트 감지
+window.addEventListener("scroll", () => {
+  // 화면의 중간 높이보다 스크롤이 내려가면 버튼 표시
+  if (window.scrollY > window.innerHeight / 2) {
+    scrollTopBtn.style.display = "block"; // 버튼 보이기
+  } else {
+    scrollTopBtn.style.display = "none"; // 버튼 숨기기
+  }
+});
+
+// 버튼 클릭 이벤트로 스크롤을 상단으로 이동
+scrollTopBtn.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth", // 부드러운 스크롤
+  });
 });

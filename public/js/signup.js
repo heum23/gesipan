@@ -4,6 +4,22 @@ const emailCheck = () => {
   const emailInput = document.querySelector("#email");
   const email = emailInput.value;
   const emailMessage = document.querySelector("#emailMessage");
+
+  // 이메일 유효성 검사 추가
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  if (email === "") {
+    emailMessage.textContent = "이메일을 입력해 주세요.";
+    emailDC = false;
+    disabledCheck(); // 비활성화 체크
+    return; // 이메일이 비어 있으면 중복 검사 및 이후 로직을 실행하지 않음
+  } else if (!emailRegex.test(email)) {
+    emailMessage.textContent = "유효한 이메일 주소를 입력해 주세요.";
+    emailDC = false;
+    disabledCheck(); // 비활성화 체크
+    return; // 유효한 이메일 형식이 아니면 중복 검사 및 이후 로직을 실행하지 않음
+  }
+
   axios({
     method: "post",
     url: "/user/emailCheck",
@@ -62,7 +78,7 @@ passInput.addEventListener("input", function () {
     passD = false;
   } else if (!passRegex.test(passValue)) {
     passMessage.textContent =
-      "비밀번호는 최소 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다.";
+      "최소 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다.";
     passD = false;
   } else {
     passMessage.textContent = "";
@@ -125,7 +141,7 @@ const phoneMessage = document.getElementById("phoneMessage");
 // 각 입력 필드에 이벤트 리스너 추가
 phone1.addEventListener("input", function () {
   const phone1Value = phone1.value.trim();
-  // phone1은 반드시 0으로 시작해야 한다는 조건 추가
+  // phone1 검증
   if (phone1Value === "") {
     phoneMessage.textContent = "첫번째 번호를 입력해 주세요.";
     phoneD1 = false;
@@ -145,13 +161,17 @@ phone2.addEventListener("input", function () {
   const phone2Value = phone2.value.trim();
 
   // phone1이 올바르면 phone2 검증
-  if (phone2Value === "") {
+  if (phone2Value.length === 4) {
+    phoneMessage.textContent = "";
+    phoneD2 = true;
+    disabledCheck(); // 비활성화 체크
+  } else if (phone2Value === "") {
     phoneMessage.textContent = "두 번째 번호를 입력해 주세요.";
     phoneD2 = false;
     disabledCheck(); // 비활성화 체크
   } else {
-    phoneMessage.textContent = "";
-    phoneD2 = true;
+    phoneMessage.textContent = "번호는 4자리여야 합니다.";
+    phoneD2 = false;
     disabledCheck(); // 비활성화 체크
   }
   onlyNumbers(event);
@@ -160,13 +180,17 @@ phone3.addEventListener("input", function () {
   const phone3Value = phone3.value.trim();
 
   // phone2가 올바르면 phone3 검증
-  if (phone3Value === "") {
+  if (phone3Value.length === 4) {
+    phoneMessage.textContent = "";
+    phoneD3 = true;
+    disabledCheck(); // 비활성화 체크
+  } else if (phone3Value === "") {
     phoneMessage.textContent = "세 번째 번호를 입력해 주세요.";
     phoneD3 = false;
     disabledCheck(); // 비활성화 체크
   } else {
-    phoneMessage.textContent = "";
-    phoneD3 = true;
+    phoneMessage.textContent = "번호는 4자리여야 합니다.";
+    phoneD3 = false;
     disabledCheck(); // 비활성화 체크
   }
   onlyNumbers(event);
