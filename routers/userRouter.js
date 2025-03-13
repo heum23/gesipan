@@ -13,4 +13,5 @@ router.post("/checktoken", userController.checkToken);
 router.post("/kakaoToken", userController.kakaoToken);
 router.post("/updateAdress", userController.updateAdress);
 router.delete("/del", userController.del);
+router.post("/mine/update", userController.updateMine);
 module.exports = router;

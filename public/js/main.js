@@ -193,27 +193,22 @@ signupBtn.addEventListener("click", () => {
     window.location.href = "/signup"; // 회원가입 페이지로 이동
   }
 });
+const heartMove = () => {
+  let cookies = document.cookie.split(";");
+  const tokenCookie = cookies.find((item) => item.includes("token="));
+  if (!tokenCookie) {
+    alert("로그인 후 이용가능합니다.");
+    window.location.href = "/login";
+  } else {
+    window.location.href = "/myheart";
+  }
+};
 const checkLoginStatus = () => {
   let cookies = document.cookie.split(";");
-
-  const naverCookie = cookies.find((item) => item.includes("naverToken="));
   const tokenCookie = cookies.find((item) => item.includes("token="));
 
-  if (!tokenCookie && !naverCookie) {
+  if (!tokenCookie) {
     return;
-  }
-
-  if (naverCookie) {
-    loginBtn.textContent = "logout";
-    signupBtn.textContent = "mypage";
-
-    loginBtn.replaceWith(loginBtn.cloneNode(true)); // 이벤트 중복 방지
-
-    loginBtn.addEventListener("click", () => {
-      document.cookie = "naverToken=; max-age=0; path=/"; // path 설정 추가
-      window.location.reload();
-      checkLoginStatus();
-    });
   }
 
   if (tokenCookie) {
