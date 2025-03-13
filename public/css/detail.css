@@ -104,3 +104,10 @@ div[onclick="goHome()"] {
   font-size: 14px;
   color: #555;
 }
+.postNameBox {
+  display: flex;
+  gap: 10px;
+}
+.name {
+  font-weight: bold;
+}

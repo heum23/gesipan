@@ -18,33 +18,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="/public/css/login.css" />
   </head>
-  <style>
-    .loginBtn {
-      display: flex;
-      gap: 20px;
-    }
-    .divider {
-      display: flex;
-      align-items: center;
-      text-align: center;
-      margin: 20px 0;
-      width: 100%;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: "";
-      flex: 1;
-      border-bottom: 1px solid #ccc; /* 선 스타일 */
-      margin: 0 10px; /* 텍스트와의 간격 */
-    }
-
-    .divider span {
-      white-space: nowrap;
-      font-size: 14px;
-      color: #666;
-    }
-  </style>
+  <style></style>
   <body>
     <form>
       <div>LOG IN</div>
@@ -99,26 +73,4 @@
     </form>
   </body>
   <script src="/public/js/login.js"></script>
-
-  <script>
-    //네이버
-    const naverLogin = new naver.LoginWithNaverId({
-      clientId: "r2e3fx9D8K59Ki8e_0U8",
-      callbackUrl: "http://localhost:3000/check",
-      loginButton: { color: "green", type: 2, height: 40 },
-    });
-    naverLogin.init(); // 로그인 설정
-    //카카오
-
-    Kakao.init("d0dd311168368be5e1739ca82f4edf68");
-
-    function loginWithKakao() {
-      const REST_API_KEY = "d0dd311168368be5e1739ca82f4edf68"; // 카카오 REST API 키
-      const REDIRECT_URI = "http://localhost:3000/kakaocheck"; // 리디렉트 URI
-
-      const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
-      window.location.href = kakaoLoginUrl; // 로그인 페이지로 이동
-    }
-  </script>
 </html>

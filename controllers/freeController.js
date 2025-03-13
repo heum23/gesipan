@@ -58,9 +58,9 @@ const postData = async (req, res) => {
     } else if (type === "oldest") {
       orderOptions.push(["updatedAt", "ASC"]); // 기본 내림차순
     } else if (type === "like-high") {
-      orderOptions.push(["updatedAt", "DESC"]);
+      orderOptions.push(["likecnt", "DESC"]);
     } else if (type === "like-low") {
-      orderOptions.push(["updatedAt", "ASC"]);
+      orderOptions.push(["likecnt", "ASC"]);
     } else {
       orderOptions.push(["updatedAt", "DESC"]); // 기본값으로 최신순
     }
