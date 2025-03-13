@@ -12,12 +12,12 @@ window.addEventListener("scroll", function () {
   if (window.scrollY > 50) {
     // 50px 이상 스크롤 내리면
     header.classList.add("scroll");
-    leftLogo.style.opacity = "0";
-    centerLogo.style.opacity = "1";
+    // leftLogo.style.opacity = "0";
+    // centerLogo.style.opacity = "1";
   } else {
     header.classList.remove("scroll");
-    leftLogo.style.opacity = "1";
-    centerLogo.style.opacity = "0";
+    // leftLogo.style.opacity = "1";
+    // centerLogo.style.opacity = "0";
   }
 });
 

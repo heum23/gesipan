@@ -179,6 +179,7 @@ body {
 
 .postNameBox {
   display: flex;
+  align-items: center;
   gap: 10px;
   border-bottom: 1px solid #ddd;
   padding-bottom: 20px;
@@ -273,4 +274,19 @@ button:hover {
   cursor: pointer;
   font-size: 14px;
   color: #555;
+}
+
+/* 푸터 */
+footer {
+  padding: 20px;
+  border-top: 1px solid #bab8b8;
+}
+
+#footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footerInfo {
+  text-align: center;
 }

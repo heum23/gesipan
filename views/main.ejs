@@ -16,7 +16,7 @@
         <!-- <div class="logo centerLogo" onclick="goHome()" style="opacity: 0">
           TALKTALK
         </div> -->
-        <div
+        <!-- <div
           style="
             display: flex;
             justify-content: center;
@@ -30,9 +30,21 @@
           <div onclick="categoryType('3')">book</div>
           <div onclick="categoryType('4')">travel</div>
           <div onclick="categoryType('5')">pet</div>
-        </div>
+        </div> -->
       </div>
       <div class="headerRight">
+        <div class="search">
+          <input
+            id="query"
+            type="text"
+            name="query"
+            placeholder="search"
+            required
+          />
+          <div class="searchIcon">
+            <img src="/public/img/search.png" alt="search" />
+          </div>
+        </div>
         <div class="heart">
           <img
             onclick="heartMove()"
@@ -87,12 +99,7 @@
           <button class="category" onclick="categoryType('4')">여행</button>
           <button class="category" onclick="categoryType('5')">반려동물</button>
         </div>
-        <div class="search">
-          <input type="text" name="query" placeholder="search" required />
-          <div>
-            <img class="searchIcon" src="/public/img/search.png" alt="search" />
-          </div>
-        </div>
+
         <div class="create" onclick="create()">글쓰기</div>
       </div>
       <div class="postWrap"></div>

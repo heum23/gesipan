@@ -160,6 +160,10 @@ const postOne = async (req, res) => {
     if (!post) {
       return res.status(404).json({ message: "게시글을 찾을 수 없습니다." });
     }
+    const newDate = new Date(post.updatedAt)
+      .toISOString()
+      .replace("T", " ")
+      .split(".")[0];
 
     const responseData = {
       id: post.id,
@@ -170,7 +174,7 @@ const postOne = async (req, res) => {
       userId: post.userId,
       userName: post.user.name,
       createdAt: post.createdAt,
-      updatedAt: post.updatedAt,
+      updatedAt: newDate,
     };
 
     res.render("detail", { post: responseData });
