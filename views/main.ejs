@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css"
+    />
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,13 +31,7 @@
             <img src="/public/img/search.png" alt="search" />
           </div>
         </div>
-        <div class="heart">
-          <img
-            onclick="heartMove()"
-            src="/public/img/heartEmpty.png"
-            alt="heart"
-          />
-        </div>
+
         <div class="login" id="loginBtn">login</div>
         <div class="signup" id="signupBtn">signup</div>
       </div>
@@ -74,18 +73,18 @@
           </select>
         </div>
         <div class="categoryWrap">
-          <button class="category" onclick="categoryType('1')">음악</button>
-          <button class="category" onclick="categoryType('2')">영화</button>
-          <button class="category" onclick="categoryType('3')">책</button>
-          <button class="category" onclick="categoryType('4')">여행</button>
-          <button class="category" onclick="categoryType('5')">반려동물</button>
+          <button class="category" onclick="postAll('1','1')">음악</button>
+          <button class="category" onclick="postAll('2','1')">영화</button>
+          <button class="category" onclick="postAll('3','1')">책</button>
+          <button class="category" onclick="postAll('4','1')">여행</button>
+          <button class="category" onclick="postAll('5','1')">반려동물</button>
         </div>
 
         <div class="create" onclick="create()">글쓰기</div>
       </div>
       <div class="postWrap"></div>
     </div>
-
+    <div class="pagenation"></div>
     <div class="top" id="scrollTop">
       <img class="upImg" src="/public/img/up.png" alt="up" />
     </div>
@@ -101,6 +100,6 @@
       <div class="footerSNS"></div>
     </footer>
   </body>
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
   <script src="/public/js/main.js"></script>
 </html>

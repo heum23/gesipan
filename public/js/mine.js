@@ -72,6 +72,7 @@ const myData2 = () => {
                 }" alt="${res.data.post.title}"></div>
                 <div>
                   <div class='name text'>${res.data.post.title}</div>
+                  
                   <div class="date text">수정한 날짜 : ${
                     new Date(res.data.post.updatedAt)
                       .toISOString()
@@ -121,8 +122,9 @@ const myData1 = () => {
             main.innerHTML += ` <div onclick='postDetail(${item.id})' class="table">
             <div class='imgDiv'><img class='img' src="${item.img}"></div>
             <div>
-              <div class='name text'> ${res.data.name}</div>
-            <div class='title'>${item.title}</div>
+             
+            <div class='name text'>${item.title}</div>
+            <br>
             <div class="date text">수정한 날짜 :${newDate}</div>
             <div class='detail text'>${item.detail}</div></div></div><hr>`;
           });
