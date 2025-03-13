@@ -90,9 +90,7 @@ app.get("/check", (req, res) => {
 app.get("/kakaocheck", (req, res) => {
   res.render("kakaocheck");
 });
-app.get("/myheart", (req, res) => {
-  res.render("myheart");
-});
+
 app.listen(port, () => {
   console.log(port, "번 포트에서 대기 중");
 });

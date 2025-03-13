@@ -23,21 +23,43 @@ window.addEventListener("scroll", function () {
 
 // 메인페이지 모든 게시글 보기
 const sortSelect = document.querySelector("#sort"); // 정렬 가져오기
-
-const postAll = () => {
+let datalength = 0;
+let totalPage = 0;
+let categoryId1 = "";
+let id1 = "";
+const postAll = (categoryId, id) => {
   const postWrap = document.querySelector(".postWrap");
-
   // 선택된 값 가져오기
   const type = sortSelect.value;
-
+  categoryId1 = categoryId;
+  id1 = id;
   axios({
     method: "post",
     url: "/free/posting",
-    data: { type },
+    data: { type, id, categoryId },
   })
     .then((res) => {
       const posts = res.data.post;
+      console.log(res.data.totalPosts, "===========");
+      datalength = res.data.totalPosts;
+      console.log(datalength);
+      const showItem = 10;
+      totalPage = Math.ceil(datalength / showItem);
+      const pagenation = document.querySelector(".pagenation");
+      if (datalength > 0) {
+        pagenation.innerHTML = `<div onclick="prevData(${categoryId})" class="prev"><</div>
+<div class="page"></div>
+<div onclick="nextData(${categoryId})" class="next">></div>`;
 
+        pageNumber(categoryId);
+      } else {
+        pagenation.innerHTML = "";
+      }
+      const numberDiv = document.querySelector(`.div${id}`);
+      console.log(id, "============");
+      if (numberDiv) {
+        numberDiv.classList.add("choice1");
+      }
       // 만약 데이터가 없다면 '게시글이 없습니다' 메시지 표시
       if (!posts) {
         postWrap.innerHTML = `<div class="notPost">게시글이 없습니다.</div>`;
@@ -78,8 +100,39 @@ const postAll = () => {
       console.error("게시글을 가져오는 데 실패했습니다:", e);
     });
 };
+let btn = 1;
+postAll(0, 1);
+sortSelect.addEventListener("change", () => {
+  postAll(categoryId1, id1);
+});
+const pageNumber = (categoryId) => {
+  const pageDiv = document.querySelector(".page");
+  pageDiv.innerHTML = "";
+  for (let i = 1; i <= totalPage; i++) {
+    pageDiv.innerHTML += `<div onclick="postAll(${categoryId},${i})" class="div${i} pagenumber">${i}</div>`;
+  }
+};
+const prev = document.querySelector(".prev");
+const next = document.querySelector(".next");
 
-postAll();
+const prevData = (categoryId) => {
+  if (btn === 1) {
+    Swal.fire("첫번째 페이지입니다", "", "warning");
+  } else {
+    postAll(categoryId, btn - 1);
+    btn -= 1;
+  }
+};
+const nextData = (categoryId) => {
+  console.log(totalPage);
+  console.log(btn);
+  if (btn === totalPage) {
+    Swal.fire("마지막 페이지입니다", "", "warning");
+  } else {
+    postAll(categoryId, btn + 1);
+    btn += 1;
+  }
+};
 
 // 수정한 날짜를 나타내는 형식
 function timeForToday(value) {
@@ -107,8 +160,6 @@ function timeForToday(value) {
   return timeValue.toLocaleDateString(); // new Date 형식으로 날짜 표시
 }
 
-sortSelect.addEventListener("change", postAll);
-
 // 메인게시글 내용 글자 수 제한(...으로 축약)
 showText = (detail, maxLength) => {
   const originalText = detail.innerText;
@@ -117,58 +168,6 @@ showText = (detail, maxLength) => {
     const showText = originalText.substring(0, maxLength) + "...";
     detail.innerText = showText;
   }
-};
-
-// 카테고리 별 게시글 보기
-const categoryType = (categoryId) => {
-  const postWrap = document.querySelector(".postWrap");
-
-  axios({
-    method: "get",
-    url: `/free/category/${categoryId}`,
-  })
-    .then((res) => {
-      const posts = res.data.post;
-
-      // 만약 데이터가 없다면 '게시글이 없습니다' 메시지 표시
-      if (!posts) {
-        postWrap.innerHTML = `<div class="notPost">게시글이 없습니다.</div>`;
-        return;
-      }
-
-      postWrap.innerHTML = posts
-        .map((post) => {
-          const newDate = new Date(post.updatedAt).toISOString().split("T")[0];
-          return `<div class="post" id="post_${post.id}" onclick="postDetail(${
-            post.id
-          })">
-                <div><img class="postImg" src="${
-                  post.img || "/public/img/heartFull.png"
-                }" alt="image" /></div>
-                <div class="postText">
-                  <div>${post.userName}</div>
-                  <h3>${post.title}</h3>
-                  <div>${timeForToday(post.updatedAt)}</div>
-                  <div class="detail">${post.detail}</div>
-                  <div class="likeCount">
-                    <div class="likeImg"><img src="/public/img/heartFull.png" alt="좋아요" /></div>
-                    <div>${post.likecnt}</div>
-                  </div>
-                </div>
-              </div>
-          `;
-        })
-        .join(""); // 배열을 문자열로 결합
-
-      // 메인게시글 내용 글자 수 제한
-      const postDetails = document.querySelectorAll(".detail");
-      postDetails.forEach((detail) => {
-        showText(detail, 200); // 200자로 제한
-      });
-    })
-    .catch((e) => {
-      console.error("카테고리 별 게시글을 가져오지 못했습니다", e);
-    });
 };
 
 // 토큰 유무에 따른 헤더 버튼 변경
@@ -193,16 +192,7 @@ signupBtn.addEventListener("click", () => {
     window.location.href = "/signup"; // 회원가입 페이지로 이동
   }
 });
-const heartMove = () => {
-  let cookies = document.cookie.split(";");
-  const tokenCookie = cookies.find((item) => item.includes("token="));
-  if (!tokenCookie) {
-    alert("로그인 후 이용가능합니다.");
-    window.location.href = "/login";
-  } else {
-    window.location.href = "/myheart";
-  }
-};
+
 const checkLoginStatus = () => {
   let cookies = document.cookie.split(";");
   const tokenCookie = cookies.find((item) => item.includes("token="));
@@ -293,4 +283,29 @@ signupMenu.addEventListener("click", () => {
 // 좋아요한 글 메뉴 클릭 시 좋아요한 글 페이지로 이동
 myLikesMenu.addEventListener("click", () => {
   window.location.href = "/myheart"; // 내가 좋아요한 글 페이지
+});
+
+const create = () => {
+  window.location.href = "/writing";
+};
+// 탑 버튼 (제일 위로)
+// 버튼 참조
+const scrollTopBtn = document.getElementById("scrollTop");
+
+// 스크롤 이벤트 감지
+window.addEventListener("scroll", () => {
+  // 화면의 중간 높이보다 스크롤이 내려가면 버튼 표시
+  if (window.scrollY > window.innerHeight / 2) {
+    scrollTopBtn.style.display = "block"; // 버튼 보이기
+  } else {
+    scrollTopBtn.style.display = "none"; // 버튼 숨기기
+  }
+});
+
+// 버튼 클릭 이벤트로 스크롤을 상단으로 이동
+scrollTopBtn.addEventListener("click", () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth", // 부드러운 스크롤
+  });
 });

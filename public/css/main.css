@@ -3,7 +3,7 @@ body {
   font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #fff4e6; /* 배경색 설정 */
+  background-color: white; /* 배경색 설정 */
 }
 
 /* 헤더 */
@@ -163,9 +163,11 @@ body {
 
 .category:hover {
   color: white; /* 호버 시 글자색을 하얗게 변경 */
-  background-color: #003366; /* 호버 시 배경색을 오렌지레드로 변경 */
+  background-color: orange; /* 호버 시 배경색을 오렌지레드로 변경 */
 }
-
+.choice {
+  background-color: orange !important;
+}
 /* 게시글 작성 버튼 */
 .create {
   cursor: pointer;
@@ -382,6 +384,32 @@ body {
     margin-bottom: 10px;
     margin-right: 0;
   }
+}
+/* 페이지 네이션 */
+.pagenation {
+  margin: 0 auto;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  gap: 8px;
+}
+.page {
+  display: flex;
+  gap: 10px;
+}
+.pagenumber {
+  cursor: pointer;
+  color: gray;
+}
+.choice1 {
+  color: black !important;
+  font-weight: 400;
+}
+.prev {
+  cursor: pointer;
+}
+.next {
+  cursor: pointer;
 }
 
 /* 푸터 */

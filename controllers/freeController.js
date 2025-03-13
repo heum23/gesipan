@@ -51,8 +51,14 @@ const tokenCheck = async (req, res) => {
 const postData = async (req, res) => {
   try {
     const orderOptions = [];
-    let { type } = req.body;
-    console.log(type);
+
+    let { type, id, categoryId } = req.body;
+    // categoryId가 존재하면 해당 categoryId로 필터링
+    console.log(req.body);
+    const whereCondition = {};
+    if (categoryId) {
+      whereCondition.categoryId = categoryId; // categoryId가 있을 경우에만 추가
+    }
     if (type === "newest") {
       orderOptions.push(["updatedAt", "DESC"]); // 기본 내림차순
     } else if (type === "oldest") {
@@ -64,19 +70,30 @@ const postData = async (req, res) => {
     } else {
       orderOptions.push(["updatedAt", "DESC"]); // 기본값으로 최신순
     }
+    const page = id || 1; // id가 없으면 기본적으로 첫 번째 페이지
+    const limit = 10; // 한 페이지에 보여줄 게시글 개수
+    const offset = (page - 1) * limit; // id가 1이면 0부터, 2이면 10부터 시작
+    const totalPosts = await free.count({
+      where: Object.keys(whereCondition).length ? whereCondition : undefined,
+    });
+
+    // DB에서 게시글 가져오기
     const posts = await free.findAll({
+      where: Object.keys(whereCondition).length ? whereCondition : undefined, // where 조건이 없으면 undefined 처리
       include: [
         {
-          model: User, // `User` 모델을 include
-          as: "user", // `free` 모델에서 정의한 관계 이름
-          attributes: ["name"], // `User`에서 가져올 필드는 'name'
+          model: User,
+          as: "user",
+          attributes: ["name"],
         },
       ],
-      order: orderOptions, // order 옵션을 추가하여 정렬
+      order: orderOptions,
+      limit, // 가져올 게시글 개수
+      offset, // 시작 위치
     });
 
     if (posts.length === 0) {
-      return res.json({ message: "게시글이 없습니다." });
+      return res.json({ message: "게시글이 없습니다.", totalPosts });
     }
 
     // res.json({ post: posts });
@@ -93,52 +110,10 @@ const postData = async (req, res) => {
       updatedAt: post.updatedAt,
     }));
 
-    res.json({ post: responseData });
+    res.json({ post: responseData, totalPosts });
   } catch (e) {
     console.error("DB 조회 오류:", e);
 
-    res.status(500).json({ message: "서버 오류" });
-  }
-};
-
-// 카테고리별 게시글 보기
-const categoryData = async (req, res) => {
-  let categoryId = Number(req.params.categoryId);
-  try {
-    // 카테고리 ID로 필터링하여 게시글 조회
-    const postByCategory = await free.findAll({
-      where: {
-        categoryId: categoryId, // 카테고리 ID로 필터링
-      },
-      include: [
-        {
-          model: User, // `User` 모델을 include
-          as: "user", // `free` 모델에서 정의한 관계 이름
-          attributes: ["name"], // `User`에서 가져올 필드는 'name'
-        },
-      ],
-    });
-
-    if (postByCategory.length === 0) {
-      return res.json({ message: "게시글이 없습니다." });
-    }
-
-    // res.json({ post: posts });
-
-    // posts 객체에서 'user' 정보와 'name'을 포함하여 응답
-    const responseData = postByCategory.map((post) => ({
-      id: post.id,
-      img: post.img,
-      title: post.title,
-      detail: post.detail,
-      likecnt: post.likecnt,
-      userName: post.user.name,
-      createdAt: post.createdAt,
-      updatedAt: post.updatedAt,
-    }));
-
-    res.json({ post: responseData });
-  } catch (e) {
     res.status(500).json({ message: "서버 오류" });
   }
 };
@@ -260,5 +235,4 @@ module.exports = {
   deleteData,
   moveUpdate,
   updateData,
-  categoryData,
 };

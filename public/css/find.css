@@ -29,7 +29,7 @@ body {
 .container h2 {
   font-size: 22px;
   font-weight: bold;
-  color: #71a12f;
+  color: orange;
   margin-bottom: 20px;
   padding-bottom: 10px;
 }
@@ -49,7 +49,7 @@ input {
 
 /* 포커스 시 효과 */
 input:focus {
-  border-bottom: 2px solid #71a12f; /* 초록색 강조 */
+  border-bottom: 2px solid orange; /* 초록색 강조 */
 }
 
 /* 휴대폰 번호 입력 칸 스타일 */
@@ -64,7 +64,7 @@ button {
   height: 40px;
   font-size: 16px;
   color: white;
-  background-color: #71a12f;
+  background-color: orange;
   border: none;
   border-radius: 4px;
   margin-top: 15px;
@@ -89,7 +89,7 @@ button {
 
 .changePage div {
   font-size: 14px;
-  color: #71a12f;
+  color: orange;
   cursor: pointer;
   margin: 0 10px;
 }

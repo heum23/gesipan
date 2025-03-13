@@ -31,7 +31,7 @@ form {
 form > div:first-child {
   font-size: 22px;
   font-weight: bold;
-  color: #71a12f; /* 초록색 */
+  color: orange; /* 초록색 */
   text-transform: uppercase;
   text-align: center;
   width: 100%;
@@ -43,10 +43,10 @@ form > div:first-child {
 h2 {
   font-size: 20px;
   font-weight: bold;
-  color: #71a12f; /* 초록색 */
+  color: orange; /* 초록색 */
   margin-bottom: 20px;
   text-transform: uppercase;
-  border-bottom: 3px solid #71a12f;
+  border-bottom: 3px solid orange;
   padding-bottom: 10px;
 }
 
@@ -75,7 +75,7 @@ input {
 }
 
 input:focus {
-  border-bottom: 2px solid #71a12f;
+  border-bottom: 2px solid orange;
 }
 
 /* 메시지 스타일 */
@@ -87,7 +87,8 @@ input:focus {
 
 /* 로그인 버튼 */
 #login_btn {
-  background: #71a12f;
+  background: orange;
+  opacity: 0.7;
   color: white;
   text-align: center;
   padding: 12px;
@@ -102,7 +103,8 @@ input:focus {
 }
 
 #login_btn:hover {
-  background: #5c8b24;
+  background: orange;
+  opacity: 1;
 }
 
 /* ID/PW 찾기 & 회원가입 */
