@@ -274,21 +274,3 @@ button:hover {
   font-size: 14px;
   color: #555;
 }
-
-/* 푸터 */
-footer {
-  padding: 20px;
-  margin-top: 50px;
-  /* border-top: 1px solid #ddd; */
-  /* 상단 경계선 대신 box-shadow로 적용 */
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-}
-
-#footer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.footerInfo {
-  text-align: center;
-}

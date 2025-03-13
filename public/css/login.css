@@ -122,3 +122,28 @@ input:focus {
 .auth-links div:hover {
   text-decoration: underline;
 }
+.loginBtn {
+  display: flex;
+  gap: 20px;
+}
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc; /* 선 스타일 */
+  margin: 0 10px; /* 텍스트와의 간격 */
+}
+
+.divider span {
+  white-space: nowrap;
+  font-size: 14px;
+  color: #666;
+}

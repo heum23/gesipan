@@ -299,25 +299,3 @@ signupMenu.addEventListener("click", () => {
 myLikesMenu.addEventListener("click", () => {
   window.location.href = "/myheart"; // 내가 좋아요한 글 페이지
 });
-
-// 탑 버튼 (제일 위로)
-// 버튼 참조
-const scrollTopBtn = document.getElementById("scrollTop");
-
-// 스크롤 이벤트 감지
-window.addEventListener("scroll", () => {
-  // 화면의 중간 높이보다 스크롤이 내려가면 버튼 표시
-  if (window.scrollY > window.innerHeight / 2) {
-    scrollTopBtn.style.display = "block"; // 버튼 보이기
-  } else {
-    scrollTopBtn.style.display = "none"; // 버튼 숨기기
-  }
-});
-
-// 버튼 클릭 이벤트로 스크롤을 상단으로 이동
-scrollTopBtn.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth", // 부드러운 스크롤
-  });
-});
