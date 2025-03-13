@@ -274,6 +274,19 @@ const del = async (req, res) => {
     console.log(e);
   }
 };
+const updateMine = async (req, res) => {
+  try {
+    const { id, name, number } = req.body;
+    console.log(id, name, number);
+    const result = await User.update(
+      { name, number }, // 업데이트할 값
+      { where: { id } } // 조건
+    );
+    res.json({ message: "성공" });
+  } catch (e) {
+    console.log(e);
+  }
+};
 module.exports = {
   postUser,
   idFind,
@@ -286,4 +299,5 @@ module.exports = {
   kakaoToken,
   updateAdress,
   del,
+  updateMine,
 };

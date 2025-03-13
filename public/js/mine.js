@@ -1,17 +1,153 @@
-const addressMove = () => {
-  window.location.href = "/address";
+let main = document.querySelector(".main");
+showText = (detail, maxLength) => {
+  const originalText = detail.innerText;
+
+  if (originalText.length > maxLength) {
+    const showText = originalText.substring(0, maxLength) + "...";
+    detail.innerText = showText;
+  }
 };
-const heartMove = () => {
-  window.location.href = "/myheart";
+const postDetail = (id) => {
+  axios({
+    method: "get",
+    url: `/free/detail/${id}`,
+  })
+    .then((res) => {
+      // console.log(res.data.post);
+      window.location.href = `/free/detail/${id}`;
+    })
+    .catch((e) => {
+      if (e.response && e.response.status === 404) {
+        // 게시글을 찾을 수 없는 경우
+        alert("게시글을 찾을 수 없습니다.");
+      } else {
+        // 서버 에러나 다른 오류 처리
+        console.error("Failed to fetch post details:", e);
+        alert("게시글을 가져오는 데 문제가 발생했습니다.");
+      }
+    });
+};
+const myPost = () => {
+  myData1();
+  document.querySelector(".mypost").classList.add("blue");
+  document.querySelector(".myheart").classList.remove("blue");
+  document.querySelector(".myinfo").classList.remove("blue");
 };
 
-let main = document.querySelector(".main");
+const heartMove = () => {
+  myData2();
+  document.querySelector(".mypost").classList.remove("blue");
+  document.querySelector(".myheart").classList.add("blue");
+  document.querySelector(".myinfo").classList.remove("blue");
+};
+// 내 좋아요
+const myData2 = () => {
+  let cookies = document.cookie.split(";");
+  const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
+
+  if (tokenCookie) {
+    const token = tokenCookie.split("token=")[1];
+
+    axios({
+      method: "post",
+      url: "/like/token", // token을 사용하여 인증된 데이터 가져오기
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (res.data.data) {
+          main.innerHTML = `<div class="text_xl left">내가 좋아한 게시글</div>`;
+          res.data.data.map((item) => {
+            axios({
+              method: "post",
+              url: "/like/post", // 각 게시글의 데이터를 가져오기
+              data: { id: item.postId },
+            }).then((res) => {
+              main.innerHTML += `<div class="table" onclick='postDetail(${
+                res.data.post.id
+              })'>
+                <div class='imgDiv'><img class='img' src="${
+                  res.data.post.img
+                }" alt="${res.data.post.title}"></div>
+                <div>
+                  <div class='name text'>${res.data.post.title}</div>
+                  <div class="date text">수정한 날짜 : ${
+                    new Date(res.data.post.updatedAt)
+                      .toISOString()
+                      .split("T")[0]
+                  }</div>
+                  <div class='detail text'>${res.data.post.detail}</div>
+                </div>
+              </div><hr>`;
+
+              // 150자까지 글 내용 제한
+              const postDetails = document.querySelectorAll(".detail");
+              postDetails.forEach((detail) => {
+                showText(detail, 150); // 150자로 제한
+              });
+            });
+          });
+        } else {
+          main.innerHTML = `${res.data.message}`;
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+};
+//내 게시글
+const myData1 = () => {
+  let cookies = document.cookie.split(";");
+  const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
+  if (tokenCookie) {
+    const token = tokenCookie.split("token=")[1];
+
+    axios({
+      method: "post",
+      url: "/free/token",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (res.data.post) {
+          main.innerHTML = `<div class="text_xl left">내 게시글</div>`;
+          res.data.post.map((item) => {
+            const newDate = new Date(item.updatedAt)
+              .toISOString()
+              .split("T")[0];
+            main.innerHTML += ` <div onclick='postDetail(${item.id})' class="table">
+            <div class='imgDiv'><img class='img' src="${item.img}"></div>
+            <div>
+              <div class='name text'> ${res.data.name}</div>
+            <div class='title'>${item.title}</div>
+            <div class="date text">수정한 날짜 :${newDate}</div>
+            <div class='detail text'>${item.detail}</div></div></div><hr>`;
+          });
+          const postDetails = document.querySelectorAll(".detail");
+          postDetails.forEach((detail) => {
+            showText(detail, 150); // 200자로 제한
+          });
+        } else {
+          main.innerHTML = `${res.data.message}`;
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
+};
+
 let modal = document.querySelector(".changePw");
 let modal2 = document.querySelector(".changeAddress");
 let overlay = document.querySelector(".overlay");
 const password = document.getElementById("password");
 const checkPw = document.getElementById("checkPw");
 let userId = "";
+let userNumber = "";
+let userName = "";
 const myData = () => {
   let cookies = document.cookie.split(";");
 
@@ -33,13 +169,15 @@ const myData = () => {
     }).then((res) => {
       let user = res.data.user;
       userId = user.id;
+      userNumber = user.number;
+      userName = user.name;
       let addressHTML =
         user.address && user.address.trim() !== ""
           ? `<div class='text2'><div>주소 : ${user.address} </div><div> <button class='exit-btn edit' onclick="changePw(2)">수정</button> </div></div>`
           : `<div class='text2'><div>주소 :</div> <div><button class='exit-btn edit' onclick="changePw(2)">주소 등록</button></div> </div>`;
 
       if (user.loginType === "local") {
-        main.innerHTML += `
+        main.innerHTML += ` <div class="text_xl left">내 정보</div>
      <div class='container'>
            <div class='text_L'>email(ID)</div>
          <div class="inputDiv">
@@ -61,6 +199,13 @@ const myData = () => {
         </div>
          <div class='text_L'>주소</div>
          <div class='text'> ${addressHTML}</div> 
+                <div class='text_L'>정보 수정</div>
+          <div class="btnDiv2">
+      <button class="exit-btn" onclick="update(${user.id})">
+           수정
+       </button>
+          </div>
+            <br>
          <div class='text_L'>탈퇴하기</div>
           <div class="btnDiv2">
       <button class="exit-btn" onclick="exit(${user.id})">
@@ -76,34 +221,81 @@ const myData = () => {
         비밀번호 변경
       </button>`;
       } else if (user.loginType === "naver") {
-        main.innerHTML += `<div class='container'>
+        main.innerHTML += ` <div class="text_xl left">내 정보</div><div class='container'>
            <div class='text_L'>email(ID)</div>
         <div class="inputDiv">
-         <input type="text" value="${user.email}" class='input_text' readonly>
+         <input  type="text" value="${user.email}" class='input_text' readonly>
         </div>
         <div class='text_L'>전화번호</div>
         <div class="inputDiv">
-         <input type="text" value="${user.number}" class='input_text' readonly>
+         <input id="number" type="text" value="${user.number}" class='input_text' >
         </div>
         <div class='text_L'>이름</div>
         <div class="inputDiv">
-         <input type="text" value="${user.name}" class='input_text' readonly>
+         <input id="name" type="text" value="${user.name}" class='input_text' >
         </div>
         <div class='text_L'>주소 </div>
          <div class='text'> ${addressHTML}</div> 
+                <div class='text_L'>정보 수정</div>
+          <div class="btnDiv2">
+      <button class="exit-btn" onclick="update(${user.id})">
+           수정
+       </button>
+          </div>
+            <br>
          <div class='text_L'>탈퇴하기</div>
         <div class="btnDiv2">
       <button class="exit-btn" onclick="exit(${user.id})">
            탈퇴하기
        </button>
           </div>
+        
+    
 
       `;
       }
+      const formatPhoneNumber = (number) => {
+        number = number.replace(/\D/g, ""); // 숫자만 남기기
+        if (number.length <= 3) {
+          return number;
+        } else if (number.length <= 7) {
+          return `${number.slice(0, 3)}-${number.slice(3)}`;
+        } else {
+          return `${number.slice(0, 3)}-${number.slice(3, 7)}-${number.slice(
+            7,
+            11
+          )}`;
+        }
+      };
+
+      document.getElementById("number").addEventListener("input", (event) => {
+        event.target.value = formatPhoneNumber(event.target.value);
+      });
     });
   }
 };
 myData();
+
+//정보 수정
+const update = (id) => {
+  let number = document.getElementById("number").value;
+  let name = document.getElementById("name").value;
+
+  if (number === userNumber || number === "") {
+    number = userNumber;
+  }
+  if (name === userName || name === "") {
+    name = userName;
+  }
+  axios({
+    method: "post",
+    url: "/user/mine/update",
+    data: { id, number, name },
+  }).then((res) => {
+    // console.log(res);
+    window.location.reload();
+  });
+};
 //탈퇴
 const exit = (id) => {
   if (confirm("정말 탈퇴하시겠습니까?")) {
@@ -193,9 +385,6 @@ const changeNewPw = (id) => {
   });
 };
 
-const myPost = () => {
-  window.location.href = "/myPost";
-};
 const updateAddress = () => {
   const address = document.querySelector("#address").value; // 주소
   const detailAddress = document.querySelector("#detailAddress").value; // 상세주소
@@ -258,4 +447,11 @@ execDaumPostcode = () => {
       document.getElementById("detailAddress").focus();
     },
   }).open();
+};
+const showMine = () => {
+  main.innerHTML = "";
+  myData();
+  document.querySelector(".mypost").classList.remove("blue");
+  document.querySelector(".myheart").classList.remove("blue");
+  document.querySelector(".myinfo").classList.add("blue");
 };
