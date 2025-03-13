@@ -12,26 +12,7 @@
       <div class="headerLeft">
         <div class="logo leftLogo" onclick="goHome()">TALKTALK</div>
       </div>
-      <div class="headerCenter">
-        <!-- <div class="logo centerLogo" onclick="goHome()" style="opacity: 0">
-          TALKTALK
-        </div> -->
-        <!-- <div
-          style="
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            font-size: 22px;
-            font-weight: 600;
-          "
-        >
-          <div onclick="categoryType('1')">music</div>
-          <div onclick="categoryType('2')">movie</div>
-          <div onclick="categoryType('3')">book</div>
-          <div onclick="categoryType('4')">travel</div>
-          <div onclick="categoryType('5')">pet</div>
-        </div> -->
-      </div>
+      <div class="headerCenter"></div>
       <div class="headerRight">
         <div class="search">
           <input
@@ -41,7 +22,7 @@
             placeholder="search"
             required
           />
-          <div class="searchIcon">
+          <div class="searchIcon" onclick="search()">
             <img src="/public/img/search.png" alt="search" />
           </div>
         </div>

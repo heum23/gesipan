@@ -9,21 +9,45 @@
     <link rel="stylesheet" href="/public/css/mine.css" />
   </head>
   <body>
+    <header id="header">
+      <div class="headerLeft">
+        <div class="logo leftLogo" onclick="goHome()">TALKTALK</div>
+      </div>
+
+      <div class="headerRight">
+        <div class="login" id="loginBtn">login</div>
+        <div class="signup" id="signupBtn">signup</div>
+      </div>
+      <div class="menuBtn">
+        <img id="menuIcon" src="/public/img/menu.png" alt="menu" />
+      </div>
+    </header>
+
+    <!-- 메뉴가 나타날 오른쪽 상자 -->
+    <div class="sideMenu" id="sideMenu">
+      <div class="menuContent">
+        <div class="closeBtn" id="closeBtn">
+          <img src="/public/img/close.png" alt="close" />
+        </div>
+        <div class="menuItem" id="loginMenu">Login</div>
+        <div class="menuItem" id="signupMenu">Sign Up</div>
+        <div class="menuItem" id="myLikesMenu">My Liked Posts</div>
+      </div>
+    </div>
+
     <div class="box">
       <div class="sub">
-        <div class="text_box">
-          <div class="text_xl">마이 페이지</div>
-          <br />
-          <br />
-          <div class="subBox">
-            <div class="margin_top_btm mypost" onclick="myPost()">
-              내가 작성한 게시글
-            </div>
-            <br />
-            <div class="myheart" onclick="heartMove()">내가 좋아한 게시글</div>
-            <br />
-            <div class="myinfo blue" onclick="showMine()">내 정보</div>
+        <div class="text_xl">마이 페이지</div>
+        <div class="subBox">
+          <div class="margin_top_btm mypost postIts" onclick="myPost()">
+            내가 작성한 게시글
           </div>
+          <br />
+          <div class="myheart postIts" onclick="heartMove()">
+            내가 좋아한 게시글
+          </div>
+          <br />
+          <div class="myinfo blue postIts" onclick="showMine()">내 정보</div>
         </div>
       </div>
       <div class="main"></div>

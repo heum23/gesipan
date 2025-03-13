@@ -3,6 +3,7 @@ const router = express.Router();
 const freeController = require("../controllers/freeController");
 const path = require("path");
 const multer = require("multer");
+const { free } = require("../models");
 // 세부설정
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -46,5 +47,7 @@ router.put("/update/:id", upload.single("img"), freeController.updateData);
 router.delete("/delete/:id", freeController.deleteData);
 
 router.get("/category/:categoryId", freeController.categoryData);
+
+router.post("/search", freeController.searchKeyword);
 
 module.exports = router;

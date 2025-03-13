@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { User, free } = require("../models");
 const jwt = require("jsonwebtoken");
 require("dotenv").config(); // 환경 변수 로드
@@ -252,6 +253,51 @@ const updateData = async (req, res) => {
   }
 };
 
+// 키워드(단어) 검색
+const searchKeyword = async (req, res) => {
+  const { keyword } = req.body;
+
+  try {
+    // 'title'과 'detail'에 keyword가 포함된 게시글을 찾음
+    const posts = await free.findAll({
+      where: {
+        [Op.or]: [
+          // title과 detail 중 하나라도 keyword가 포함된 게시글을 찾음
+          { title: { [Op.like]: `%${keyword}%` } },
+          // { detail: { [Op.like]: `%${keyword}%` } },
+        ],
+      },
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["name"],
+        },
+      ],
+    });
+
+    if (posts.length === 0) {
+      return res.json({ result: [] }); // 검색 결과가 없을 때
+    }
+
+    const responseData = posts.map((post) => ({
+      id: post.id,
+      img: post.img,
+      title: post.title,
+      detail: post.detail,
+      likecnt: post.likecnt,
+      userName: post.user.name,
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
+    }));
+
+    res.json({ result: responseData });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "서버에서 오류가 발생했습니다." });
+  }
+};
+
 module.exports = {
   writeData,
   tokenCheck,
@@ -261,4 +307,5 @@ module.exports = {
   moveUpdate,
   updateData,
   categoryData,
+  searchKeyword,
 };
