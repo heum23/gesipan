@@ -249,7 +249,7 @@ function getAccessToken() {
       window.location.href = "/";
     } else {
       document.querySelector("body").classList.remove("none");
-      alert(res.data.message);
+      Swal.fire(res.data.message, "", "warning");
       let emailNaver = document.getElementById("email");
       let nameNaver = document.getElementById("name");
       emailNaver.value = res.data.email;

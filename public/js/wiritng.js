@@ -85,11 +85,11 @@ const createData = () => {
   })
     .then((res) => {
       console.log("ddddddd");
-      alert(res.data.message);
+      Swal.fire(res.data.message, "", "warning");
       window.location.href = "/";
     })
     .catch((e) => {
       console.error(e);
-      alert("error");
+      Swal.fire("error", "", "warning");
     });
 };

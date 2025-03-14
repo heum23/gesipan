@@ -19,11 +19,12 @@ const postDetail = (id) => {
     .catch((e) => {
       if (e.response && e.response.status === 404) {
         // 게시글을 찾을 수 없는 경우
-        alert("게시글을 찾을 수 없습니다.");
+        Swal.fire("게시글을 찾을 수 없습니다.", "", "warning");
       } else {
         // 서버 에러나 다른 오류 처리
         console.error("Failed to fetch post details:", e);
         alert("게시글을 가져오는 데 문제가 발생했습니다.");
+        Swal.fire("게시글을 가져오는 데 문제가 발생했습니다.", "", "warning");
       }
     });
 };
@@ -67,10 +68,11 @@ const myData2 = () => {
               main.innerHTML += `<div class="table" onclick='postDetail(${
                 res.data.post.id
               })'>
-                <div class='imgDiv'><img class='img' src="${
-                  res.data.post.img
-                }" alt="${res.data.post.title}"></div>
-                <div>
+               <div class='imgDiv'><img class='img' src="${
+                 res.data.post.img !== null
+                   ? res.data.post.img
+                   : "/public/img/heartEmpty.png"
+               }" alt="${res.data.post.title}"></div>
                   <div class='name text'>${res.data.post.title}</div>
                   
                   <div class="date text">수정한 날짜 : ${
@@ -119,8 +121,12 @@ const myData1 = () => {
             const newDate = new Date(item.updatedAt)
               .toISOString()
               .split("T")[0];
-            main.innerHTML += ` <div onclick='postDetail(${item.id})' class="table">
-            <div class='imgDiv'><img class='img' src="${item.img}"></div>
+            main.innerHTML += ` <div onclick='postDetail(${
+              item.id
+            })' class="table">
+          <div class='imgDiv'><img class='img' src="${
+            item.img !== null ? item.img : "/public/img/heartEmpty.png"
+          }" alt="${res.data.post.title}"></div>
             <div>
              
             <div class='name text'>${item.title}</div>
@@ -380,7 +386,7 @@ const changeNewPw = (id) => {
     url: "/user/updatePw",
     data: { pw: pwValue, id: id },
   }).then((res) => {
-    alert("비밀번호 변경 완료");
+    Swal.fire("비밀번호 변경 완료", "", "warning");
     window.location.reload();
   });
 };

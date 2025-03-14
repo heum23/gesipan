@@ -11,7 +11,7 @@ let cookies = document.cookie.split(";");
 const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
 
 if (!tokenCookie) {
-  alert("로그인이 만료되었습니다");
+  Swal.fire("로그인 후 이용해주세요.", "", "warning");
   window.location.href = "/login";
 } else {
   const token = tokenCookie.split("token=")[1];
@@ -25,7 +25,7 @@ if (!tokenCookie) {
   }).then((res) => {
     // myId = res.data.user.id;
     if (res.data.message === "로그인 X") {
-      alert(res.data.message);
+      Swal.fire(res.data.message, "", "warning");
     }
   });
 }
@@ -101,11 +101,11 @@ const updateData = (id) => {
     },
   })
     .then((res) => {
-      alert(res.data.message);
+      Swal.fire(res.data.message, "", "warning");
       window.location.href = `/free/detail/${id}`;
     })
     .catch((e) => {
       console.log(e, "e");
-      alert(res.data.message);
+      Swal.fire(res.data.message, "", "warning");
     });
 };

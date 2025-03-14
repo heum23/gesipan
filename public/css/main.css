@@ -161,6 +161,7 @@ body {
 }
 .choice {
   background-color: orange !important;
+  color: white !important;
 }
 /* 게시글 작성 버튼 */
 .create {
@@ -381,29 +382,45 @@ body {
 }
 /* 페이지 네이션 */
 .pagenation {
-  margin: 0 auto;
+  margin: 20px auto;
   display: flex;
-  text-align: center;
+  align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
+  padding: 10px;
 }
+
 .page {
   display: flex;
   gap: 10px;
 }
+
 .pagenumber {
   cursor: pointer;
-  color: gray;
+  color: #aaa;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 2px;
+  transition: all 0.2s ease-in-out;
 }
+
 .choice1 {
-  color: black !important;
-  font-weight: 400;
+  background-color: black;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 8px 12px;
 }
-.prev {
-  cursor: pointer;
-}
+
+.prev,
 .next {
   cursor: pointer;
+  font-size: 18px;
+  padding: 8px 12px;
+  background-color: #eee;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
 }
 
 /* 푸터 */

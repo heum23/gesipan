@@ -118,6 +118,7 @@ const changeNewPw = (id) => {
   }).then((res) => {
     console.log(res.data);
     alert("비밀번호 변경 완료");
+    Swal.fire("비밀번호 변경 완료", "", "warning");
     window.location.href = "/login";
   });
 };

@@ -55,7 +55,7 @@ const postData = async (req, res) => {
 
     let { type, id, categoryId } = req.body;
     // categoryId가 존재하면 해당 categoryId로 필터링
-    console.log(req.body);
+
     const whereCondition = {};
     if (categoryId) {
       whereCondition.categoryId = categoryId; // categoryId가 있을 경우에만 추가

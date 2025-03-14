@@ -30,7 +30,7 @@ const create = () => {
       window.location.href = "/writing";
     });
   } else {
-    alert("로그인이 필요합니다");
+    Swal.fire("로그인이 필요합니다", "", "warning");
     window.location.href = "/login";
   }
 };
@@ -185,7 +185,7 @@ const deletePost = (id) => {
       url: `/free/delete/${id}`,
     })
       .then((res) => {
-        alert(res.data.message);
+        Swal.fire(res.data.message, "", "warning");
         window.location.href = "/";
       })
       .catch((e) => {
@@ -245,7 +245,7 @@ const clickHeart = (id) => {
 
   const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
   if (!tokenCookie) {
-    alert("로그인 후 가능합니다.");
+    Swal.fire("로그인 후 가능합니다.", "", "warning");
     return;
   }
   axios({

@@ -224,11 +224,11 @@ const postDetail = (id) => {
     .catch((e) => {
       if (e.response && e.response.status === 404) {
         // 게시글을 찾을 수 없는 경우
-        alert("게시글을 찾을 수 없습니다.");
+        Swal.fire("게시글을 찾을 수 없습니다.", "", "warning");
       } else {
         // 서버 에러나 다른 오류 처리
         console.error("Failed to fetch post details:", e);
-        alert("게시글을 가져오는 데 문제가 발생했습니다.");
+        Swal.fire("게시글을 가져오는 데 문제가 발생했습니다.", "", "warning");
       }
     });
 };
@@ -289,5 +289,17 @@ scrollTopBtn.addEventListener("click", () => {
   window.scrollTo({
     top: 0,
     behavior: "smooth", // 부드러운 스크롤
+  });
+});
+
+const categoryButtons = document.querySelectorAll(".category");
+
+categoryButtons.forEach((button) => {
+  button.addEventListener("click", function () {
+    // 모든 버튼의 active 클래스 제거
+    categoryButtons.forEach((btn) => btn.classList.remove("choice"));
+
+    // 클릭한 버튼에 active 클래스 추가
+    this.classList.add("choice");
   });
 });
