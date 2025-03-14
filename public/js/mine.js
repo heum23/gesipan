@@ -198,11 +198,11 @@ const myData = () => {
         <br>
         <div class='text_L'>전화번호</div>
         <div class="inputDiv">
-         <input id="number" type="text" value="${user.number}" class='input_text' readonly>
+         <input id="number" type="text" value="${user.number}" class='input_text' >
         </div>
         <div class='text_L'>이름</div>
         <div class="inputDiv">
-         <input id="name" type="text" value="${user.name}" class='input_text' readonly>
+         <input id="name" type="text" value="${user.name}" class='input_text'>
         </div>
          <div class='text_L'>주소</div>
          <div class='text'> ${addressHTML}</div> 
