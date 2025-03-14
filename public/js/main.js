@@ -271,3 +271,77 @@ categoryButtons.forEach((button) => {
     this.classList.add("choice");
   });
 });
+
+// 검색 기능
+const search = () => {
+  const query = document.querySelector("#query").value;
+
+  axios({
+    method: "post",
+    url: "/free/search",
+    data: { keyword: query },
+  })
+    .then((res) => {
+      const posts = res.data.result; // 응답 데이터에서 게시글을 받아옵니다.
+
+      const postWrap = document.querySelector(".postWrap");
+
+      if (!posts || posts.length === 0) {
+        postWrap.innerHTML = "<div class='notPost'>검색 결과가 없습니다.</div>";
+        return;
+      }
+
+      postWrap.innerHTML = posts
+        .map((post) => {
+          const highlightedTitle = highlightText(post.title, query);
+
+          return `
+            <div class="post" id="post_${post.id}" onclick="postDetail(${
+            post.id
+          })">
+              <div><img class="postImg" src="${
+                post.img || "/public/img/heartFull.png"
+              }" alt="image" /></div>
+              <div class="postText">
+                <div>${post.userName}</div>
+                <h3>${highlightedTitle}</h3>
+                <div>${timeForToday(post.updatedAt)}</div>
+                <div class="detail">${post.detail}</div>
+                <div class="likeCount">
+                  <div class="likeImg"><img src="/public/img/heartFull.png" alt="좋아요" /></div>
+                  <div>${post.likecnt}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+
+      // 검색 결과 글자 수 제한 적용
+      const postDetails = document.querySelectorAll(".detail");
+      postDetails.forEach((detail) => {
+        showText(detail, 200);
+      });
+    })
+    .catch((e) => {
+      console.error("검색 중 오류 발생:", e);
+      alert("검색하는 동안 오류가 발생했습니다.");
+    });
+};
+
+// 검색어를 하이라이트하는 함수
+const highlightText = (text, keyword) => {
+  if (!keyword) return text;
+
+  // 한글과 영어를 포함하여 모든 문자에서 검색어를 찾아 하이라이트합니다.
+  const regex = new RegExp(`(${keyword})`, "gi"); // 대소문자 구분 없이 검색어를 찾아냄
+  return text.replace(regex, '<span class="highlight">$1</span>'); // 검색어를 <span>으로 감싸서 하이라이트
+};
+
+// 엔터 키 눌렀을 때 검색 실행 (input 박스에 대한 이벤트 리스너)
+const inputElement = document.querySelector("#query");
+inputElement.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    search(); // 엔터 키 눌렀을 때 search 함수 실행
+  }
+});

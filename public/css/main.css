@@ -406,7 +406,7 @@ body {
 }
 
 .choice1 {
-  background-color: black;
+  background-color: orange;
   color: white !important;
   font-weight: bold;
   border-radius: 8px;
@@ -418,7 +418,7 @@ body {
   cursor: pointer;
   font-size: 18px;
   padding: 8px 12px;
-  background-color: #eee;
+  /* background-color: #eee; */
   border-radius: 50%;
   transition: all 0.2s ease-in-out;
 }
@@ -443,7 +443,7 @@ body {
 }
 
 #scrollTop:hover {
-  background-color: #003366;
+  background-color: rgba(255, 0, 0, 0.559);
 }
 
 /* 이미지 스타일 */
@@ -453,8 +453,10 @@ body {
 }
 
 .highlight {
-  background-color: red; /* 노란색 배경으로 하이라이트 */
-  font-weight: bold; /* 굵게 표시 */
+  background-color: rgba(255, 0, 0, 0.559);
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
 }
 .detail {
   white-space: pre-wrap; /* 줄 바꿈과 공백을 그대로 유지 */
