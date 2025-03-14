@@ -13,8 +13,11 @@
     <link rel="stylesheet" href="/public/css/signup.css" />
   </head>
   <body>
+    <!-- 헤더 불러오기 -->
+    <%- include('header') %>
+
     <div class="mainContainer">
-      <h2>회원가입</h2>
+      <div class="joinTitle">회원가입</div>
       <form id="signupForm">
         <div class="join">
           <div class="inputTitle">아이디</div>
@@ -187,7 +190,9 @@
         </button>
       </form>
     </div>
-    <footer></footer>
+
+    <!-- 푸터 불러오기 -->
+    <%- include('footer') %>
   </body>
 
   <!-- js -->

@@ -1,0 +1,149 @@
+/* 헤더 */
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  background-color: white; /* 기본 배경색을 투명으로 설정 */
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 트랜지션 추가 */
+}
+
+/* 로고 스타일 */
+.logo {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+/* 헤더 가운데 영역 */
+.headerCenter {
+  text-align: center;
+  flex-grow: 1;
+}
+
+/* 헤더 오른쪽 영역 */
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.headerRight div {
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+.heart img {
+  width: 20px;
+}
+
+/* 메뉴 버튼 */
+.menuBtn {
+  display: none; /* 메뉴 버튼 보이게 설정 */
+}
+
+#sideMenu {
+  display: none;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .headerWrap {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .leftLogo {
+    display: none;
+  }
+
+  /* 로그인, 회원가입, 좋아요 숨김 */
+  .headerRight {
+    display: none;
+  }
+
+  /* 메뉴 버튼 보임 */
+  .menuBtn {
+    display: block;
+  }
+
+  #sideMenu {
+    display: block;
+  }
+
+  /* 사이드 메뉴 기본 위치 설정 (숨겨짐) */
+  .sideMenu {
+    position: fixed;
+    top: 0;
+    /* right: -250px;
+      width: 250px; */
+    right: -100%; /* 초기에는 오른쪽에서 숨겨짐 */
+    width: 100%; /* 화면 전체 너비를 차지 */
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: right 0.3s ease; /* 오른쪽으로 슬라이드 */
+    z-index: 1001;
+  }
+
+  /* 사이드 메뉴가 열린 상태 */
+  .sideMenu.open {
+    right: 0; /* 오른쪽으로 슬라이드 */
+  }
+
+  .menuContent {
+    padding: 20px;
+  }
+
+  .menuItem {
+    padding: 15px;
+    font-size: 18px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .menuItem:hover,
+  .menuWrite:hover {
+    background-color: #f0f0f0;
+  }
+
+  /* 메뉴 버튼 아이콘 크기 */
+  .menuBtn img {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* 닫기 버튼 스타일 */
+  .closeBtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+  }
+
+  .closeBtn img {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* 닫기 버튼 호버 스타일 */
+  .closeBtn:hover {
+    color: #ff5c5c; /* 호버 시 빨간색 */
+  }
+}

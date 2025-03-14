@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/css/header.css" />
+  </head>
+  <body>
+    <header id="header">
+      <div class="headerLeft">
+        <div class="logo leftLogo" onclick="goHome()">TALKTALK</div>
+      </div>
+      <div class="headerCenter"></div>
+      <div class="headerRight">
+        <div id="LoginBtn">login</div>
+        <div id="SignupBtn">signup</div>
+      </div>
+      <div class="menuBtn">
+        <img id="menuIcon" src="/public/img/menu.png" alt="menu" />
+      </div>
+    </header>
+
+    <!-- 메뉴가 나타날 오른쪽 상자 -->
+    <div class="sideMenu" id="sideMenu">
+      <div class="menuContent">
+        <div class="closeBtn" id="closeBtn">
+          <img src="/public/img/close.png" alt="close" />
+        </div>
+        <div class="menuItem" id="loginMenu">로그인</div>
+        <div class="menuItem" id="signupMenu">회원가입</div>
+        <div class="menuItem" id="mypageMenu">내정보</div>
+      </div>
+    </div>
+  </body>
+  <script src="/public/js/header.js"></script>
+</html>

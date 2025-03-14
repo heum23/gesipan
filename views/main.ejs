@@ -51,9 +51,9 @@
         <div class="closeBtn" id="closeBtn">
           <img src="/public/img/close.png" alt="close" />
         </div>
-        <div class="menuItem" id="loginMenu">Login</div>
-        <div class="menuItem" id="signupMenu">Sign Up</div>
-        <div class="menuItem" id="myLikesMenu">My Liked Posts</div>
+        <div class="menuItem" id="loginMenu">login</div>
+        <div class="menuItem" id="signupMenu">signup</div>
+        <div class="menuItem" id="mypageMenu">mypage</div>
       </div>
     </div>
 
@@ -93,17 +93,9 @@
     <div class="top" id="scrollTop">
       <img class="upImg" src="/public/img/up.png" alt="up" />
     </div>
-    <footer id="footer">
-      <div class="footerLogo"></div>
-      <div class="footerInfo">
-        <div>대표 박소현 진순흠</div>
-        <div>주소 서울특별시 마포구 숭문 4길 6</div>
-        <div>사업자 등록번호 000-00-00000</div>
-        <br />
-        <div>Copyright ⓒ 2025 TALKTALK All rights reserved.</div>
-      </div>
-      <div class="footerSNS"></div>
-    </footer>
+
+    <!-- 푸터 불러오기 -->
+    <%- include('footer') %>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
   <script src="/public/js/main.js"></script>

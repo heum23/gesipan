@@ -19,6 +19,9 @@
   </head>
   <link rel="stylesheet" href="/public/css/update.css" />
   <body>
+    <!-- 헤더 불러오기 -->
+    <%- include('header') %>
+
     <div class="Container">
       <div class="imgBox">
         <!-- 파일 선택 상자는 숨기고 div 박스 클릭 시 파일 선택 -->
@@ -34,7 +37,7 @@
             id="prevImg"
             src="<%= post.img %>"
             alt="미리보기"
-            style="width: 250px; height: 300px; object-fit: cover"
+            style="width: 300px; height: 300px; object-fit: cover"
           />
           <span id="placeholder" style="display: none"> 이미지 선택 </span>
         </div>
@@ -65,11 +68,13 @@
         <button onclick="updateData('<%= post.id%>')">수정</button>
       </div>
     </div>
-    <script id="postData" type="application/json">
-      <%- JSON.stringify(post) %>
-    </script>
-  </body>
 
+    <!-- 푸터 불러오기 -->
+    <%- include('footer') %>
+  </body>
+  <script id="postData" type="application/json">
+    <%- JSON.stringify(post) %>
+  </script>
   <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
   <script src="/public/js/update.js"></script>
 </html>

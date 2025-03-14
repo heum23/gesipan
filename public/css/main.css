@@ -231,7 +231,7 @@ body {
 }
 
 /* css로 글자 수 제한(...축약)으로 보이게 하는 방법 (몇 줄 제한) */
-/* .detail {
+.detail {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -239,7 +239,7 @@ body {
   text-overflow: ellipsis;
   font-size: 14px;
   color: #333;
-} */
+}
 .detail {
   font-size: 16px; /* 가독성이 좋은 크기 */
   line-height: 1.6; /* 줄 간격 증가로 읽기 편하게 */
@@ -421,21 +421,6 @@ body {
   background-color: #eee;
   border-radius: 50%;
   transition: all 0.2s ease-in-out;
-}
-
-/* 푸터 */
-footer {
-  padding: 20px;
-  border-top: 1px solid #bab8b8;
-}
-
-#footer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.footerInfo {
-  text-align: center;
 }
 
 /* 탑 버튼 */

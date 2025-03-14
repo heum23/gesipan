@@ -293,7 +293,6 @@ const updateDays = () => {
   const daySelect = document.getElementById("day");
   const yearSelect = document.getElementById("year");
   const monthSelect = document.getElementById("month");
-  console.log(monthSelect.value);
   daySelect.innerHTML = ""; // 기존의 옵션을 삭제
 
   const selectedYear = parseInt(yearSelect.value);
