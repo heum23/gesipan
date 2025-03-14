@@ -23,7 +23,6 @@ const postDetail = (id) => {
       } else {
         // 서버 에러나 다른 오류 처리
         console.error("Failed to fetch post details:", e);
-        alert("게시글을 가져오는 데 문제가 발생했습니다.");
         Swal.fire("게시글을 가져오는 데 문제가 발생했습니다.", "", "warning");
       }
     });
@@ -199,11 +198,11 @@ const myData = () => {
         <br>
         <div class='text_L'>전화번호</div>
         <div class="inputDiv">
-         <input type="text" value="${user.number}" class='input_text' readonly>
+         <input id="number" type="text" value="${user.number}" class='input_text' readonly>
         </div>
         <div class='text_L'>이름</div>
         <div class="inputDiv">
-         <input type="text" value="${user.name}" class='input_text' readonly>
+         <input id="name" type="text" value="${user.name}" class='input_text' readonly>
         </div>
          <div class='text_L'>주소</div>
          <div class='text'> ${addressHTML}</div> 
