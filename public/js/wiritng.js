@@ -84,9 +84,11 @@ const createData = () => {
     },
   })
     .then((res) => {
-      console.log("ddddddd");
-      Swal.fire(res.data.message, "", "warning");
-      window.location.href = "/";
+      // 글쓰기 성공
+      Swal.fire(res.data.message, "", "success").then(() => {
+        // 사용자가 확인을 누르면 페이지 이동
+        window.location.href = "/";
+      });
     })
     .catch((e) => {
       console.error(e);

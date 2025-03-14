@@ -233,9 +233,30 @@ const postDetail = (id) => {
     });
 };
 
-// 글쓰기 버튼 클릭 시 이동
+// 글쓰기 버튼 클릭 시
 const create = () => {
-  window.location.href = "/writing";
+  let cookies = document.cookie.split(";");
+  const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
+
+  if (tokenCookie) {
+    const token = tokenCookie.split("token=")[1];
+    console.log(token, "token");
+
+    axios({
+      method: "post",
+      url: "/user/token",
+      headers: {
+        Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 담아서 전송
+      },
+    }).then((res) => {
+      window.location.href = "/writing"; // 글쓰기 페이지 이동
+    });
+  } else {
+    Swal.fire("로그인이 필요합니다", "", "warning").then(() => {
+      // 사용자가 확인을 누르면 페이지 이동
+      window.location.href = "/login";
+    });
+  }
 };
 
 // 탑 버튼 (제일 위로)
