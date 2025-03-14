@@ -136,8 +136,12 @@ const updatePw = async (req, res) => {
 };
 const updateAdress = (req, res) => {
   try {
-    const { id, address } = req.body;
+    const { id, addressV, detailAddress } = req.body;
+
+    const address = addressV + " " + detailAddress;
+
     User.update({ address: address }, { where: { id } });
+
     res.json({ message: "성공" });
   } catch (e) {
     console.log(e);

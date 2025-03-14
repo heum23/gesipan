@@ -7,6 +7,7 @@ showText = (detail, maxLength) => {
     detail.innerText = showText;
   }
 };
+
 const postDetail = (id) => {
   axios({
     method: "get",
@@ -27,6 +28,7 @@ const postDetail = (id) => {
       }
     });
 };
+
 const myPost = () => {
   myData1();
   document.querySelector(".mypost").classList.add("blue");
@@ -40,7 +42,8 @@ const heartMove = () => {
   document.querySelector(".myheart").classList.add("blue");
   document.querySelector(".myinfo").classList.remove("blue");
 };
-// 내 좋아요
+
+// 내가 좋아한 게시글 토큰 검증
 const myData2 = () => {
   let cookies = document.cookie.split(";");
   const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
@@ -100,7 +103,8 @@ const myData2 = () => {
       });
   }
 };
-//내 게시글
+
+// 내가 작성한 게시글 토큰 검증
 const myData1 = () => {
   let cookies = document.cookie.split(";");
   const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
@@ -139,7 +143,7 @@ const myData1 = () => {
           });
           const postDetails = document.querySelectorAll(".detail");
           postDetails.forEach((detail) => {
-            showText(detail, 150); // 200자로 제한
+            showText(detail, 150); // 150자 제한
           });
         } else {
           main.innerHTML = `${res.data.message}`;
@@ -192,7 +196,7 @@ const myData = () => {
         <div class="text_xl left">내 정보</div>
         <div class='container'>
  <div class='infoBox'>
-          <div class='text_L'>email(ID)</div>
+          <div class='text_L'>아이디</div>
           <div class="inputDiv">
             <input type="text" value="${user.email}" class='input_text' readonly>
           </div>
@@ -297,7 +301,7 @@ const myData = () => {
 };
 myData();
 
-//정보 수정
+// 정보 수정
 const update = (id) => {
   let number = document.getElementById("number").value;
   let name = document.getElementById("name").value;
@@ -354,8 +358,15 @@ const closeModal = (id) => {
     modal2.classList.add("none");
     overlay.classList.add("none");
   }
+
+  // 모달을 닫을 때 input 값을 비우기
+  document.getElementById("password").value = "";
+  document.getElementById("checkPw").value = "";
+  document.querySelector(".text1").innerHTML = ""; // 비밀번호 유효성 검사 메시지 초기화
+  document.querySelector(".text2").innerHTML = ""; // 비밀번호 확인 메시지 초기화
 };
 
+// ✅ 비밀번호 변경 시 유효성 검사
 const updatePw = () => {
   const pwValue = password.value;
   const checkValue = checkPw.value;
@@ -368,15 +379,16 @@ const updatePw = () => {
     document.querySelector(".text1").innerHTML = "비밀번호를 입력해 주세요.";
   } else if (!passRegex.test(pwValue)) {
     document.querySelector(".text1").innerHTML =
-      "비밀번호는 최소 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다.";
+      "최소 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다.";
   } else {
     document.querySelector(".text1").innerHTML = "";
   }
 
-  if (pwValue !== checkValue) {
-    document.querySelector(".text").innerHTML = "비밀번호와 똑같이 입력하세요";
+  if (checkValue !== "" && pwValue !== checkValue) {
+    document.querySelector(".text2").innerHTML =
+      "비밀번호가 일치하지 않습니다.";
   } else {
-    document.querySelector(".text").innerHTML = "";
+    document.querySelector(".text2").innerHTML = "";
   }
 
   if (
@@ -410,12 +422,14 @@ const updateAddress = () => {
   const address = document.querySelector("#address").value; // 주소
   const detailAddress = document.querySelector("#detailAddress").value; // 상세주소
   const data = {
-    address: address + " " + detailAddress,
+    addressV: address,
+    detailAddress: detailAddress,
   };
+  console.log(data, "상세");
   axios({
     method: "post",
     url: "/user/updateAdress",
-    data: { id: userId, address: address },
+    data: { id: userId, addressV: address, detailAddress: detailAddress },
   }).then((res) => {
     window.location.reload();
   });
@@ -469,6 +483,8 @@ execDaumPostcode = () => {
     },
   }).open();
 };
+
+// 마이페이지
 const showMine = () => {
   main.innerHTML = "";
   myData();
