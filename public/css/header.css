@@ -77,6 +77,7 @@
   /* 메뉴 버튼 보임 */
   .menuBtn {
     display: block;
+    cursor: pointer;
   }
 
   #sideMenu {

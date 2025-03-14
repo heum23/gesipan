@@ -366,3 +366,38 @@ inputElement.addEventListener("keydown", (event) => {
     search(); // 엔터 키 눌렀을 때 search 함수 실행
   }
 });
+
+// 메뉴가 나타날 오른쪽 상자
+const menuIcon = document.getElementById("menuIcon");
+const sideMenu = document.getElementById("sideMenu");
+const closeBtn = document.getElementById("closeBtn");
+
+// 메뉴 버튼 클릭 시 사이드 메뉴 열기/닫기
+menuIcon.addEventListener("click", () => {
+  sideMenu.classList.toggle("open"); // 메뉴가 열리고 닫힘
+});
+
+// 닫기 버튼 클릭 시 사이드 메뉴 닫기
+closeBtn.addEventListener("click", () => {
+  sideMenu.classList.remove("open"); // 사이드 메뉴 닫기
+});
+
+// 로그인, 회원가입, 좋아요한 글 클릭 시 페이지 이동
+const loginMenu = document.getElementById("loginMenu");
+const signupMenu = document.getElementById("signupMenu");
+const mypageMenu = document.getElementById("mypageMenu");
+
+// 로그인 메뉴 클릭 시 로그인 페이지로 이동
+loginMenu.addEventListener("click", () => {
+  window.location.href = "/login";
+});
+
+// 회원가입 메뉴 클릭 시 회원가입 페이지로 이동
+signupMenu.addEventListener("click", () => {
+  window.location.href = "/signup";
+});
+
+// 내정보 메뉴 클릭 시 회원가입 페이지로 이동
+mypageMenu.addEventListener("click", () => {
+  window.location.href = "/mine";
+});
