@@ -72,6 +72,7 @@ const myData2 = () => {
                    ? res.data.post.img
                    : "/public/img/heartEmpty.png"
                }" alt="${res.data.post.title}"></div>
+     		<div class='textDiv'>
                   <div class='name text'>${res.data.post.title}</div>
                   
                   <div class="date text">수정한 날짜 : ${
@@ -81,7 +82,7 @@ const myData2 = () => {
                   }</div>
                   <div class='detail text'>${res.data.post.detail}</div>
                 </div>
-              </div><hr>`;
+              </div>`;
 
               // 150자까지 글 내용 제한
               const postDetails = document.querySelectorAll(".detail");
@@ -115,7 +116,7 @@ const myData1 = () => {
     })
       .then((res) => {
         if (res.data.post) {
-          main.innerHTML = `<div class="text_xl left">내 게시글</div>`;
+          main.innerHTML = `<div class="text_xl left">내가 작성한 게시글</div>`;
           res.data.post.map((item) => {
             const newDate = new Date(item.updatedAt)
               .toISOString()
@@ -123,15 +124,18 @@ const myData1 = () => {
             main.innerHTML += ` <div onclick='postDetail(${
               item.id
             })' class="table">
-          <div class='imgDiv'><img class='img' src="${
-            item.img !== null ? item.img : "/public/img/heartEmpty.png"
-          }" alt="${res.data.post.title}"></div>
-            <div>
-             
+          <div class='imgDiv'>
+	  <img class='img' src="${
+      item.img !== null ? item.img : "/public/img/heartEmpty.png"
+    }" alt="${res.data.post.title}">
+            </div>
+             <div class='textDiv'>
             <div class='name text'>${item.title}</div>
-            <br>
+           
             <div class="date text">수정한 날짜 :${newDate}</div>
-            <div class='detail text'>${item.detail}</div></div></div><hr>`;
+            <div class='detail text'>${item.detail}</div>
+	    </div>
+	    </div>`;
           });
           const postDetails = document.querySelectorAll(".detail");
           postDetails.forEach((detail) => {
@@ -180,46 +184,58 @@ const myData = () => {
       userName = user.name;
       let addressHTML =
         user.address && user.address.trim() !== ""
-          ? `<div class='text2'><div>주소 : ${user.address} </div><div> <button class='exit-btn edit' onclick="changePw(2)">수정</button> </div></div>`
-          : `<div class='text2'><div>주소 :</div> <div><button class='exit-btn edit' onclick="changePw(2)">주소 등록</button></div> </div>`;
+          ? `<div class='text_add'><div>${user.address} </div><div> <button class='exit-btn edit' onclick="changePw(2)">수정</button> </div></div>`
+          : `<div class='text_add'><div></div> <div><button class='exit-btn edit' onclick="changePw(2)">주소 등록</button></div> </div>`;
 
       if (user.loginType === "local") {
-        main.innerHTML += ` <div class="text_xl left">내 정보</div>
-     <div class='container'>
-           <div class='text_L'>email(ID)</div>
-         <div class="inputDiv">
-         <input type="text" value="${user.email}" class='input_text' readonly>
-        </div>
-         <div class='text_L'>비밀번호</div>
-     
-         <div class='btnDiv2'> <button class="exit-btn " onclick="changePw(1)">
-            변경하기
-          </button></div>
-        <br>
-        <div class='text_L'>전화번호</div>
-        <div class="inputDiv">
-         <input id="number" type="text" value="${user.number}" class='input_text' >
-        </div>
-        <div class='text_L'>이름</div>
-        <div class="inputDiv">
-         <input id="name" type="text" value="${user.name}" class='input_text'>
-        </div>
-         <div class='text_L'>주소</div>
-         <div class='text'> ${addressHTML}</div> 
-                <div class='text_L'>정보 수정</div>
-          <div class="btnDiv2">
-      <button class="exit-btn" onclick="update(${user.id})">
-           수정
-       </button>
+        main.innerHTML += `
+        <div class="text_xl left">내 정보</div>
+        <div class='container'>
+ <div class='infoBox'>
+          <div class='text_L'>email(ID)</div>
+          <div class="inputDiv">
+            <input type="text" value="${user.email}" class='input_text' readonly>
           </div>
-            <br>
-         <div class='text_L'>탈퇴하기</div>
-          <div class="btnDiv2">
-      <button class="exit-btn" onclick="exit(${user.id})">
-           탈퇴하기
-       </button>
+ </div>  
+                <div class='infoBox'>
+          <div class='text_L'>비밀번호</div>
+          <div class='btnDiv2 inputDiv'>
+            <button class="exit-btn" onclick="changePw(1)">
+              변경하기
+            </button>
+          </div>
+</div>
+                <div class='infoBox'>
+          <div class='text_L'>전화번호</div>
+          <div class="inputDiv">
+            <input id="number" type="text" value="${user.number}" class='input_text'>
+          </div>
+</div>
+                <div class='infoBox'>
+          <div class='text_L'>이름</div>
+          <div class="inputDiv">
+            <input id="name" type="text" value="${user.name}" class='input_text'>
+          </div>
+</div>
+                <div class='infoBox'>
+          <div class='text_L'>주소</div>
+          <div class='text'>${addressHTML}</div>
+</div>
+                <div class='infoBox'>    
+          <div class='text_L'>정보 수정</div>
+          <div class="btnDiv2 inputDiv">
+            <button class="exit-btn" onclick="update(${user.id})">수정
+            </button>
+          </div>
+                </div>
+                <div class='infoBox'>
+          <div class='text_L'>탈퇴하기</div>
+          <div class="btnDiv2 inputDiv">
+            <button class="exit-btn" onclick="exit(${user.id})">탈퇴하기
+            </button>
+      </div>
+          </div>
         </div>
-        </div>;
       `;
 
         document.querySelector(
@@ -249,7 +265,7 @@ const myData = () => {
            수정
        </button>
           </div>
-            <br>
+       
          <div class='text_L'>탈퇴하기</div>
         <div class="btnDiv2">
       <button class="exit-btn" onclick="exit(${user.id})">
