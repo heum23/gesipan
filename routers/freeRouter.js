@@ -46,6 +46,6 @@ router.put("/update/:id", upload.single("img"), freeController.updateData);
 
 router.delete("/delete/:id", freeController.deleteData);
 
-router.post("/search", freeController.searchKeyword);
+router.get("/search", freeController.searchKeyword);
 
 module.exports = router;

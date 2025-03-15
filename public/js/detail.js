@@ -1,30 +1,3 @@
-// 글쓰기 버튼 클릭 시
-const create = () => {
-  let cookies = document.cookie.split(";");
-  const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
-
-  if (tokenCookie) {
-    const token = tokenCookie.split("token=")[1];
-    console.log(token, "token");
-
-    axios({
-      method: "post",
-      url: "/user/token",
-      headers: {
-        Authorization: `Bearer ${token}`, // JWT 토큰을 헤더에 담아서 전송
-      },
-    }).then((res) => {
-      console.log(res.data.user);
-      console.log(res.data.message);
-
-      window.location.href = "/writing";
-    });
-  } else {
-    Swal.fire("로그인이 필요합니다", "", "warning");
-    window.location.href = "/login";
-  }
-};
-
 // 토큰 검증 후 수정 삭제 버튼 활성화/비활성화
 let myId = "";
 const tokenCheck = () => {

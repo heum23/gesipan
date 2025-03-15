@@ -11,6 +11,19 @@ const writeData = async (req, res) => {
 
   let likecnt = 0;
 
+  if (!title) {
+    return res.json({
+      success: false,
+      message: "제목을 입력해주세요.",
+    });
+  }
+  if (!detail) {
+    return res.json({
+      success: false,
+      message: "내용을 입력해주세요.",
+    });
+  }
+
   try {
     const upData = await free.create({
       img,
@@ -22,6 +35,7 @@ const writeData = async (req, res) => {
     });
 
     res.json({
+      success: true,
       message: "글쓰기 등록이 완료되었습니다.",
     });
   } catch (e) {
@@ -230,7 +244,7 @@ const updateData = async (req, res) => {
 
 // 키워드(단어) 검색
 const searchKeyword = async (req, res) => {
-  const { keyword } = req.body;
+  const { keyword } = req.query;
 
   try {
     // 'title'과 'detail'에 keyword가 포함된 게시글을 찾음

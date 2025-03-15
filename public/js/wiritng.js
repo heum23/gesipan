@@ -19,7 +19,8 @@ const editor = new toastui.Editor({
   el: document.querySelector("#detail"), // 에디터를 적용할 요소 (컨테이너)
   height: "300px", // 에디터 영역의 높이 값 (OOOpx || auto)
   initialEditType: "wysiwyg", // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-  initialValue: "내용을 입력해 주세요.", // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+  // initialValue: "내용을 입력해 주세요.", // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+  placeholder: "내용을 입력해 주세요.", // 에디터가 비어있을 때 표시될 텍스트
   previewStyle: "vertical", // 마크다운 프리뷰 스타일 (tab || vertical)
 });
 
@@ -70,11 +71,6 @@ const createData = () => {
     formData.append("img", img);
   }
 
-  // FormData의 내용을 확인하기 위해 forEach 사용
-  formData.forEach((value, key) => {
-    console.log(key, value);
-  });
-
   axios({
     method: "post",
     url: "/free/writing",
@@ -84,6 +80,11 @@ const createData = () => {
     },
   })
     .then((res) => {
+      if (!res.data.success) {
+        // 백엔드에서 성공이 아니면 SweetAlert 띄우기
+        Swal.fire(res.data.message, "", "warning");
+        return;
+      }
       // 글쓰기 성공
       Swal.fire(res.data.message, "", "success").then(() => {
         // 사용자가 확인을 누르면 페이지 이동

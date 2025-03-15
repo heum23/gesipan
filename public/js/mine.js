@@ -168,7 +168,7 @@ const myData = () => {
 
   const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
   if (!tokenCookie) {
-    main.innerHTML = `로그인 후 이용가능합니다`;
+    main.innerHTML = `<div class="notPost">로그인 후 이용 가능합니다.</div>`;
     return;
   }
 
@@ -233,7 +233,7 @@ const myData = () => {
           </div>
                 </div>
                 <div class='infoBox'>
-          <div class='text_L'>탈퇴하기</div>
+          <div class='text_L'>회원 탈퇴</div>
           <div class="btnDiv2 inputDiv">
             <button class="exit-btn" onclick="exit(${user.id})">탈퇴하기
             </button>
@@ -248,33 +248,46 @@ const myData = () => {
         비밀번호 변경
       </button>`;
       } else if (user.loginType === "naver") {
-        main.innerHTML += ` <div class="text_xl left">내 정보</div><div class='container'>
-           <div class='text_L'>email(ID)</div>
-        <div class="inputDiv">
-         <input  type="text" value="${user.email}" class='input_text' readonly>
-        </div>
-        <div class='text_L'>전화번호</div>
-        <div class="inputDiv">
-         <input id="number" type="text" value="${user.number}" class='input_text' >
-        </div>
-        <div class='text_L'>이름</div>
-        <div class="inputDiv">
-         <input id="name" type="text" value="${user.name}" class='input_text' >
-        </div>
-        <div class='text_L'>주소 </div>
-         <div class='text'> ${addressHTML}</div> 
-                <div class='text_L'>정보 수정</div>
-          <div class="btnDiv2">
-      <button class="exit-btn" onclick="update(${user.id})">
-           수정
-       </button>
+        main.innerHTML += ` 
+        <div class="text_xl left">내 정보</div>
+        <div class='container'>
+          <div class='infoBox'>
+            <div class='text_L'>아이디</div>
+            <div class="inputDiv">
+              <input  type="text" value="${user.email}" class='input_text' readonly>
+            </div>
           </div>
-       
-         <div class='text_L'>탈퇴하기</div>
-        <div class="btnDiv2">
-      <button class="exit-btn" onclick="exit(${user.id})">
-           탈퇴하기
-       </button>
+          <div class='infoBox'>
+            <div class='text_L'>전화번호</div>
+            <div class="inputDiv">
+              <input id="number" type="text" value="${user.number}" class='input_text' >
+            </div>
+          </div>
+          <div class='infoBox'>
+            <div class='text_L'>이름</div>
+            <div class="inputDiv">
+              <input id="name" type="text" value="${user.name}" class='input_text' >
+            </div>
+          </div>
+          <div class='infoBox'>
+            <div class='text_L'>주소 </div>
+            <div class='text'> ${addressHTML}</div> 
+          </div>
+          <div class='infoBox'>
+            <div class='text_L'>정보 수정</div>
+            <div class="btnDiv2 inputDiv">
+              <button class="exit-btn" onclick="update(${user.id})">
+           수정
+              </button>
+            </div>
+          </div>
+          <div class='infoBox'>
+            <div class='text_L'>회원 탈퇴</div>
+            <div class="btnDiv2 inputDiv">
+              <button class="exit-btn" onclick="exit(${user.id})">
+            탈퇴하기
+              </button>
+            </div>
           </div>
       `;
       }

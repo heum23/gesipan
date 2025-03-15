@@ -298,9 +298,9 @@ const search = () => {
   const query = document.querySelector("#query").value;
 
   axios({
-    method: "post",
+    method: "get",
     url: "/free/search",
-    data: { keyword: query },
+    params: { keyword: query },
   })
     .then((res) => {
       const posts = res.data.result; // 응답 데이터에서 게시글을 받아옵니다.
