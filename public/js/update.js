@@ -101,8 +101,17 @@ const updateData = (id) => {
     },
   })
     .then((res) => {
-      Swal.fire(res.data.message, "", "warning");
-      window.location.href = `/free/detail/${id}`;
+      if (!res.data.success) {
+        // 백엔드에서 성공이 아니면 SweetAlert 띄우기
+        Swal.fire(res.data.message, "", "warning");
+        return;
+      }
+
+      // 업데이트 성공
+      Swal.fire(res.data.message, "", "success").then(() => {
+        // 사용자가 확인을 누르면 페이지 이동
+        window.location.href = `/free/detail/${id}`;
+      });
     })
     .catch((e) => {
       console.log(e, "e");

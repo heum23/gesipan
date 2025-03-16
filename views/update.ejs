@@ -33,13 +33,18 @@
         />
         <!-- 미리보기 박스 클릭 시 파일 선택 상자로 넘어감 -->
         <div id="prevContainer" onclick="inputPrevImg()">
+          <% if (post.img) { %>
           <img
             id="prevImg"
             src="<%= post.img %>"
             alt="미리보기"
-            style="width: 300px; height: 300px; object-fit: cover"
+            style="object-fit: cover"
           />
-          <span id="placeholder" style="display: none"> 이미지 선택 </span>
+          <% } else { %>
+          <!-- 이미지가 없으면 placeholder만 표시 -->
+          <img id="prevImg" src="" alt="미리보기" style="display: none" />
+          <span id="placeholder">이미지 선택</span>
+          <% } %>
         </div>
       </div>
       <div class="textBox">

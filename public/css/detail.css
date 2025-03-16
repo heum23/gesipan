@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 /* 전체 페이지 기본 스타일 */
 body {
   font-family: Arial, sans-serif;
@@ -68,7 +72,7 @@ h1 {
 
 .detailImg {
   width: 50%;
-  /* height: 200px; */
+  max-width: 100%;
   height: auto;
   border-radius: 4px;
   margin: 30px 0;
@@ -152,11 +156,10 @@ footer {
 
 @media (max-width: 768px) {
   /* 화면 너비가 768px 이하일 때 홈 버튼을 보이도록 설정 */
-  @media screen and (max-width: 768px) {
-    .homeBtn {
-      display: block; /* 화면 너비가 768px 이하일 때 버튼 보이기 */
-      display: flex;
-      gap: 5px;
-    }
+  .homeBtn {
+    display: block; /* 화면 너비가 768px 이하일 때 버튼 보이기 */
+    display: flex;
+
+    gap: 5px;
   }
 }

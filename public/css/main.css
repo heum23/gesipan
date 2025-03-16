@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 /* 전체 페이지 기본 스타일 */
 body {
   font-family: "Arial", sans-serif;
@@ -429,8 +433,8 @@ body {
   bottom: 30px;
   right: 30px;
   font-size: 25px;
-  width: 1.5vw;
-  height: 1.5vw;
+  width: 40px;
+  height: 40px;
   color: lightgray;
   background-color: orange;
   padding: 5px;
@@ -443,7 +447,7 @@ body {
 }
 
 #scrollTop:hover {
-  background-color: rgba(255, 0, 0, 0.559);
+  background-color: rgb(255, 132, 0);
 }
 
 /* 이미지 스타일 */

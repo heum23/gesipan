@@ -157,7 +157,7 @@ const postOne = async (req, res) => {
 
     const responseData = {
       id: post.id,
-      img: post.img,
+      img: post.img || "",
       title: post.title,
       detail: post.detail,
       likecnt: post.likecnt,
@@ -227,6 +227,19 @@ const updateData = async (req, res) => {
     img = req.body.img; // 기존 이미지 경로 사용
   }
 
+  if (!title) {
+    return res.json({
+      success: false,
+      message: "제목을 입력해주세요.",
+    });
+  }
+  if (!detail) {
+    return res.json({
+      success: false,
+      message: "내용을 입력해주세요.",
+    });
+  }
+
   try {
     const post = await free.update(
       { img, title, detail, userId, categoryId },
@@ -235,7 +248,7 @@ const updateData = async (req, res) => {
       }
     );
 
-    res.json({ message: "수정 완료되었습니다" });
+    res.json({ success: true, message: "수정 완료되었습니다" });
   } catch (e) {
     console.log(e, "error error error");
     res.json({ message: "수정에 문제가 생겼습니다" });
