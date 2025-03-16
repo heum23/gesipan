@@ -12,9 +12,13 @@ let id1 = "";
 const postAll = (categoryId, id) => {
   const postWrap = document.querySelector(".postWrap");
   // 선택된 값 가져오기
+  console.log(categoryId);
   const type = sortSelect.value;
-  categoryId1 = categoryId;
   id1 = id;
+  if (categoryId !== categoryId1) {
+    btn = 1;
+  }
+  categoryId1 = categoryId;
   axios({
     method: "post",
     url: "/free/posting",
@@ -22,9 +26,7 @@ const postAll = (categoryId, id) => {
   })
     .then((res) => {
       const posts = res.data.post;
-      console.log(res.data.totalPosts, "===========");
       datalength = res.data.totalPosts;
-      console.log(datalength);
       const showItem = 10;
       totalPage = Math.ceil(datalength / showItem);
       const pagenation = document.querySelector(".pagenation");
@@ -38,7 +40,7 @@ const postAll = (categoryId, id) => {
         pagenation.innerHTML = "";
       }
       const numberDiv = document.querySelector(`.div${id}`);
-      console.log(id, "============");
+
       if (numberDiv) {
         numberDiv.classList.add("choice1");
       }
@@ -77,6 +79,8 @@ const postAll = (categoryId, id) => {
       postDetails.forEach((detail) => {
         showText(detail, 200); // 200자로 제한
       });
+      console.log(btn, "_-------");
+      console.log(totalPage);
     })
     .catch((e) => {
       console.error("게시글을 가져오는 데 실패했습니다:", e);
@@ -106,8 +110,6 @@ const prevData = (categoryId) => {
   }
 };
 const nextData = (categoryId) => {
-  console.log(totalPage);
-  console.log(btn);
   if (btn === totalPage) {
     Swal.fire("마지막 페이지입니다", "", "warning");
   } else {
