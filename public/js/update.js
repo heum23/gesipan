@@ -71,9 +71,14 @@ const updateData = (id) => {
   const userId = myId;
   const category = document.getElementById("category").value;
   // const category = `<%= post.categoryId %>`;
+  let originalImg = "";
   const categoryId = Number(category);
-  const originalImg = post.img;
-
+  if (post.img === null) {
+    originalImg = "";
+  } else {
+    originalImg = post.img;
+  }
+  console.log(originalImg);
   const formData = new FormData();
 
   if (img) {
