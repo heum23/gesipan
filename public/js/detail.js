@@ -16,7 +16,7 @@ const tokenCheck = () => {
     })
       .then((res) => {
         myId = res.data.user.id;
-
+        heart();
         // 현재 게시글의 userId를 HTML에서 가져오기
         const postElement = document.querySelector(".mainWrap");
         const postUserId = postElement.getAttribute("data-user-id");
@@ -62,7 +62,7 @@ const heart = () => {
   axios({
     method: "get",
     url: "/like/heart",
-    params: { postId: Number(postId), userId: userId },
+    params: { postId: Number(postId), userId: myId },
   }).then((res) => {
     if (res.data.message === "X") {
       document.querySelector(".heartimg").src = "/public/img/heartEmpty.png";
@@ -71,32 +71,7 @@ const heart = () => {
     }
   });
 };
-let userId = "";
-const myData = () => {
-  let cookies = document.cookie.split(";");
 
-  const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
-  if (!tokenCookie) {
-    return;
-  }
-
-  if (tokenCookie) {
-    const token = tokenCookie.split("token=")[1];
-
-    axios({
-      method: "post",
-      url: "/user/token",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((res) => {
-      let user = res.data.user;
-      userId = user.id;
-      heart();
-    });
-  }
-};
-myData();
 const clickHeart = (id) => {
   let cookies = document.cookie.split(";");
 
@@ -108,7 +83,7 @@ const clickHeart = (id) => {
   axios({
     method: "post",
     url: "/like/postHeart",
-    data: { postId: id, userId: userId },
+    data: { postId: id, userId: myId },
   }).then((res) => {
     heart();
   });
