@@ -4,9 +4,13 @@
 .none {
   display: none !important;
 }
+* {
+  box-sizing: border-box !important;
+}
 
 /* 전체 페이지 중앙 정렬 */
 body {
+  font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,6 +21,7 @@ body {
 /* 찾기 박스 스타일 */
 .container {
   position: relative;
+  /* top: 350px; */
   width: 350px;
   padding: 40px;
   background: white;

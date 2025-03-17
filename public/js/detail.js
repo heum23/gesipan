@@ -36,19 +36,32 @@ tokenCheck();
 
 // 삭제 버튼
 const deletePost = (id) => {
-  if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
-    axios({
-      method: "delete",
-      url: `/free/delete/${id}`,
-    })
-      .then((res) => {
-        Swal.fire(res.data.message, "", "warning");
-        window.location.href = "/";
+  // if (confirm("정말로 이 게시글을 삭제하시겠습니까?")) {
+  Swal.fire({
+    title: "이 게시글을 삭제하시겠습니까?",
+    text: "이 작업은 되돌릴 수 없습니다.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "삭제",
+    cancelButtonText: "취소",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios({
+        method: "delete",
+        url: `/free/delete/${id}`,
       })
-      .catch((e) => {
-        console.error(e);
-      });
-  }
+        .then((res) => {
+          Swal.fire(res.data.message, "", "success").then(() => {
+            window.location.href = "/";
+          });
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  });
 };
 
 // 수정페이지 이동

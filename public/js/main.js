@@ -100,7 +100,7 @@ const next = document.querySelector(".next");
 
 const prevData = (categoryId) => {
   if (btn === 1) {
-    Swal.fire("첫번째 페이지입니다", "", "warning");
+    Swal.fire("첫번째 페이지입니다", "", "info");
   } else {
     postAll(categoryId, btn - 1);
     btn -= 1;
@@ -108,7 +108,7 @@ const prevData = (categoryId) => {
 };
 const nextData = (categoryId) => {
   if (btn === totalPage) {
-    Swal.fire("마지막 페이지입니다", "", "warning");
+    Swal.fire("마지막 페이지입니다", "", "info");
   } else {
     postAll(categoryId, btn + 1);
     btn += 1;
@@ -345,7 +345,7 @@ const search = () => {
     })
     .catch((e) => {
       console.error("검색 중 오류 발생:", e);
-      alert("검색하는 동안 오류가 발생했습니다.");
+      Swal.fire("검색하는 동안 오류가 발생했습니다.", "", "warning");
     });
 };
 

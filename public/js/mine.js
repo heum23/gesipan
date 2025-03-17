@@ -94,7 +94,7 @@ const myData2 = () => {
             });
           });
         } else {
-          main.innerHTML = `${res.data.message}`;
+          main.innerHTML = `<div class="notPost">${res.data.message}</div>`;
         }
       })
       .catch((e) => {
@@ -145,7 +145,7 @@ const myData1 = () => {
             showText(detail, 150); // 150자 제한
           });
         } else {
-          main.innerHTML = `${res.data.message}`;
+          main.innerHTML = `<div class="notPost">${res.data.message}</div>`;
         }
       })
       .catch((e) => {
@@ -335,19 +335,43 @@ const update = (id) => {
 };
 //탈퇴
 const exit = (id) => {
-  if (confirm("정말 탈퇴하시겠습니까?")) {
-    axios({
-      method: "delete",
-      url: "/user/del",
-      data: { id },
-    }).then((res) => {
-      if (res.data.message) {
-        document.cookie = "token=; max-age=0; path=/";
-        window.location.href = "/";
-      }
-    });
-  }
+  // if (confirm("정말 탈퇴하시겠습니까?")) {
+  Swal.fire({
+    title: "정말 탈퇴하시겠습니까?",
+    text: "탈퇴하면 계정을 복구할 수 없습니다.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "탈퇴하기",
+    cancelButtonText: "취소",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios({
+        method: "delete",
+        url: "/user/del",
+        data: { id },
+      })
+        .then((res) => {
+          if (res.data.message) {
+            document.cookie = "token=; max-age=0; path=/";
+            Swal.fire(
+              "탈퇴되었습니다.",
+              "이용해 주셔서 감사합니다.",
+              "success"
+            ).then(() => {
+              window.location.href = "/";
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          Swal.fire("오류 발생", "잠시 후 다시 시도해주세요.", "error");
+        });
+    }
+  });
 };
+
 // ✅ 모달 열기
 const changePw = (id) => {
   if (id === 1) {
@@ -425,8 +449,9 @@ const changeNewPw = (id) => {
     url: "/user/updatePw",
     data: { pw: pwValue, id: id },
   }).then((res) => {
-    Swal.fire("비밀번호 변경 완료", "", "warning");
-    window.location.reload();
+    Swal.fire("비밀번호 변경 완료", "", "success").then(() => {
+      window.location.reload();
+    });
   });
 };
 

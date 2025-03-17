@@ -53,7 +53,7 @@ const tokenCheck = async (req, res) => {
       where: { userId: userFind.id },
     }); // 작성한 게시글 찾아오기
     if (myHeart.length < 1) {
-      return res.json({ message: "좋아요한 게시글이 없습니다." });
+      return res.json({ message: "좋아한 게시글이 없습니다." });
     } // 작성한 게시글 없을 때
     res.json({ data: myHeart }); //있을 때
   } catch (e) {
