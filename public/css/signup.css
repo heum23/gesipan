@@ -127,7 +127,7 @@ select[readonly] {
   padding: 12px;
   font-size: 18px;
   color: white;
-  background-color: #0078d4;
+  background-color: orange;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -140,7 +140,7 @@ select[readonly] {
 }
 
 .signupBtn:hover:enabled {
-  background-color: orange;
+  background-color: hsl(33, 100%, 50%);
 }
 .idInput {
   width: 75%;
@@ -176,7 +176,7 @@ select {
 }
 .warning {
   margin-bottom: 10px;
-  font-size: 15px;
+  font-size: 14px;
   height: 20px; /* 원하는 크기로 조정 */
 }
 .genderSelect {
