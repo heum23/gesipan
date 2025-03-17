@@ -6,7 +6,6 @@ const post = JSON.parse(postData);
 // 이제 'post' 객체를 JS에서 사용할 수 있습니다.
 
 let myId = post.userId; // 로그인한 사용자의 id(INTEGER)
-console.log(myId);
 let cookies = document.cookie.split(";");
 const tokenCookie = cookies.find((item) => item.trim().startsWith("token="));
 
@@ -91,11 +90,6 @@ const updateData = (id) => {
   formData.append("detail", detail);
   formData.append("userId", userId);
   formData.append("categoryId", categoryId);
-
-  // FormData의 내용을 확인하기 위해 forEach 사용
-  formData.forEach((value, key) => {
-    console.log(key, value); // key와 value를 출력
-  });
 
   axios({
     method: "put",

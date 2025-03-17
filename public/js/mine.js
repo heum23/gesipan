@@ -14,7 +14,6 @@ const postDetail = (id) => {
     url: `/free/detail/${id}`,
   })
     .then((res) => {
-      // console.log(res.data.post);
       window.location.href = `/free/detail/${id}`;
     })
     .catch((e) => {
@@ -438,7 +437,7 @@ const updateAddress = () => {
     addressV: address,
     detailAddress: detailAddress,
   };
-  console.log(data, "상세");
+
   axios({
     method: "post",
     url: "/user/updateAdress",

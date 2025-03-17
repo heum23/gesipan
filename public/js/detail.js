@@ -110,7 +110,6 @@ const clickHeart = (id) => {
     url: "/like/postHeart",
     data: { postId: id, userId: userId },
   }).then((res) => {
-    console.log(res);
     heart();
   });
 };

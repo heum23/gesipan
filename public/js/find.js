@@ -42,7 +42,6 @@ const idFind = () => {
     url: "/user/findId",
     data: { number: number },
   }).then((res) => {
-    console.log(res.data.findId);
     if (!res.data.email) {
       showId.innerHTML = `<DIV class="text3">${res.data.message}</div>`;
     } else {
@@ -116,8 +115,6 @@ const changeNewPw = (id) => {
     url: "/user/updatePw",
     data: { id: id, pw: pwValue },
   }).then((res) => {
-    console.log(res.data);
-    alert("비밀번호 변경 완료");
     Swal.fire("비밀번호 변경 완료", "", "warning");
     window.location.href = "/login";
   });

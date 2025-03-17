@@ -12,7 +12,6 @@ let id1 = "";
 const postAll = (categoryId, id) => {
   const postWrap = document.querySelector(".postWrap");
   // 선택된 값 가져오기
-  console.log(categoryId);
   const type = sortSelect.value;
   id1 = id;
   if (categoryId !== categoryId1) {
@@ -79,8 +78,6 @@ const postAll = (categoryId, id) => {
       postDetails.forEach((detail) => {
         showText(detail, 200); // 200자로 제한
       });
-      console.log(btn, "_-------");
-      console.log(totalPage);
     })
     .catch((e) => {
       console.error("게시글을 가져오는 데 실패했습니다:", e);

@@ -166,8 +166,6 @@ const signup = () => {
     loginType: "local",
   };
 
-  console.log(data, "---");
-
   // axios로 서버에 데이터 보내기
   axios({
     method: "post",
@@ -175,7 +173,6 @@ const signup = () => {
     data: data,
   })
     .then((res) => {
-      console.log("회원가입 성공");
       window.location.href = "/login";
     })
     .catch((e) => {
@@ -210,7 +207,6 @@ const updateDays = () => {
   const daySelect = document.getElementById("day");
   const yearSelect = document.getElementById("year");
   const monthSelect = document.getElementById("month");
-  console.log(monthSelect.value);
   daySelect.innerHTML = ""; // 기존의 옵션을 삭제
 
   const selectedYear = parseInt(yearSelect.value);
@@ -242,7 +238,6 @@ updateDays();
 
 const urlParams = new URLSearchParams(window.location.search);
 const code = urlParams.get("code"); // URL에서 'code' 파라미터 추출
-console.log(code); // 확인
 axios({
   method: "post",
   url: "/user/kakaoToken",
