@@ -86,20 +86,27 @@ const updatePw = () => {
     open1 = false;
   } else if (!passRegex.test(pwValue)) {
     document.querySelector(".text1").innerHTML =
-      "비밀번호는 최소 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다.";
+      "최소 8자 이상, 대소문자, 숫자, 특수문자를 포함해야 합니다.";
     open1 = false;
   } else {
     document.querySelector(".text1").innerHTML = "";
     open1 = true;
   }
-  if (pwValue !== checkValue) {
-    document.querySelector(".text").innerHTML = "비밀번호와 똑같이 입력하세요";
+  if (checkValue !== "" && pwValue !== checkValue) {
+    document.querySelector(".text").innerHTML = "비밀번호가 일치하지 않습니다.";
     open2 = false;
   } else {
     document.querySelector(".text").innerHTML = "";
     open2 = true;
   }
-  if (open1 && open2) {
+  if (
+    open1 &&
+    open2 &&
+    pwValue &&
+    checkValue &&
+    passRegex.test(pwValue) &&
+    pwValue === checkValue
+  ) {
     btn.disabled = false;
   } else {
     btn.disabled = true;
@@ -115,8 +122,9 @@ const changeNewPw = (id) => {
     url: "/user/updatePw",
     data: { id: id, pw: pwValue },
   }).then((res) => {
-    Swal.fire("비밀번호 변경 완료", "", "warning");
-    window.location.href = "/login";
+    Swal.fire("비밀번호 변경 완료", "", "success").then(() => {
+      window.location.href = "/login";
+    });
   });
 };
 const login = () => {

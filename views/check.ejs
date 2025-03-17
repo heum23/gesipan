@@ -17,8 +17,11 @@
     <title>Document</title>
   </head>
   <body class="none">
+    <!-- 헤더 불러오기 -->
+    <%- include('header') %>
+
     <div class="mainContainer">
-      <h2>회원가입</h2>
+      <div class="joinTitle">회원가입</div>
       <form id="signupForm">
         <div class="join">
           <div class="inputTitle">아이디</div>
@@ -89,6 +92,10 @@
             />남성</label
           >
         </div>
+        <div class="join">
+          <div class="inputTitle"></div>
+          <div class="warning" id="genderMessage" style="color: red"></div>
+        </div>
 
         <div class="join birth_input">
           <div class="inputTitle">생년월일</div>
@@ -103,6 +110,10 @@
           <select name="dd" id="day" required>
             <option value="" disabled selected>DD</option>
           </select>
+        </div>
+        <div class="join">
+          <div class="inputTitle"></div>
+          <div class="warning" id="birthMessage" style="color: red"></div>
         </div>
         <div class="join phone_input">
           <div class="inputTitle">휴대폰 번호</div>
@@ -152,7 +163,9 @@
         </button>
       </form>
     </div>
-    <footer></footer>
+
+    <!-- 푸터 불러오기 -->
+    <%- include('footer') %>
   </body>
   <script src="/public/js/naverCheck.js"></script>
   <script></script>
