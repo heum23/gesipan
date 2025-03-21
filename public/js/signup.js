@@ -235,8 +235,8 @@ const signup = () => {
   const phone1 = document.querySelector("#phone1").value;
   const phone2 = document.querySelector("#phone2").value;
   const phone3 = document.querySelector("#phone3").value;
-  const address = document.querySelector("#address").value; // 주소
-  const detailAddress = document.querySelector("#detailAddress").value; // 상세주소
+  // const address = document.querySelector("#address").value; // 주소
+  // const detailAddress = document.querySelector("#detailAddress").value; // 상세주소
 
   const data = {
     email: email,
@@ -245,7 +245,6 @@ const signup = () => {
     gender: gender,
     age: `${year}-${month}-${day}`,
     number: `${phone1}-${phone2}-${phone3}`,
-    address: address + " " + detailAddress,
     loginType: "local",
   };
 
@@ -258,8 +257,9 @@ const signup = () => {
     data: data,
   })
     .then((res) => {
-      console.log("회원가입 성공");
-      window.location.href = "/login";
+      Swal.fire("회원가입 되셨습니다.", "", "success").then(() => {
+        window.location.href = "/login";
+      });
     })
     .catch((e) => {
       console.error("회원가입 실패", e);

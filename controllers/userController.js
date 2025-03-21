@@ -24,7 +24,6 @@ const postUser = async (req, res) => {
       email,
       password: hashPw,
       name,
-      address,
       age,
       number,
       gender,
